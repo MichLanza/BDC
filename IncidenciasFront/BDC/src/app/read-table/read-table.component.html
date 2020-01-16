@@ -1,0 +1,120 @@
+<router-outlet></router-outlet>
+
+<div class= "margin-top">
+<div class = "container">
+
+ <form novalidate 
+  #form = "ngForm">
+
+
+  <!--Filtros-->
+<div class = "row">
+
+
+<div class="form-group">
+  <strong for="formMessage" class="col-md-4">Área: </strong>
+  <select class="form-control"  name="_areName" [(ngModel)] = "ar" >
+ 
+    <option selected value="" >Todo</option>
+   
+     <option *ngFor="let area of areaList" [value]="area._nombre"  >{{area._nombre}}</option>
+  </select>
+</div>
+
+<div class = "margin-left" >
+<div class="form-group">
+  <strong for="formMessage"class="col-md-4">Plataforma: </strong>
+  <select class="form-control" name= "_plName" [(ngModel)] = "pla" >
+     <option selected value=""  >Todo</option >
+      <option *ngFor="let plat of platList" [value]="plat._nombre">{{plat._nombre}}</option>
+  </select>
+</div>
+ </div>
+
+ <form novalidate #byname = "ngForm" >
+ <div class = "margin-left" >
+  <div class="form-group">
+ <strong class="col-sm-4" >Nombre:</strong>
+ <input class="form-control" [(ngModel)]="nome"
+            name="_nombre"  >
+          </div>
+        </div> 
+      </form>
+
+ <form novalidate 
+#rango = "ngForm" class = "margin-left-2">
+<strong for="formMessage"class="col-md-4">Fecha Ocurrencia: </strong>
+<div class = "row">
+
+    <div class="form-group">
+    
+      <label class="col-sm-4" >Desde:</label>
+      <input class="form-control" [(ngModel)]="FechaInicio"
+                 name="_fechaOcurrencia"  type="date"class="col-sm-8" >
+     </div>
+
+   
+    <div class="form-group">
+      <label class = "col-md-4">Hasta:</label>
+      <input class="form-control" [(ngModel)]="FechaFin"
+                 name="_fechaOcurrencia"  type="date"class="col-sm-8" >
+  </div>  
+   
+</div>  
+</form>
+
+
+</div>
+
+
+
+<!--  Tabla  -->
+<div class >
+
+    <table class="table table-bordered table-responsive table-hover">
+      <thead class="table-dark" >
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+        <!-- <th>Descripción</th>-->
+          <th>Fecha Ocurrencia</th>
+          <th>Fecha Resolución</th>
+        <!--  <th>Descripción de solución</th>-->
+          <th>Área</th>
+          <th>Plataforma</th>
+        </tr>
+      </thead>
+      <tbody>
+
+            <tr *ngFor="let inc of incList |  tableFilter: form.value | rangoFechas: FechaInicio: FechaFin| filterNombre: '_nombre' : nome"> <!--| filterNombre: '_nombre' : nome -->
+
+              <td>{{inc._id}}</td> 
+              <td>{{inc._nombre}}</td> 
+           <!--  <td>{{inc._descripcion}}</td> -->
+              <td>{{inc._fechaOcurrencia}}</td> 
+              
+              <ng-container *ngIf="inc._fechaResolucion != null;then date else vacio"></ng-container>
+              <ng-template #date>
+              <td>{{inc._fechaResolucion}}</td>
+             </ng-template>
+             
+             <ng-template #vacio>
+              <td style="background-color: #dd0606dc;" class = "text-light"> Por solucionar</td>
+             </ng-template>
+
+            <!--  <td>{{inc._solDescripcion}}</td> -->
+              <td>{{inc._areName}}</td>
+              <td>{{inc._plName}}</td> 
+              <td> <button (click)="idIncidencia(inc._id)"  routerLink="/mod" class="btn btn-primary">
+              Detalle
+            </button></td>
+             
+            </tr>
+      </tbody>
+    </table>
+  </div>
+  </form>
+
+
+  </div>
+</div>

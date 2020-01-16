@@ -1,0 +1,43 @@
+  
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top"  style="background-color: #000a45;">
+    
+    
+    <a class="navbar-brand" routerLink="/home">BDC</a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarsExampleDefault"
+      aria-controls="navbarsExampleDefault"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      (click)="isCollapsed = !isCollapsed" 
+      [attr.aria-expanded]="!isCollapsed" 
+      aria-controls="navbarTogglerDemo02"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault" 
+    [ngbCollapse]="!isCollapsed">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link"a routerLink="add"
+            ><i class="fa fa-plus"></i> Añadir</a>
+           
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="readT"
+            ><i class="fa fa-search"></i> Consultar</a>
+        </li>
+
+    
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="stats"
+            ><i class="fa fa-bar-chart"></i> Estadísticas</a>
+        </li>
+      
+      </ul>
+    </div>
+  </nav>

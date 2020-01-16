@@ -1,0 +1,131 @@
+<router-outlet></router-outlet>
+
+<router-outlet></router-outlet>
+
+<div class="margin-top"> 
+<div class="container">
+  <div class = "jumbotron">
+
+          <form > 
+          
+            <div class="form-group">    
+             <label class="col-md-4" >Nombre de la incidencia:</label > 
+              <input value = {{newIncidencia._nombre}} name="nombre" [disabled] = 'toggle'
+                [(ngModel)]="newIncidencia._nombre" required class="col">
+            </div>
+        
+    
+            <div class="form-group">  
+              <label class="col-md-4">Descripción de la incidencia:</label>  
+              <textarea class="form-control" id="formDescription" name="descripcion" rows="6" 
+              [(ngModel)]="newIncidencia._descripcion" [disabled] = 'toggle'
+              value="{{newIncidencia._descripcion}}"></textarea>      
+            </div>  
+            
+            <div class="form-group">  
+              <label class="col-md-4">Fecha de ocurrencia:</label>  
+              <input class="form-control" [(ngModel)]="newIncidencia._fechaOcurrencia"
+               name="_fechaOcurrencia" required type="date" [disabled] = 'toggle'
+               value ={{newIncidencia._fechaOcurrencia}}>
+
+            </div>  
+
+            <div class="form-group">  
+              <label class="col-md-4">Descripción de la solución:</label>  
+              <textarea class="form-control" id="formDescription2" name="descripcion2" rows="6"  [disabled] = 'toggle'
+                [(ngModel)]="newIncidencia._solDescripcion" 
+                value="{{newIncidencia._solDescripcion}}"></textarea>
+            </div>  
+            
+            <div class="form-group">  
+                    <label class="col-md-4">Fecha de resolución:</label>  
+                    <input  class="form-control" [(ngModel)]="newIncidencia._fechaResolucion" [disabled] = 'toggle'
+                    name="fIni"  type="date"
+                    value ={{newIncidencia._fechaResolucion}} >                  
+            </div>  
+        
+            <div class="form-group">
+              <label  for="formMessage" class="col-md-4">Área: </label>
+              <!--<select class="form-control"  [(ngModel)]="newIncidencia._idArea" name="id2" disabled required>
+                 <option value="" disabled >Seleccione área</option>
+                 <option selected  *ngFor="let area of areaList" value="{{area._id}}">{{area._nombre}}</option>
+              </select>-->
+             <input  placeholder = {{newIncidencia._areName}} name="nombre2" disabled 
+                [(ngModel)]="newIncidencia._areName"  class="col">
+            </div>
+
+            <div class="form-group">
+              <label for="formMessage"class="col-md-4">Plataforma: </label>
+             <!--<select class="form-control"   [(ngModel)]="newIncidencia._idPlat" name="id" disabled required >
+                  <option value="" disabled >Selecione Plataforma</option>
+                  <option selected *ngFor="let plat of platList" value="{{plat._id}}">{{plat._nombre}}</option>
+              </select>-->
+              <input  placeholder = {{newIncidencia._plName}} name="nombreP" disabled 
+              [(ngModel)]="newIncidencia._plName"  class="col">
+        
+              </div>
+
+              <div class = "row"> 
+            
+             <div class="col-md-4">
+               <button type="button" class="btn btn-primary m-1 col-10"  routerLink="/readT" >Atrás</button>
+            </div> 
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-primary m-1 col-10"  [hidden] = '!toggle' (click) = "enabledMode()" >Modificar  </button>
+            </div>
+        
+            <div class="col-md-4">
+              <button type="button" class="btn btn-primary m-1 col-10"  [hidden] = 'toggle' (click) = "enabledMode()" (click) = "modIncidencia()" >Guardar</button>
+            </div>
+
+            <!--botones ocultos-->
+            <div class="col-md-4"> <button type="button" class="btn btn-danger m-1 col-10" hidden    >Oculto </button></div>
+            
+            <!--fin botones ocultos-->
+           
+            <div class="col-md-4" style = "margin-top: 15px;">
+            <!--  <button type="button" class="btn btn-primary m-1 col-10"    >Exportar a PDF <i class="fa fa-file-pdf-o"></i></button>-->
+            <button type="button" class="btn btn-danger m-1 col-10"  (click)="open(content)"    >Eliminar <i class="fa fa-trash-o"></i></button>
+            
+          </div>
+
+
+          </div>
+          </form>  
+               
+        </div>
+    </div>
+      
+  </div>
+  
+
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Eliminar</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <h6 for="titulo">¿Está seguro de querer eliminar esta incidencia?</h6>
+          <p> Toda la informacion de esta incidencia será eliminada de forma permanente.  
+          <span class="text-danger">Esta operación no se podrá reversar</span>
+          </p>
+        
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary"(click)="modal.close ('Save click')">No</button>
+      <button type="button" class="btn btn-danger" (click) = "delete()" (click)="modal.close('Save click')">Sí</button>
+    </div>
+  </ng-template>
+  
+  
+  
+  
+  
