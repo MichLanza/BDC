@@ -86,7 +86,7 @@ public class EPEstadistica {
     }
     
     
-    @GET
+ /*   @GET
     @Path("/mensual/{year}")
     @Produces("application/json")
     public Response statMonth2 ( @PathParam("month") int _month ){
@@ -104,7 +104,7 @@ public class EPEstadistica {
         return Response.status( 500 ).entity( error ).build();
     }
      return _rb.header("Access-Control-Allow-Origin", "*").build();
-    }
+    }*/
     
     
     
