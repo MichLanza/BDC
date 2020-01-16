@@ -27,7 +27,8 @@ export class ReadTableComponent implements OnInit {
   fecha: any;
   incList = Array <any>();
   private vacio: boolean;
-
+  page = 1;
+  pageSize = 5;
   
   ngOnInit() {
 

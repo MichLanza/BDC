@@ -86,8 +86,9 @@
       </thead>
       <tbody>
 
-            <tr *ngFor="let inc of incList |  tableFilter: form.value | rangoFechas: FechaInicio: FechaFin| filterNombre: '_nombre' : nome"> <!--| filterNombre: '_nombre' : nome -->
-
+            <tr *ngFor="let inc of incList |  tableFilter: form.value | rangoFechas: FechaInicio: FechaFin| filterNombre: '_nombre' : nome|  
+                slice: (page -1) * pageSize : ( (page-1)* pageSize) + pageSize"> <!--| filterNombre: '_nombre' : nome -->
+                          
               <td>{{inc._id}}</td> 
               <td>{{inc._nombre}}</td> 
            <!--  <td>{{inc._descripcion}}</td> -->
@@ -112,6 +113,12 @@
             </tr>
       </tbody>
     </table>
+    <ngb-pagination
+    [(page)]="page"
+    [pageSize]="pageSize"
+    [collectionSize]="incList.length"
+    [boundaryLinks]="true">
+   </ngb-pagination>
   </div>
   </form>
 
