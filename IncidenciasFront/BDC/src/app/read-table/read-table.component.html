@@ -69,25 +69,29 @@
 
 
 <!--  Tabla  -->
-<div class >
+<div class="container" >
 
-    <table class="table table-bordered table-responsive table-hover">
+    <table class="table  table-bordered table-responsive table-hover ">
       <thead class="table-dark" >
         <tr>
           <th>Id</th>
           <th>Nombre</th>
         <!-- <th>Descripción</th>-->
           <th>Fecha Ocurrencia</th>
-          <th>Fecha Resolución</th>
+          <th >Fecha Resolución</th>
         <!--  <th>Descripción de solución</th>-->
           <th>Área</th>
           <th>Plataforma</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
 
-            <tr *ngFor="let inc of incList |  tableFilter: form.value | rangoFechas: FechaInicio: FechaFin| filterNombre: '_nombre' : nome|  
-                slice: (page -1) * pageSize : ( (page-1)* pageSize) + pageSize"> <!--| filterNombre: '_nombre' : nome -->
+            <tr *ngFor="let inc of incList
+             |  tableFilter: form.value 
+             | rangoFechas: FechaInicio: FechaFin
+             | filterNombre: '_nombre' : nome
+             | slice: (page -1) * pageSize : ( (page-1)* pageSize) + pageSize"> <!--| filterNombre: '_nombre' : nome -->
                           
               <td>{{inc._id}}</td> 
               <td>{{inc._nombre}}</td> 
@@ -100,7 +104,7 @@
              </ng-template>
              
              <ng-template #vacio>
-              <td style="background-color: #dd0606dc;" class = "text-light"> Por solucionar</td>
+              <td  style="background-color: #dd0606dc;" class = "text-light"> Por solucionar</td>
              </ng-template>
 
             <!--  <td>{{inc._solDescripcion}}</td> -->
@@ -108,8 +112,7 @@
               <td>{{inc._plName}}</td> 
               <td> <button (click)="idIncidencia(inc._id)"  routerLink="/mod" class="btn btn-primary">
               Detalle
-            </button></td>
-             
+            </button></td>  
             </tr>
       </tbody>
     </table>
