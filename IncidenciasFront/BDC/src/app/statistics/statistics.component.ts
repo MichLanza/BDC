@@ -111,6 +111,7 @@ export class StatisticsComponent implements OnInit {
 
 
   data(year:number){
+    
  
     this.statservice.getStats(year).subscribe( (data) => {
       this.stat = data;
@@ -147,11 +148,6 @@ export class StatisticsComponent implements OnInit {
        this.barChartData2 = [{ data: y , label: 'Incidencias por Area' }];
        this.barChartLabels2 = x;
     });
-
-
-
-
-
 
 
   }

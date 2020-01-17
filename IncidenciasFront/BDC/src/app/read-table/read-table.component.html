@@ -10,6 +10,16 @@
   <!--Filtros-->
 <div class = "row">
 
+  <div class="form-group">
+    <label for="formMessage" class="col-md-4">Estatus: </label>
+    <select class="form-control" [(ngModel)]="sol" name="_solDescripcion" required>
+       <option value="" disabled selected>Seleccione una opción</option>
+       <option  value>Todo</option>
+       <option  [value]>Por solucionar</option>
+       <option value >Solucionado</option>
+
+    </select>
+  </div>
 
 <div class="form-group">
   <strong for="formMessage" class="col-md-4">Área: </strong>
