@@ -6,7 +6,7 @@
           <form> 
           
             <div class="form-group">    
-             <label class="col-md-4" >Nombre de la incidencia:</label >  
+             <label class="col-md-4" >Nombre de la incidencia:<span class="text-danger">*</span></label >  
 
               <input  placeholder="Nombre" name="nombre" 
                 [(ngModel)]="newIncidencia._incNombre" required class="col">
@@ -14,14 +14,14 @@
         
     
             <div class="form-group">  
-              <label class="col-md-4">Descripción de la incidencia:</label>  
+              <label class="col-md-4">Descripción de la incidencia:<span class="text-danger">*</span></label>  
               <textarea class="form-control" id="formDescription" name="descripcion" rows="6" 
               [(ngModel)]="newIncidencia._incDesc"
               placeholder="Descripción"></textarea>      
             </div>  
             
             <div class="form-group">  
-              <label class="col-md-4">Fecha de ocurrencia:</label>  
+              <label class="col-md-4">Fecha de ocurrencia:<span class="text-danger">*</span></label>  
               <input class="form-control" [(ngModel)]="newIncidencia._incFecha"
                name="_fechaOcurrencia" required type="date">
             </div>  
@@ -40,7 +40,7 @@
             </div>  
         
             <div class="form-group">
-              <label for="formMessage" class="col-md-4">Área: </label>
+              <label for="formMessage" class="col-md-4">Área:<span class="text-danger">*</span> </label>
               <select class="form-control" [(ngModel)]="newIncidencia._idArea" name="id" required>
                  <option value="" disabled selected>Seleccione área</option>
                  <option *ngFor="let area of areaList" value="{{area._id}}">{{area._nombre}}</option>
@@ -48,7 +48,7 @@
             </div>
 
             <div class="form-group">
-              <label for="formMessage"class="col-md-4">Plataforma: </label>
+              <label for="formMessage"class="col-md-4">Plataforma:<span class="text-danger">*</span> </label>
               <select class="form-control" [(ngModel)]="newIncidencia._idPlat" name="id" required >
                   <option value="" disabled selected>Seleccione plataforma</option>
                   <option *ngFor="let plat of platList" value="{{plat._id}}">{{plat._nombre}}</option>
@@ -58,10 +58,10 @@
             <div class="col-md-2">
               <button type="button" class="btn btn-primary m-1 col-10" (click)="addIncidencia()">Crear</button>
             </div>
-
+            <p>(<span class="text-danger">*</span>) Campo requerido</p>      
           </form>  
-               
-        </div>
+        
+  </div>
     </div>
       
   </div>

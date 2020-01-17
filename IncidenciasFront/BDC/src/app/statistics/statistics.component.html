@@ -5,16 +5,16 @@
             margin-left: 1px;"></div>
 
 <div class =  ml-4>
-
+  <label class="mr-2">Año: </label>
+  <select class="form-control" [(ngModel)]="yeara" name="year" class = col-sm-19 (change) = data($event.target.value) >
+      <option value="" disabled selected>Seleccione Año</option>
+      <option *ngFor="let year of years" value="{{year}}" >{{year}}</option>
+  </select>
 <div class = "row" >
-
+ 
     <div class="chart-wrapper" class = col-md-5  style="border: 1px solid #000000;">
       <div class=" mt-2">
-        <label class="mr-2">Año: </label>
-        <select class="form-control" [(ngModel)]="yeara" name="year" class = col-sm-19 (change) = data($event.target.value) >
-            <option value="" disabled selected>Seleccione Año</option>
-            <option *ngFor="let year of years" value="{{year}}" >{{year}}</option>
-        </select>
+     
     </div>
         <canvas baseChart 
             [datasets]="lineChartData" 
@@ -55,8 +55,20 @@
     [legend]="barChartLegend"
     [chartType]="barChartType">
   </canvas>
-</div>
 
+</div>
+<div class="chart-wrapper" class = col-md-5  style="border: 1px solid #000000;">
+    <canvas baseChart 
+    [datasets]="barChartData2"
+    [labels]="barChartLabels2"
+    [options]="barChartOptions2"
+    [plugins]="barChartPlugins2"
+    [legend]="barChartLegend2"
+    [chartType]="barChartType2"
+    >
+    
+  </canvas>
+</div>
 
 </div>
 

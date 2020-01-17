@@ -50,33 +50,13 @@ public class EPEstadistica {
     @Produces("application/json")
     public Response statMonth ( @PathParam("year") int _year ){
         
-         Connection _conn = SqlConn.getConnection();
-         ArrayList<Estadistica> _list = new ArrayList<>();
-         //EstadisticaDAO _stat = new EstadisticaDAO();
-         //_list = _stat.getByYear(_year);
-         
-         String PRUEBA = "select  DATENAME(MONTH,I.inc_date) as Mes,\n"+
-                      "count(I.inc_id) as Cuenta from Incidencia as I where\n"+
-                      "YEAR(I.inc_date ) = ? Group By  MONTH(I.inc_date),\n"+
-                      "DATENAME(MONTH,I.inc_date)"; 
-
-         Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
-         Error error;
-                          
-         try{
-         PreparedStatement _ps = _conn.prepareCall( PRUEBA );
-         _ps.setInt(1, _year);
-
-          ResultSet _result = _ps.executeQuery();
-          while ( _result.next() ){
-            Estadistica  stat = new Estadistica( _result.getString("Mes"),     
-                                                 _result.getInt ("Cuenta"));
-              _list.add( stat );
-           
-                 
-             }
-             
-        _rb.entity( gson.toJson( _list ) ); 
+     ArrayList<Estadistica> _list = new ArrayList<>();
+     Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
+     Error error;                         
+     try{
+     EstadisticaDAO _stat = new EstadisticaDAO();
+     _list = _stat.getByYear( _year );         
+     _rb.entity( gson.toJson( _list ) ); 
         
     }catch(Exception e){
          error = new Error ( MESSAGE_ERROR_INTERN );
@@ -86,17 +66,17 @@ public class EPEstadistica {
     }
     
     
- /*   @GET
-    @Path("/mensual/{year}")
+  @GET
+    @Path("/byplat/{year}")
     @Produces("application/json")
-    public Response statMonth2 ( @PathParam("month") int _month ){
+    public Response statPlat ( @PathParam("year") int _year ){
         
          ArrayList<Estadistica> _list = new ArrayList<>();
          Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
          Error error;                 
          try{
-         //EstadisticaDAO _stat = new EstadisticaDAO();
-         //_list = _stat.getBymonth( _year );            
+         EstadisticaDAO _stat = new EstadisticaDAO();
+         _list = _stat.getByPlat( _year );      
          _rb.entity( gson.toJson( _list ) ); 
         
     }catch(Exception e){
@@ -104,13 +84,50 @@ public class EPEstadistica {
         return Response.status( 500 ).entity( error ).build();
     }
      return _rb.header("Access-Control-Allow-Origin", "*").build();
-    }*/
+    }
+    
+    
+    @GET
+    @Path("/byare/{year}")
+    @Produces("application/json")
+    public Response statArea ( @PathParam("year") int _year  ){
+        
+         ArrayList<Estadistica> _list = new ArrayList<>();
+         Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
+         Error error;                 
+         try{
+         EstadisticaDAO _stat = new EstadisticaDAO();
+         _list = _stat.getByArea( _year );            
+         _rb.entity( gson.toJson( _list ) ); 
+        
+    }catch(Exception e){
+         error = new Error ( MESSAGE_ERROR_INTERN );
+        return Response.status( 500 ).entity( error ).build();
+    }
+     return _rb.header("Access-Control-Allow-Origin", "*").build();
+    }
     
     
     
-    
-    
-    
+    @GET
+    @Path("/bysol/{year}")
+    @Produces("application/json")
+    public Response statSol ( @PathParam("year") int _year  ){
+        
+         ArrayList<Estadistica> _list = new ArrayList<>();
+         Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
+         Error error;                 
+         try{
+         EstadisticaDAO _stat = new EstadisticaDAO();
+         _list = _stat.getBySol(_year );            
+         _rb.entity( gson.toJson( _list ) ); 
+        
+    }catch(Exception e){
+         error = new Error ( MESSAGE_ERROR_INTERN );
+        return Response.status( 500 ).entity( error ).build();
+    }
+     return _rb.header("Access-Control-Allow-Origin", "*").build();
+    }
     
     
    /* 

@@ -30,5 +30,19 @@ export class StatisticsService {
     return this.http.get(endpoint+ '/mensual/'+year,httpOptions).
     pipe(map(this.extractData));
   }
+  
+  getStatsByPlat(year: any): Observable<any>{
+    return this.http.get( endpoint + '/byplat/'+year,httpOptions ).pipe(
+      map(this.extractData));
+  }
+  getStatsByArea(year: any): Observable<any>{
+    return this.http.get( endpoint + '/byare/'+year,httpOptions ).pipe(
+      map(this.extractData));
+  }
+
+  getStatsBySol(year: any): Observable<any>{
+    return this.http.get( endpoint + '/bysol/'+year,httpOptions ).pipe(
+      map(this.extractData));
+  }
 
 }

@@ -12,14 +12,50 @@ import { StatisticsService } from  './statistics.service'
 export class StatisticsComponent implements OnInit {
 
 
-Linechart = [];
+ Linechart = [];
  datos = Array<any>();
  stat: any;
-x= [];
-y=[];
+
 
   ngOnInit() {
-      
+
+     const  actualYear = new Date().getFullYear();
+    
+      this.statservice.getStats(actualYear).subscribe( (data) => {
+        this.stat = data;
+        let  x= [];
+        let y= [];
+        data.forEach(element => {
+         x.push(element.x)
+         y.push(element.y)
+        });
+        this.lineChartLabels = x;
+        this.lineChartData =  [ { data: y , label: 'incidencias mensuales' },];
+      });
+    
+  
+      this.statservice.getStatsByPlat(actualYear).subscribe((data) =>{
+        let ye = [];
+        let equis = [];
+        data.forEach(element => {
+         equis.push(element.x)
+         ye.push(element.y)
+         });
+         this.barChartData = [{ data: ye , label: 'Incidencias por plataforma' }];
+         this.barChartLabels = equis;
+      });
+
+      this.statservice.getStatsByArea(actualYear).subscribe((data) =>{
+        let ye = [];
+        let equis = [];
+        data.forEach(element => {
+         equis.push(element.x)
+         ye.push(element.y)
+         });
+         
+         this.barChartData2 = [{ data: ye , label: 'Incidencias por Area' }];
+         this.barChartLabels2 = equis;
+      });
   }
 
   constructor( public statservice: StatisticsService ) { 
@@ -57,8 +93,15 @@ y=[];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [];
-  barChartData: ChartDataSets[] = [ { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' }];
+  barChartData: ChartDataSets[] = [ { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' } ];
  
+  barChartOptions2: ChartOptions = {responsive: true,};
+  barChartLabels2: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
+  barChartType2: ChartType = 'bar';
+  barChartLegend2 = true;
+  barChartPlugins2 = [];
+  barChartData2: ChartDataSets[] = [ { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' } ];
+  //barChartColor: Color = { backgroundColor: 'rgba(13,10,178,0.44)'}
  
  
   doughnutChartLabels: Label[] = ['BMW', 'Ford', 'Tesla'];
@@ -68,21 +111,49 @@ y=[];
 
 
   data(year:number){
-
-    console.log(year)
+ 
     this.statservice.getStats(year).subscribe( (data) => {
       this.stat = data;
-      console.log (this.stat);
-
+      let  x= [];
+      let y= [];
       data.forEach(element => {
+       x.push(element.x)
+       y.push(element.y)
+      });
+      this.lineChartLabels = x;
+      this.lineChartData =  [ { data: y , label: 'incidencias mensuales' },];
+    });
   
-        this.x.push(element.x)
-        this.y.push(element.y)
-      });
 
-      this.lineChartLabels =this.x;
-      this.lineChartData =  [ { data: this.y , label: 'incidencias mensuales' },];
-      });
+    this.statservice.getStatsByPlat(year).subscribe((data) =>{
+      let y = [];
+      let x = [];
+      data.forEach(element => {
+       x.push(element.x)
+       y.push(element.y)
+       });
+       this.barChartData = [{ data: y , label: 'Incidencias por plataforma' }];
+       this.barChartLabels = x;
+    });
+
+    this.statservice.getStatsByArea(year).subscribe((data) =>{
+      let y = [];
+      let x = [];
+      data.forEach(element => {
+       x.push(element.x)
+       y.push(element.y)
+       });
+       
+       this.barChartData2 = [{ data: y , label: 'Incidencias por Area' }];
+       this.barChartLabels2 = x;
+    });
+
+
+
+
+
+
+
   }
 
 }
