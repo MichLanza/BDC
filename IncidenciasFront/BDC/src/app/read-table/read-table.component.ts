@@ -36,19 +36,19 @@ export class ReadTableComponent implements OnInit {
       this.vacio = true;
       this.incList = data;
       this.inc = this.incList;
-     
+ 
 
       data.forEach(element => {
-        
+      
       this.incDateTrans(element);
       this.fechaTransform(element);
       
       
       if (element._fechaResolucion != null ){
-        let status = {status: "Por solucionar" };
+        this.cosa();
         this.datesolTransform(element);
         this.fechaSolTransform(element);
-        //this.incList[i].push( status )
+      
       }
       });
       
@@ -119,7 +119,12 @@ export class ReadTableComponent implements OnInit {
    }
   
   
-  
+  cosa(){
+    for (let index = 0; index < this.incList.length; index++) {
+        this.incList[index]["status"] = "Solucionado"
+
+    }
+  }
 
 
 
