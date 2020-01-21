@@ -41,22 +41,38 @@ export class StatisticsComponent implements OnInit {
          equis.push(element.x)
          ye.push(element.y)
          });
-         this.barChartData = [{ data: ye , label: 'Incidencias por plataforma' }];
-         this.barChartLabels = equis;
+      
+         this.doughnutChartData =  [ye];
+         this.doughnutChartLabels = equis;
       });
 
       this.statservice.getStatsByArea(actualYear).subscribe((data) =>{
         let ye = [];
         let equis = [];
+
         data.forEach(element => {
          equis.push(element.x)
          ye.push(element.y)
+         
          });
          
-         this.barChartData2 = [{ data: ye , label: 'Incidencias por Area' }];
+         this.barChartData2 = [{ data:  ye , label: 'Incidencias por Area' }];
          this.barChartLabels2 = equis;
       });
 
+      this.statservice.getStatsByArea(actualYear).subscribe((data) =>{
+        let ye = [];
+        let equis = [];
+
+        data.forEach(element => {
+         equis.push(element.x)
+         ye.push(element.y)
+         
+         });
+         
+         this.barChartData = [{ data:  ye , label: 'Incidencias por Area' }];
+         this.barChartLabels = equis;
+      });
       this.statservice.getStatsBySol(actualYear).subscribe((data) =>{
         let ye = [];
         let equis = [];
@@ -93,31 +109,31 @@ export class StatisticsComponent implements OnInit {
 
 
   public pieChartOptions: ChartOptions = {responsive: true,};
-  public pieChartLabels: Label[] = ['SciFi', 'Drama', 'Comedy', 'Action','Animation'];
-  public pieChartData: SingleDataSet = [15, 15, 40, 20,10];
+  public pieChartLabels: Label[] = ['', '', '', '',''];
+  public pieChartData: SingleDataSet = [0, 0, 0, 0,0];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
 
 
   barChartOptions: ChartOptions = {responsive: true,};
-  barChartLabels: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
+  barChartLabels: Label[] = ['', '', '', '', '', ''];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [];
-  barChartData: ChartDataSets[] = [ { data: [0, 0, 0, 0, 0, 0], label: 'Best Fruits' } ];
+  barChartData: ChartDataSets[] = [ { data: [0, 0, 0, 0, 0, 0], label: ' ' } ];
  
   barChartOptions2: ChartOptions = {responsive: true,};
-  barChartLabels2: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
+  barChartLabels2: Label[] = ['', '', '', '', '', ''];
   barChartType2: ChartType = 'bar';
   barChartLegend2 = true;
   barChartPlugins2 = [];
-  barChartData2: ChartDataSets[] = [ { data: [0, 0, 0, 0, 0, 0], label: 'Best Fruits' } ];
+  barChartData2: ChartDataSets[] = [ { data: [0, 0, 0, 0, 0, 0], label: ' ' } ];
   //barChartColor: Color = { backgroundColor: 'rgba(13,10,178,0.44)'}
  
  
-  doughnutChartLabels: Label[] = ['BMW', 'Ford', 'Tesla'];
-  doughnutChartData: MultiDataSet = [ [55, 25, 20] ];
+  doughnutChartLabels: Label[] = ['', '', ''];
+  doughnutChartData: MultiDataSet = [ [0, 0, 0] ];
   doughnutChartType: ChartType = 'doughnut';
 
 
@@ -145,8 +161,8 @@ export class StatisticsComponent implements OnInit {
        x.push(element.x)
        y.push(element.y)
        });
-       this.barChartData = [{ data: y , label: 'Incidencias por plataforma' }];
-       this.barChartLabels = x;
+       this.doughnutChartData =  [y];
+         this.doughnutChartLabels = x;
     });
 
     this.statservice.getStatsByArea(year).subscribe((data) =>{

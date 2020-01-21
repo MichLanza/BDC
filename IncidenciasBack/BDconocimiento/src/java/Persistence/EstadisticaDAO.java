@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.ws.rs.core.Response;
 
 /**
@@ -21,7 +22,7 @@ public class EstadisticaDAO {
     String ANUAL = "select  DATENAME(MONTH,I.inc_date) as Mes,\n"+
                     "count(I.inc_id) as Cuenta from Incidencia as I where\n"+
                     "YEAR(I.inc_date ) = ? Group By  MONTH(I.inc_date),\n"+
-                    "DATENAME(MONTH,I.inc_date)"; 
+                    "DATENAME(MONTH,I.inc_date);"; 
     
     
     String PLATAFORMA = "select count(I.inc_id) as cuenta, P.pla_name  \n" +
@@ -51,6 +52,7 @@ public class EstadisticaDAO {
     String CUENTASOL = "select count(I.inc_id) as cuenta\n" +
                        "from Incidencia as I, Area as A \n" +
                        "where I.fk_area_id = A.are_id AND inc_soldesc is not null and  DATEPART(year,inc_date ) = ?";
+    
 
 public ArrayList <Estadistica> getByYear( int _year ){
           Connection _conn = SqlConn.getConnection();
@@ -143,7 +145,7 @@ public ArrayList <Estadistica> getBySol( int _year ){
             
                           
          try{
-          int _cuenta = count( _year );
+          int _cuenta = count( _year, CUENTASOL );
           PreparedStatement _ps = _conn.prepareCall( SOLUCION );
           _ps.setInt(1, _year);
      
@@ -152,8 +154,6 @@ public ArrayList <Estadistica> getBySol( int _year ){
           while ( _result.next() ){
             
            float _porce = (_result.getInt("Cuenta")*100) / _cuenta ;
-              System.out.println(_result.getInt("Cuenta"));
-           System.out.println(_porce);
            Estadistica  stat = new Estadistica( _result.getString("are_name"),     
                                                 _porce );
           _list.add( stat );
@@ -171,11 +171,49 @@ public ArrayList <Estadistica> getBySol( int _year ){
           return _list; 
 }
 
-public int count( int _year ) throws SQLException{
+////WIP
+public ArrayList <Estadistica> getByNoSol( int _year ){
+          Connection _conn = SqlConn.getConnection();
+         ArrayList<Estadistica> _list = new ArrayList<>();
+            
+                          
+         try{
+         // int _cuenta = count( _year, CUENTASOL );
+          PreparedStatement _ps = _conn.prepareCall( CUENTA );
+          _ps.setInt(1, _year);
+          
+          
+          ResultSet _result = _ps.executeQuery();
+         // System.out.println(_cuenta);
+          while ( _result.next() ){
+        
+
+           
+          //float _porce = (_result.getInt("Cuenta")*100) / _cuenta ;
+          //  Estadistica  stat = new Estadistica( _result.getString("are_name"),     
+          //                                       _result.getInt("Cuenta") );
+          // _list.add( stat );
+          }
+
+         }catch (SQLException en) {
+             en.printStackTrace();
+         }finally{
+          try {
+            _conn.close();
+         } catch ( SQLException e1 ) {
+            e1.printStackTrace();
+           } 
+        }     
+          return _list; 
+}
+
+
+
+public int count( int _year , String _query) throws SQLException{
         int _cuenta = 0;
         Connection _conn = SqlConn.getConnection();
          try{
-          PreparedStatement _ps = _conn.prepareCall( CUENTASOL );
+          PreparedStatement _ps = _conn.prepareCall( _query );
           _ps.setInt(1, _year);
           ResultSet _result = _ps.executeQuery();
           while( _result.next() ){
