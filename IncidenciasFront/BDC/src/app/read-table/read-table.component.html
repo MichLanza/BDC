@@ -10,17 +10,6 @@
   <!--Filtros-->
 <div class = "row">
 
-  <div class="form-group">
-    <label for="formMessage" class="col-md-4">Estatus: </label>
-    <select class="form-control" [(ngModel)]="sol" name="_solDescripcion" required>
-       <option value="" disabled selected>Seleccione una opción</option>
-       <option  value>Todo</option>
-       <option  [value]>Por solucionar</option>
-       <option value >Solucionado</option>
-
-    </select>
-  </div>
-
 <div class="form-group">
   <strong for="formMessage" class="col-md-4">Área: </strong>
   <select class="form-control"  name="_areName" [(ngModel)] = "ar" >
@@ -40,6 +29,17 @@
   </select>
 </div>
  </div>
+
+ <div class="form-group" class = "margin-left" >
+  <strong for="formMessage" class="col-md-4">Estatus: </strong>
+  <select class="form-control" [(ngModel)]="sol" name="status" required>
+     <option value="" disabled selected>Seleccione una opción</option>
+     <option  value>Todo</option>
+     <option  [value]>Por solucionar</option>
+     <option [value] >Solucionado</option>
+
+  </select>
+</div>
 
  <form novalidate #byname = "ngForm" >
  <div class = "margin-left" >
@@ -97,7 +97,7 @@
       </thead>
       <tbody>
             <tr *ngFor="let inc of incList
-             |  tableFilter: form.value 
+             | tableFilter: form.value 
              | rangoFechas: FechaInicio: FechaFin
              | filterNombre: '_nombre' : nome
              | slice: (page -1) * pageSize : ( (page-1)* pageSize) + pageSize"> <!--| filterNombre: '_nombre' : nome -->
@@ -119,6 +119,7 @@
             <!--  <td>{{inc._solDescripcion}}</td> -->
               <td>{{inc._areName}}</td>
               <td>{{inc._plName}}</td> 
+            
               <td> <button (click)="idIncidencia(inc._id)"  routerLink="/mod" class="btn btn-primary">
               Detalle
             </button></td>  

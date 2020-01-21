@@ -56,6 +56,18 @@ export class StatisticsComponent implements OnInit {
          this.barChartData2 = [{ data: ye , label: 'Incidencias por Area' }];
          this.barChartLabels2 = equis;
       });
+
+      this.statservice.getStatsBySol(actualYear).subscribe((data) =>{
+        let ye = [];
+        let equis = [];
+        data.forEach(element => {
+         equis.push(element.x)
+         ye.push(element.porc)
+         });
+         
+         this.pieChartData =   ye ;
+         this.pieChartLabels = equis;
+      });
   }
 
   constructor( public statservice: StatisticsService ) { 
@@ -93,14 +105,14 @@ export class StatisticsComponent implements OnInit {
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [];
-  barChartData: ChartDataSets[] = [ { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' } ];
+  barChartData: ChartDataSets[] = [ { data: [0, 0, 0, 0, 0, 0], label: 'Best Fruits' } ];
  
   barChartOptions2: ChartOptions = {responsive: true,};
   barChartLabels2: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
   barChartType2: ChartType = 'bar';
   barChartLegend2 = true;
   barChartPlugins2 = [];
-  barChartData2: ChartDataSets[] = [ { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' } ];
+  barChartData2: ChartDataSets[] = [ { data: [0, 0, 0, 0, 0, 0], label: 'Best Fruits' } ];
   //barChartColor: Color = { backgroundColor: 'rgba(13,10,178,0.44)'}
  
  
@@ -149,6 +161,17 @@ export class StatisticsComponent implements OnInit {
        this.barChartLabels2 = x;
     });
 
+    this.statservice.getStatsBySol(year).subscribe((data) =>{
+      let ye = [];
+      let equis = [];
+      data.forEach(element => {
+       equis.push(element.x)
+       ye.push(element.porc)
+       });
+       
+       this.pieChartData =   ye ;
+       this.pieChartLabels = equis;
+    });
 
   }
 

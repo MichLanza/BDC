@@ -44,5 +44,9 @@ export class StatisticsService {
     return this.http.get( endpoint + '/bysol/'+year,httpOptions ).pipe(
       map(this.extractData));
   }
+  getStatsByNoSol(year: any): Observable<any>{
+    return this.http.get( endpoint + '/bynosol/'+year,httpOptions ).pipe(
+      map(this.extractData));
+  }
 
 }

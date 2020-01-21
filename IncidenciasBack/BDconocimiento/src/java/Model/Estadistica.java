@@ -12,6 +12,7 @@ package Model;
 public class Estadistica {
     public String x;
     public int y;
+    public float porc;
     
     public Estadistica() {
     }
@@ -20,6 +21,11 @@ public class Estadistica {
     public Estadistica(String x, int y){
         this.x = x;
         this.y = y;
+    }
+
+    public Estadistica(String x, float porc) {
+        this.x = x;
+        this.porc = porc;
     }
 
     public String getX() {
@@ -36,6 +42,14 @@ public class Estadistica {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public float getPorc() {
+        return porc;
+    }
+
+    public void setPorc(float porc) {
+        this.porc = porc;
     }
     
     
