@@ -125,16 +125,31 @@ public class EPEstadistica {
     }
     
     @GET
-    @Path("/bynosol/{year}")
+    @Path("/status/{year}")
     @Produces("application/json")
     public Response statNoSol ( @PathParam("year") int _year  ){
         
-         ArrayList<Estadistica> _list = new ArrayList<>();
+         ArrayList<Estadistica> _list ;
+         ArrayList<Estadistica> _list2 ;
+
          Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
          Error error;                 
          try{
          EstadisticaDAO _stat = new EstadisticaDAO();
-         _list = _stat.getBySol(_year );            
+         _list = _stat.sol(_year );  
+         _list2 = _stat.nosol(_year);
+         //
+         for (int i = 0; i < _list.size(); i++) {
+          for (int j = 0; j < _list2.size(); j++){
+          System.out.println(_list.get(i).x +""+_list2.get(j).x );
+           if(_list.get(i).x.equals(_list2.get(j).x)){
+               _list.get(i).yS = _list2.get(j).yS;
+               _list2.remove(j);
+           }       
+              }
+        
+             }
+         _list.addAll(_list2);
          _rb.entity( gson.toJson( _list ) ); 
         
     }catch(Exception e){
@@ -143,21 +158,10 @@ public class EPEstadistica {
     }
      return _rb.header("Access-Control-Allow-Origin", "*").build();
     }
-   /* 
-    @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public String getXml() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
-    }
-
-
-    @PUT
-    @Consumes(MediaType.APPLICATION_XML)
-    public void putXml(String content) {
-    }
-    */
     
+    
+    
+
     
     
 }

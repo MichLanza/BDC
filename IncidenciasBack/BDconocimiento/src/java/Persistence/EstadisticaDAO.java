@@ -43,7 +43,12 @@ public class EstadisticaDAO {
                       "where I.fk_area_id = A.are_id AND inc_soldesc is not null and  DATEPART(year,inc_date ) = ?\n" +
                       "Group By  A.are_name  \n" +
                       "Order BY  count(I.inc_id) DESC";
-    String NOSOL =    "";
+
+    String NOSOL =    "select count(I.inc_id) as no_sol, A.are_name \n" +
+                      "from Incidencia as I, Area as A \n" +
+                      "where I.fk_area_id = A.are_id AND inc_soldesc is  null and  DATEPART(year,inc_date ) = ?\n" +
+                      "Group By  A.are_name\n" +
+                      "Order BY  count(I.inc_id) DESC";
 
     String CUENTA = "select count (I.inc_id) as cuenta\n" +
                     "from Incidencia as I \n" +
@@ -171,43 +176,6 @@ public ArrayList <Estadistica> getBySol( int _year ){
           return _list; 
 }
 
-////WIP
-public ArrayList <Estadistica> getByNoSol( int _year ){
-          Connection _conn = SqlConn.getConnection();
-         ArrayList<Estadistica> _list = new ArrayList<>();
-            
-                          
-         try{
-         // int _cuenta = count( _year, CUENTASOL );
-          PreparedStatement _ps = _conn.prepareCall( CUENTA );
-          _ps.setInt(1, _year);
-          
-          
-          ResultSet _result = _ps.executeQuery();
-         // System.out.println(_cuenta);
-          while ( _result.next() ){
-        
-
-           
-          //float _porce = (_result.getInt("Cuenta")*100) / _cuenta ;
-          //  Estadistica  stat = new Estadistica( _result.getString("are_name"),     
-          //                                       _result.getInt("Cuenta") );
-          // _list.add( stat );
-          }
-
-         }catch (SQLException en) {
-             en.printStackTrace();
-         }finally{
-          try {
-            _conn.close();
-         } catch ( SQLException e1 ) {
-            e1.printStackTrace();
-           } 
-        }     
-          return _list; 
-}
-
-
 
 public int count( int _year , String _query) throws SQLException{
         int _cuenta = 0;
@@ -233,7 +201,64 @@ public int count( int _year , String _query) throws SQLException{
       } 
          
        
+  //wip
+public ArrayList <Estadistica> sol( int _year ){
+         Connection _conn = SqlConn.getConnection();
+         ArrayList<Estadistica> _list = new ArrayList<>();
+
+         try{
         
+          PreparedStatement _ps = _conn.prepareCall( SOLUCION );
+          _ps.setInt(1, _year);
+          ResultSet _result = _ps.executeQuery();
+          while ( _result.next() ){
+                      
+           Estadistica  stat = new Estadistica( _result.getString("are_name"),     
+                                                _result.getInt("Cuenta"),
+                                                 0);
+           _list.add( stat );
+           }
+          
+         }catch (SQLException en) {
+             en.printStackTrace();
+         }finally{
+          try {
+            _conn.close();
+         } catch ( SQLException e1 ) {
+            e1.printStackTrace();
+           } 
+        }     
+          return _list; 
+}   
+public ArrayList <Estadistica> nosol ( int _year ){
+         Connection _conn = SqlConn.getConnection();
+         ArrayList<Estadistica> _list = new ArrayList<>();
+
+         try{
+        
+       
+          PreparedStatement _ps = _conn.prepareCall( NOSOL );  
+          _ps.setInt(1, _year);
+          ResultSet _result = _ps.executeQuery();
+          while ( _result.next() ){
+         
+           Estadistica  stat = new Estadistica( _result.getString("are_name"),0,
+                                                _result.getInt("no_sol"));
+           _list.add( stat );
+       
+           }
+          
+         }catch (SQLException en) {
+             en.printStackTrace();
+         }finally{
+          try {
+            _conn.close();
+         } catch ( SQLException e1 ) {
+            e1.printStackTrace();
+           } 
+        }     
+          return _list; 
+}   
 
 }
 

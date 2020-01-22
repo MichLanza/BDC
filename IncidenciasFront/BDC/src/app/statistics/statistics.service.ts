@@ -49,4 +49,9 @@ export class StatisticsService {
       map(this.extractData));
   }
 
+  getStatsByC(year: any): Observable<any>{
+    return this.http.get( endpoint + '/status/'+year,httpOptions ).pipe(
+      map(this.extractData));
+  }
+
 }

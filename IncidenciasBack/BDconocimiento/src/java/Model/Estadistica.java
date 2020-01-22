@@ -13,7 +13,9 @@ public class Estadistica {
     public String x;
     public int y;
     public float porc;
-    
+    public int yS;
+   
+  
     public Estadistica() {
     }
     
@@ -28,6 +30,15 @@ public class Estadistica {
         this.porc = porc;
     }
 
+    public Estadistica(String x, int y, int yS) {
+        this.x = x;
+        this.y = y;
+        this.yS = yS;
+    }
+
+    
+
+    
     public String getX() {
         return x;
     }
@@ -51,6 +62,16 @@ public class Estadistica {
     public void setPorc(float porc) {
         this.porc = porc;
     }
+
+    public int getyS() {
+        return yS;
+    }
+
+    public void setyS(int yS) {
+        this.yS = yS;
+    }
+
+   
     
     
     

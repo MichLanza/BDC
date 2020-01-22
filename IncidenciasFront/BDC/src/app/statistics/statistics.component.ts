@@ -60,19 +60,22 @@ export class StatisticsComponent implements OnInit {
          this.barChartLabels2 = equis;
       });
 
-      this.statservice.getStatsByArea(actualYear).subscribe((data) =>{
+      this.statservice.getStatsByC(actualYear).subscribe((data) =>{
         let ye = [];
         let equis = [];
+        let yeeS = [];
 
         data.forEach(element => {
          equis.push(element.x)
          ye.push(element.y)
+         yeeS.push(element.yS)
          
          });
          
-         this.barChartData = [{ data:  ye , label: 'Incidencias por Area' }];
+         this.barChartData = [ { data: ye, label: 'Resuelto' },{ data: yeeS, label: ' Por solucionar' } ];
          this.barChartLabels = equis;
       });
+
       this.statservice.getStatsBySol(actualYear).subscribe((data) =>{
         let ye = [];
         let equis = [];
@@ -117,11 +120,11 @@ export class StatisticsComponent implements OnInit {
 
 
   barChartOptions: ChartOptions = {responsive: true,};
-  barChartLabels: Label[] = ['', '', '', '', '', ''];
+  barChartLabels: Label[] = ['a', 'b', 'c', 'd', 'e', 'f'];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [];
-  barChartData: ChartDataSets[] = [ { data: [0, 0, 0, 0, 0, 0], label: ' ' } ];
+  barChartData: ChartDataSets[] = [ { data: [50, 10, 30,20, 10, 80], label: 'Resuelto' },{ data: [60,0, 5, 0,40], label: ' Por solucionar' } ];
  
   barChartOptions2: ChartOptions = {responsive: true,};
   barChartLabels2: Label[] = ['', '', '', '', '', ''];
@@ -138,7 +141,7 @@ export class StatisticsComponent implements OnInit {
 
 
 
-  data(year:number){
+  data(year:number ){
     
  
     this.statservice.getStats(year).subscribe( (data) => {
@@ -187,6 +190,22 @@ export class StatisticsComponent implements OnInit {
        
        this.pieChartData =   ye ;
        this.pieChartLabels = equis;
+    });
+
+    this.statservice.getStatsByC(year).subscribe((data) =>{
+      let ye = [];
+      let equis = [];
+      let yeeS = [];
+
+      data.forEach(element => {
+       equis.push(element.x)
+       ye.push(element.y)
+       yeeS.push(element.yS)
+       
+       });
+       
+       this.barChartData = [ { data: ye, label: 'Resuelto' },{ data: yeeS, label: ' Por solucionar' } ];
+       this.barChartLabels = equis;
     });
 
   }
