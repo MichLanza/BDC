@@ -129,8 +129,8 @@ public class EPEstadistica {
     @Produces("application/json")
     public Response statNoSol ( @PathParam("year") int _year  ){
         
-         ArrayList<Estadistica> _list ;
-         ArrayList<Estadistica> _list2 ;
+         ArrayList<Estadistica> _list = new ArrayList<>();
+         ArrayList<Estadistica> _list2= new ArrayList<>(); 
 
          Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
          Error error;                 

@@ -102,23 +102,24 @@
              | filterNombre: '_nombre' : nome
              | slice: (page -1) * pageSize : ( (page-1)* pageSize) + pageSize"> <!--| filterNombre: '_nombre' : nome -->
                           
-              <td>{{inc._id}}</td> 
-              <td>{{inc._nombre}}</td> 
+              <td style= "text-align: center">{{inc._id}}</td> 
+              <td style= "text-align: center">{{inc._nombre}}</td> 
            <!--  <td>{{inc._descripcion}}</td> -->
-              <td>{{inc._fechaOcurrencia}}</td> 
+              <td style= "text-align: center">{{inc._fechaOcurrencia}}</td> 
               
               <ng-container *ngIf="inc._fechaResolucion != null;then date else vacio"></ng-container>
               <ng-template #date>
-              <td>{{inc._fechaResolucion}}</td>
+              <td style= "text-align: center">{{inc._fechaResolucion}}</td>
              </ng-template>
              
              <ng-template #vacio>
-              <td  style="background-color: #dd0606dc;" class = "text-light"> Por solucionar</td>
+              <td  style="background-color: #dd0606dc;
+                          text-align: center;  " class = "text-light"> Por solucionar</td>
              </ng-template>
 
             <!--  <td>{{inc._solDescripcion}}</td> -->
-              <td>{{inc._areName}}</td>
-              <td>{{inc._plName}}</td> 
+              <td style= "text-align: center">{{inc._areName}}</td>
+              <td style= "text-align: center" >{{inc._plName}}</td> 
             
               <td> <button (click)="idIncidencia(inc._id)"  routerLink="/mod" class="btn btn-primary">
               Detalle
