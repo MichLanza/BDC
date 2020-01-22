@@ -141,7 +141,6 @@ public class EPEstadistica {
          //
          for (int i = 0; i < _list.size(); i++) {
           for (int j = 0; j < _list2.size(); j++){
-          System.out.println(_list.get(i).x +""+_list2.get(j).x );
            if(_list.get(i).x.equals(_list2.get(j).x)){
                _list.get(i).yS = _list2.get(j).yS;
                _list2.remove(j);
