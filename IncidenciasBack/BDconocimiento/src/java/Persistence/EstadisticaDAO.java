@@ -155,7 +155,7 @@ public ArrayList <Estadistica> getBySol( int _year ){
           _ps.setInt(1, _year);
      
           ResultSet _result = _ps.executeQuery();
-          System.out.println(_cuenta);
+        
           while ( _result.next() ){
             
            float _porce = (_result.getInt("Cuenta")*100) / _cuenta ;
