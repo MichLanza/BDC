@@ -13,6 +13,14 @@ CREATE TABLE Incidencia
     inc_soldate datetime
 );
 
+CREATE TABLE Archivo
+(
+    
+	file_id int identity PRIMARY KEY,
+    file_file varbinary(255) NOT NULL,
+    
+);
+
 CREATE TABLE Plataforma
 (
     pla_id int identity PRIMARY KEY,
@@ -40,6 +48,9 @@ alter table Incidencia add Foreign key(fk_area_id)
 
 alter table Incidencia add Foreign key(fk_plataforma_id)
  REFERENCES Plataforma(pla_id);
+ 
+alter table Archivo add Foreign key(fk_incidencia_id)
+ REFERENCES Plataforma(inc_id);
  
 --Inserts
 
@@ -324,8 +335,5 @@ WHERE I.fk_area_id = A.are_id AND inc_soldesc is not null and  DATEPART(year,inc
 END
 
 
-    --String CUENTA = "select count (I.inc_id) as cuenta\n" +
-    --"from Incidencia as I \n" +
-    --"where   DATEPART(year,inc_date ) = ?";
     
 
