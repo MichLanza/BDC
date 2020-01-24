@@ -124,7 +124,7 @@ export class StatisticsComponent implements OnInit {
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [];
-  barChartData: ChartDataSets[] = [ { data: [50, 10, 30,20, 10, 80], label: 'Resuelto' },{ data: [60,0, 5, 0,40], label: ' Por solucionar' } ];
+  barChartData: ChartDataSets[] = [ { data: [0, 0, 0,0, 0, 0], label: 'Resuelto' },{ data: [60,0, 5, 0,40], label: ' Por solucionar' } ];
  
   barChartOptions2: ChartOptions = {responsive: true,};
   barChartLabels2: Label[] = ['', '', '', '', '', ''];

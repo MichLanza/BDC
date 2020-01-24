@@ -227,6 +227,105 @@ from Incidencia as I, Plataforma as P
 where  DATEPART(month,inc_date ) = 01/*variable*/ and  DATEPART(year,inc_date ) = 2020/*variable*/ 
        and  I.fk_plataforma_id = P.pla_id
 Group By  P.pla_name
+------------------------------------------------
+
+---SP ESTADISTICAS
 
 
+
+-- {CALL getAnual (?)}
+CREATE PROCEDURE getAnual( @_year int )
+AS
+BEGIN
+SET NOCOUNT ON
+
+SELECT  DATENAME(MONTH,I.inc_date) as Mes,count(I.inc_id) as Cuenta
+FROM Incidencia as I 
+WHERE  YEAR(I.inc_date ) = @_year Group By  MONTH(I.inc_date), DATENAME(MONTH,I.inc_date); 
+    
+
+END
+
+
+---- {CALL getByPlataforma (?)}
+
+CREATE PROCEDURE getByPlataforma( @_year int )
+AS
+BEGIN
+SET NOCOUNT ON
+
+SELECT count(I.inc_id) as cuenta, P.pla_name  
+FROM Incidencia as I, Plataforma as P 
+WHERE YEAR(I.inc_date ) = @_year and I.fk_plataforma_id = P.pla_id
+Group By  P.pla_name
+Order BY  count(I.inc_id) DESC
+    
+END
+
+--{CALL getByArea (?)}
+
+CREATE PROCEDURE getByArea( @_year int )
+AS
+BEGIN
+SET NOCOUNT ON
+
+SELECT count(I.inc_id) as cuenta, A.are_name  
+FROM Incidencia as I, Area as A 
+WHERE YEAR(I.inc_date ) = @_year and  I.fk_area_id = A.are_id
+Group By  A.are_name
+Order BY  count(I.inc_id) DESC  
+    
+END
+
+
+
+--{CALL getBySol (?)}
+
+CREATE PROCEDURE getBySol( @_year int )
+AS
+BEGIN
+SET NOCOUNT ON
+
+SELECT count(I.inc_id) as cuenta, A.are_name  
+FROM Incidencia as I, Area as A 
+WHERE I.fk_area_id = A.are_id AND inc_soldesc is not null and  DATEPART(year,inc_date ) = @_year
+Group By  A.are_name  
+Order BY  count(I.inc_id) DESC
+					  
+END
+
+
+
+--{CALL getByNoSol (?)}
+
+CREATE PROCEDURE getByNoSol( @_year int )
+AS
+BEGIN
+SET NOCOUNT ON
+
+SELECT count(I.inc_id) as no_sol, A.are_name 
+FROM Incidencia as I, Area as A 
+WHERE I.fk_area_id = A.are_id AND inc_soldesc is  null and  DATEPART(year,inc_date ) = @_year
+Group By  A.are_name
+Order BY  count(I.inc_id) DESC
+END
+
+--{CALL cuentaSol (?)}
+
+CREATE PROCEDURE cuentaSol( @_year int )
+AS
+BEGIN
+SET NOCOUNT ON
+
+SELECT count(I.inc_id) as cuenta
+FROM Incidencia as I, Area as A 
+WHERE I.fk_area_id = A.are_id AND inc_soldesc is not null and  DATEPART(year,inc_date ) = @_year
+
+END
+
+
+    --String CUENTA = "select count (I.inc_id) as cuenta\n" +
+    --"from Incidencia as I \n" +
+    --"where   DATEPART(year,inc_date ) = ?";
+    
 

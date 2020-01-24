@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Michele Lanza
@@ -72,7 +74,23 @@ public class Estadistica {
     }
 
    
-    
+    //PROBAR
+    public ArrayList<Estadistica> transform( ArrayList<Estadistica> _list,
+                                            ArrayList<Estadistica> _list2 ) {
+        
+     for ( int i = 0; i < _list.size(); i++ ) {
+       for ( int j = 0; j < _list2.size(); j++ ){
+           if( _list.get(i).x.equals(_list2.get(j).x) ){
+               _list.get(i).yS = _list2.get(j).yS;
+               _list2.remove(j);
+            }       
+        }
+     }
+     
+     _list.addAll(_list2);  
+        
+     return _list;
+    }
     
     
 }

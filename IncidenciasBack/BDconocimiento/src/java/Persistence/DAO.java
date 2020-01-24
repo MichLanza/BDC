@@ -140,8 +140,8 @@ public class DAO {
          
       
        try {
-            PreparedStatement _ps = _conn.prepareCall( SELECT_ALL_INCIDENCIAS );
-            ResultSet _result = _ps.executeQuery();
+           PreparedStatement _ps = _conn.prepareCall( SELECT_ALL_INCIDENCIAS );
+           ResultSet _result = _ps.executeQuery();
               while ( _result.next() ){
                _inList.add( getIncidencia( _result ) );                
               }
@@ -289,7 +289,7 @@ public class DAO {
             ResultSet _rs = _ps.executeQuery(); 
             while ( _rs.next() ){
 
-             Incidencia _inc =   getIncidencia( _rs );
+            Incidencia _inc =   getIncidencia( _rs );
               
                return _inc;
             }

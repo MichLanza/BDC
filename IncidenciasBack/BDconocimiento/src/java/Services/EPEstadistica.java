@@ -131,36 +131,23 @@ public class EPEstadistica {
         
          ArrayList<Estadistica> _list = new ArrayList<>();
          ArrayList<Estadistica> _list2= new ArrayList<>(); 
-
+         Estadistica _trans = new Estadistica();
          Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
          Error error;                 
          try{
          EstadisticaDAO _stat = new EstadisticaDAO();
-         _list = _stat.sol(_year );  
-         _list2 = _stat.nosol(_year);
-         //
-         for (int i = 0; i < _list.size(); i++) {
-          for (int j = 0; j < _list2.size(); j++){
-           if(_list.get(i).x.equals(_list2.get(j).x)){
-               _list.get(i).yS = _list2.get(j).yS;
-               _list2.remove(j);
-           }       
-              }
-        
-             }
-         _list.addAll(_list2);
+         _list = _stat.sol( _year );  
+         _list2 = _stat.nosol( _year );
+         _list = _trans.transform( _list , _list2 );
+   
          _rb.entity( gson.toJson( _list ) ); 
         
-    }catch(Exception e){
-         error = new Error ( MESSAGE_ERROR_INTERN );
-        return Response.status( 500 ).entity( error ).build();
-    }
-     return _rb.header("Access-Control-Allow-Origin", "*").build();
-    }
-    
-    
+        }catch(Exception e){
+             error = new Error ( MESSAGE_ERROR_INTERN );
+            return Response.status( 500 ).entity( error ).build();
+        }
+         return _rb.header("Access-Control-Allow-Origin", "*").build();
+        }
     
 
-    
-    
 }
