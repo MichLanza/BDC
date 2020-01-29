@@ -17,7 +17,9 @@ CREATE TABLE Archivo
 (
     
 	file_id int identity PRIMARY KEY,
-    file_file varbinary(255) NOT NULL,
+    file_file varbinary(max) NOT NULL,
+	file_name  nvarchar (250) NOT NULL,
+	file_len   int NOT NULL
     
 );
 
@@ -41,6 +43,8 @@ CREATE TABLE Area
 alter table Incidencia add   fk_plataforma_id int not null;
 
 alter table Incidencia add   fk_area_id int not null;
+
+alter table Archivo add   fk_incidencia_id int not null;
 
 
 alter table Incidencia add Foreign key(fk_area_id)
@@ -334,6 +338,42 @@ WHERE I.fk_area_id = A.are_id AND inc_soldesc is not null and  DATEPART(year,inc
 
 END
 
+/*
 
+CREATE TABLE Archivo
+(
+    
+	arch_id int identity PRIMARY KEY,
+    arch_file varbinary(max) NOT NULL,
+    arch_name  nvarchar (250) NOT NULL,
+
+    
+);
+delete from Archivo  where arch_id = 3
+DBCC CHECKIDENT ('Archivo', RESEED, 2)  
+
+alter table Archivo add arch_name  nvarchar (250) NOT NULL;
+alter table Archivo add fk_incidencia_id  int NOT NULL;
+
+
+insert into Archivo (arch_file) 
+values (0x433A5C55736572735C4D696368656C65204C616E7A615C446F63756D656E)
+
+
+select convert (varbinary,'C:\Users\Michele Lanza\Documents\UCABInstructivo para la realizacion del informe final de pasantia 2014.pdf')
+
+INSERT INTO Archivo(arch_file)
+SELECT * FROM
+OPENROWSET (BULK N'C:\Users\Michele Lanza\Documents\UCAB\testing.txt', SINGLE_BLOB) as r
+
+select * from Archivo where arch_id = 1
+
+SELECT CONVERT(varchar(max), arch_file) AS TextCol
+FROM Archivo
+
+
+
+
+*/
     
 
