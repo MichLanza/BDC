@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import Services.EPincidencia;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 /**
  *
  * @author Michele Lanza
@@ -22,6 +23,7 @@ public class ApplicationConfig extends Application {
        HashSet resources = new HashSet<Class<?>>();
         resources.add(EPincidencia.class);
         resources.add(EPEstadistica.class);
+        resources.add(MultiPartFeature.class);
         return resources;
     }
 

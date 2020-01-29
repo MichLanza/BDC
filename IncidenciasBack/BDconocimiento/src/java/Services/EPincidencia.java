@@ -12,7 +12,7 @@ import Model.Area;
 import Model.Incidencia;
 import Model.Plataforma;
 import Persistence.DAO;
-import Persistence.SqlConn; //BORRAR
+import Persistence.docDAO;
 import java.util.ArrayList;
 
 import javax.ws.rs.Produces;
@@ -21,17 +21,18 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
-
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
-import java.sql.Connection;//BORRAR
-import java.sql.PreparedStatement;//BORRAR
-import java.sql.ResultSet; //BORRAR
-import java.sql.SQLException;
-import Model.Estadistica; //BORRAR
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;//
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.MediaType;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 
 /**
@@ -155,7 +156,7 @@ public class EPincidencia {
         Incidencia _inc = new Incidencia( _dto._id,_dto._nombre,
                                 _dto._descripcion,  _dto._solDescripcion,
                                 _dto._fechaOcurrencia,  _dto._are, _dto._plat );
-
+        
         DAO _incidencia = new DAO();
         _incidencia.updateIncidencia( _inc );
         } else {
@@ -218,8 +219,7 @@ public class EPincidencia {
         return Response.status( 500 ).entity( error ).build();
        }
     
-    return _rb.header("Access-Control-Allow-Origin", 
-                      "*").build();
+       return _rb.header("Access-Control-Allow-Origin", "*").build();
     
     
     }
@@ -251,13 +251,61 @@ public class EPincidencia {
         error = new Error ( MESSAGE_ERROR_INTERN );
         return Response.status( 500 ).entity( error ).build();
        }
-
-    
- 
-    
     }
     
+    
+    
+    @POST
+    @Path("/AddFile")   
+    @Produces("application/json") 
+    @Consumes("multipart/form-data") 
+    public Response file( @FormDataParam("file") InputStream fis,
+                        @FormDataParam("file") FormDataContentDisposition fd ){
+    Error error;
+    Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
+     
+     try{    
+        System.out.println(fd.getFileName());
+        String _fileName = fd.getFileName();
+         System.out.println( _fileName );
+         //DAO _inc = new DAO();  
+         //FileInputStream fis = new FileInputStream();
+           docDAO _doc = new docDAO( );
+           _doc.insert( fis, _fileName );
+    
+       return _rb.header( "Access-Control-Allow-Origin","*" ).build();
+        }     
+     catch ( Exception e ) {
+           error = new Error( MESSAGE_ERROR_INTERN );
+           return Response.status(500).entity(error).build();
+        }
+    }
+    
+    
+    
+    @GET
+    @Path("/DownloadFile")   
+    @Produces(MediaType.APPLICATION_OCTET_STREAM) 
+    //@Consumes(MediaType.APPLICATION_OCTET_STREAM) 
+    public Response getFile( ){
+    Error error;
+    Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
+     
+     try{    
+       // System.out.println(fis);
        
+         //DAO _inc = new DAO();  
+         //FileInputStream fis = new FileInputStream();
+        docDAO _doc = new docDAO( );
+       _doc.select();
+    
+       return _rb.header( "Access-Control-Allow-Origin","*" ).build();
+        }     
+     catch ( Exception e ) {
+           error = new Error( MESSAGE_ERROR_INTERN );
+           return Response.status(500).entity(error).build();
+        }
+    }
  
     
     }

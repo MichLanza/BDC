@@ -33,6 +33,12 @@
                placeholder="Descripción"></textarea>
             </div>  
             
+              <div class="form-group">
+                <label for="exampleFormControlFile1">Archivo de solución</label>
+                <input  type="file" name=”file” class="form-control-file" id="exampleFormControlFile1"  
+                (change)="addarchivo($event)" accept=".txt,.pdf,.doc,.docx,.png,.xlsx">
+              </div>
+            
             <div class="form-group">  
                     <label class="col-md-4">Fecha de resolución:</label>  
                     <input class="form-control" [(ngModel)]="newIncidencia._solFecha"
@@ -58,6 +64,7 @@
             <div class="col-md-2">
               <button type="button" class="btn btn-primary m-1 col-10" (click)="addIncidencia()">Crear</button>
             </div>
+           
             <p>(<span class="text-danger">*</span>) Campo requerido</p>      
           </form>  
         

@@ -5,8 +5,14 @@
  */
 package Persistence;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -15,41 +21,54 @@ import java.sql.SQLException;
  */
 public class docDAO {
     
-    String INSERT ="";
-    String SELECT ="";
+    String INSERT ="INSERT INTO Archivo(arch_name,arch_file) VALUES (?,?)";
+    String SELECT ="SELECT arch_file, arch_name from Archivo where arch_id= 2";
     
    
-   public void insert( ) {
-      int len;
+    public void insert( InputStream file , String _filename) {
+   
       Connection _conn = SqlConn.getConnection();
         try {
-             // File file = new File(filename);
-             // FileInputStream fis = new FileInputStream(file);
-              //len = (int)file.length();
-            PreparedStatement  _ps = _conn.prepareStatement(INSERT);
-          //    _ps.setString(1,file.getName());
-            //  _ps.setInt(2, len);
-              //method to insert a stream of bytes
-             // _ps.setBinaryStream(3, fis, len); 
-              _ps.execute();
+          //File file = new File("C:\\Users\\Michele Lanza\\Documents\\UCAB\\test 2.txt");
+         // FileInputStream fis = new FileInputStream(file);
+         
+           // System.out.println(fis);
+          //len = (int)fis.length();
+           PreparedStatement  _ps = _conn.prepareStatement( INSERT );    
+           _ps.setString(1,_filename);
+           _ps.setBinaryStream(2, file); 
+           _ps.execute();
 
           } catch (Exception e) {
               e.printStackTrace();
           }finally{
               try {
-                  _conn.close();
-              } catch ( SQLException e1 ) {
-                  e1.printStackTrace();
+               _conn.close();
+          } catch ( SQLException e1 ) {
+              e1.printStackTrace();
               }
                 } 
             }
    
    public void select ( ){
        Connection _conn = SqlConn.getConnection();
+       InputStream input = null;
+       FileOutputStream output = null; 
        try{
-       PreparedStatement _ps = _conn.prepareStatement(SELECT);
-       
-       
+       PreparedStatement _ps = _conn.prepareStatement( SELECT );
+      // _ps.setInt(1, 5);
+        ResultSet rs  = _ps.executeQuery();
+          while (rs.next()) {
+          String _filename = rs.getString("arch_name");
+          input = rs.getBinaryStream("arch_file");
+          output =  new FileOutputStream( new File 
+          ("C:\\Users\\Michele Lanza\\Documents\\"+_filename));
+          int r = 0;
+          while ((r = input.read()) != -1) {
+          output.write(r);
+            }
+          output.close();
+            }
        _ps.execute();
        
        }catch(Exception e){
@@ -60,14 +79,7 @@ public class docDAO {
            }catch(SQLException ex){
             ex.printStackTrace();
            }
-       
-       
-       
-       
        }
-   
-   
-   
    
    }
 }

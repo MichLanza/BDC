@@ -296,7 +296,13 @@ public class DAO {
         
         }catch(Exception e ){
               e.printStackTrace();
-          }
+          }finally{
+            try {
+                _conn.close();
+            } catch ( SQLException e1 ) {
+                e1.printStackTrace();
+            }
+              } 
         
             
         return null;
@@ -321,12 +327,18 @@ public class DAO {
                 
             e.printStackTrace();
             return 0;
+            }finally{
+            try {
+                _conn.close();
+            } catch ( SQLException e1 ) {
+                e1.printStackTrace();
             }
-    
-
-    
+              } 
     }
+    
+    
+    
 
- 
+    
     
 }

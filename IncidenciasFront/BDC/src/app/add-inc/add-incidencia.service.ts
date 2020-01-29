@@ -5,7 +5,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 
 
 
-const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
+//const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Access-Control-Allow-Origin':'*',
@@ -29,18 +29,18 @@ export class AddIncidenciaService {
   
   addIncidencia (incidencia): Observable<any> {
     console.log(incidencia)
-    return this.http.post<any>(endpoint + 'AddFull',incidencia, httpOptions).pipe(
+    return this.http.post<any>(endpoint + 'AddFull',incidencia).pipe(
       tap((incidencia) => console.log(`Incidencia added w/`)),
     );
   }
 
   addIncidenciaWOS (incidencia): Observable<any> {
     console.log(incidencia)
-    return this.http.post<any>(endpoint + 'AddWOS',incidencia, httpOptions).pipe(
+    return this.http.post<any>(endpoint + 'AddWOS',incidencia).pipe(
       tap((incidencia) => console.log(`Incidencia added w/`)),
     );
   }
-  
+ 
   getArea(): Observable<any> {
     return this.http.get(endpoint + 'GetArea').pipe(
       map(this.extractData));
@@ -50,5 +50,13 @@ export class AddIncidenciaService {
     return this.http.get(endpoint + 'GetPlataforma').pipe(
       map(this.extractData));
   }
+
+  addFile (file): Observable<any> {
+
+    return this.http.post<any>(endpoint + 'AddFile',file).pipe(
+      tap((file) => console.log(file)),
+    );
+  }
+
 }
 

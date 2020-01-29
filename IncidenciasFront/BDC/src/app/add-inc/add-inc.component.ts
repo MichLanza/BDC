@@ -100,6 +100,21 @@ export class AddIncComponent implements OnInit {
     
   }
 
-    
+  fileToUpload: File;
   
+  addarchivo( event ){
+   this.fileToUpload = event.target.files[0]
+   console.log(this.fileToUpload );
+   const formData = new FormData();
+   formData.append('file', this.fileToUpload ,this.fileToUpload.name);
+   console.log(formData.get('file'));
+   this.addService.addFile( formData ).subscribe(  res => {
+    console.log (res)
+    });
+  
+  }
+    
+
+
+
   }
