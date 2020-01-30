@@ -3,7 +3,9 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 
-const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
+//const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
+const endpoint = 'http://10.60.102.103:8080/BDconocimiento/Incidencias/';
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Access-Control-Allow-Origin':'*',

@@ -105,9 +105,8 @@
               <td style= "text-align: center">{{inc._id}}</td> 
               <td style= "text-align: center">{{inc._nombre}}</td> 
            <!--  <td>{{inc._descripcion}}</td> -->
-              <td style= "text-align: center">{{inc._fechaOcurrencia}}</td> 
-              
-              <ng-container *ngIf="inc._fechaResolucion != null;then date else vacio"></ng-container>
+              <td style= "text-align: center">{{inc._fechaOcurrencia}}</td>
+             <ng-container *ngIf="inc._fechaResolucion != null;then date else vacio"></ng-container>
               <ng-template #date>
               <td style= "text-align: center">{{inc._fechaResolucion}}</td>
              </ng-template>
@@ -116,6 +115,9 @@
               <td  style="background-color: #dd0606dc;
                           text-align: center;  " class = "text-light"> Por solucionar</td>
              </ng-template>
+          
+
+
 
             <!--  <td>{{inc._solDescripcion}}</td> -->
               <td style= "text-align: center">{{inc._areName}}</td>

@@ -25,6 +25,7 @@ public class Incidencia {
     String _plName;
     Area _ar;
     Plataforma pl;
+    int _idFile;
   
     //contructor por defecto
     public Incidencia(){}
@@ -129,21 +130,7 @@ public class Incidencia {
         this.pl = _plat;
     }
     
-    //contructor incidencia con id incidencia, sin solucion, id area y platform
 
-  /*   public Incidencia(int _id, String _nombre, String _descripcion,
-                      LocalDate _fechaOcurrencia, Area _are, Plataforma _plat) {
-        
-        this._id = _id;
-        this._nombre = _nombre;
-        this._descripcion = _descripcion;
-        this._fechaOcurrencia = _fechaOcurrencia;
-        this._ar = _are;
-        this.pl = _plat;
-    }*/
-
-    
-    //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     public Incidencia(int _id, String _nombre, String _descripcion,
                       LocalDate _fechaOcurrencia, String _solDescripcion,
                       LocalDate _fechaResolucion,
@@ -172,14 +159,31 @@ public class Incidencia {
         this._descripcion = _descripcion;
         this._fechaOcurrencia = _fechaOcurrencia;
         this._solDescripcion = _solDescripcion;
-  
         this._are = _are;
         this._plat = _plat;
         this._areName = _areName;
         this._plName = _plName;
     }
+
+    public Incidencia(int _id, String _nombre, String _descripcion, 
+                      LocalDate _fechaOcurrencia, String _solDescripcion,
+                      LocalDate _fechaResolucion,  int _are, int _plat, 
+                      String _areName, String _plName,int _idFile) {
+        
+        this._id = _id;
+        this._nombre = _nombre;
+        this._descripcion = _descripcion;
+        this._fechaOcurrencia = _fechaOcurrencia;
+        this._solDescripcion = _solDescripcion;
+        this._fechaResolucion = _fechaResolucion;
+        this._are = _are;
+        this._plat = _plat;
+        this._areName = _areName;
+        this._plName = _plName;
+        this._idFile = _idFile;
+    }
  
-    
+       
     
     
     
@@ -277,6 +281,14 @@ public class Incidencia {
 
     public void setPlName(String _plName) {
         this._plName = _plName;
+    }
+
+    public int getIdFile() {
+        return _idFile;
+    }
+
+    public void setIdFile(int _idFile) {
+        this._idFile = _idFile;
     }
 
     

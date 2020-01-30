@@ -18,6 +18,7 @@ export class Incidencia {
     public  _fechaResolucion: string;
     public  _are: number;
     public  _plat: number;
+    public _idFile: number;
 
     
 }

@@ -100,15 +100,19 @@ export class AddIncComponent implements OnInit {
 
   } else if ( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
               (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
-              (this.newIncidencia._idPlat != null )  && (this.newIncidencia._solDesc == null) &&
-              (this.newIncidencia._solFecha == null) && (this.fileToUpload != null) ){
+              (this.newIncidencia._idPlat != null )  && (this.newIncidencia._solFecha != null) &&
+              (this.fileToUpload != null) && (this.newIncidencia._solDesc == null) ){
 
-              var IDate =  new Date(this.newIncidencia._incFecha);
-              this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
-              this.addService.addIncidenciaWOS(this.newIncidencia).toPromise().then(res =>{
-              console.log(this.newIncidencia);
-              this.newIncidencia = new Incidencia();
-          });
+                var IDate =  new Date(this.newIncidencia._incFecha);
+                var SDate =  new Date(this.newIncidencia._solFecha);
+                this.newIncidencia._solDesc  = "Ver archivo adjunto";
+                this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
+                this.newIncidencia._solFecha = SDate.toISOString().slice(0,10);
+                this.addService.addIncidencia(this.newIncidencia).toPromise().then(res =>{
+                console.log(this.newIncidencia);
+      
+                this.newIncidencia = new Incidencia();
+             });
           console.log(this.formData.get('file'));
           this.addService.addFile( this.formData, this.newIncidencia._incNombre  ).subscribe();
           this.toastr.success("Se ha añadido la incidencia con éxito");

@@ -54,8 +54,8 @@ export class AddIncidenciaService {
 
   addFile (file, name): Observable<any> {
 
-    return this.http.post<any>(endpoint + 'AddFile',file).pipe(
-      tap((file) => console.log(file)),
+    return this.http.post<any>(endpoint + 'AddFile/' + name ,file).pipe(
+      tap((file) => console.log('archivo subido')),
     );
   }
 

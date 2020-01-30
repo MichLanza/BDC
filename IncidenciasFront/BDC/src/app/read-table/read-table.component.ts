@@ -44,13 +44,14 @@ export class ReadTableComponent implements OnInit {
       this.fechaTransform(element);
       
       
-      if (element._fechaResolucion != null ){
+      
+      if ( (element._fechaResolucion != null )  ){
 
         element["status"] = "Solucionado"
         this.datesolTransform(element);
         this.fechaSolTransform(element);
       
-      }else {
+      } else {
 
       element["status"] = "Por solucionar"}
    

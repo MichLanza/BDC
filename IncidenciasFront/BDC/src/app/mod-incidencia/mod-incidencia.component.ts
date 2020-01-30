@@ -217,7 +217,12 @@ open(content: any){
  this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
 }
 
+downloadFile(){
+  let id =   this.newIncidencia._idFile;
+  console.log ( id )
+  this.modService.download( id ).toPromise().then(res =>  console.log('Descargando...') );
 
+}
 
 
 

@@ -22,7 +22,7 @@ import java.sql.SQLException;
 public class docDAO {
     
     String INSERT ="INSERT INTO Archivo(arch_name,arch_file) VALUES (?,?)";
-    String SELECT ="SELECT arch_file, arch_name from Archivo where arch_id= 6";
+    String SELECT ="SELECT arch_file, arch_name from Archivo where arch_id= ?";
     String SELECT_ID ="SELECT arch_id from Archivo where arch_name like ?";
    
     public void insert( InputStream file , String _filename) {
@@ -46,13 +46,13 @@ public class docDAO {
                 } 
             }
    
-   public void select ( ){
+   public void select (int _id){
        Connection _conn = SqlConn.getConnection();
        InputStream input = null;
        FileOutputStream output = null; 
        try{
        PreparedStatement _ps = _conn.prepareStatement( SELECT );
-      // _ps.setInt(1, 5);
+       _ps.setInt(1, _id);
         ResultSet rs  = _ps.executeQuery();
           while (rs.next()) {
           String _filename = rs.getString("arch_name");

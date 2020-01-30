@@ -171,12 +171,12 @@ public class DAO {
         _area.setNombre(_result.getString("are_name"));
         String _output =  _result.getString( "inc_soldesc" );
         Timestamp _output2 = _result.getTimestamp("inc_soldate");
-      
-       
-  
-  
+        int doc = _result.getInt("fk_archivo_id");
+        System.out.println(doc);
+
+        
       if ( _output == null && 
-          _output2  == null ){
+           _output2  == null && doc == 0 ){
                 
                _output = "Por solucionar";
           
@@ -192,9 +192,28 @@ public class DAO {
                 _result.getString( "pla_name" )
       ); 
          
+          return _incidencia;
           
-           return _incidencia;
-      }else {
+      }else if ( _output == null  && doc != 0 ){
+                
+               _output = "Ver archivo adjunto";
+          
+          Incidencia _incidencia = new Incidencia(
+                _result.getInt( "inc_id" ),   
+                _result.getString( "inc_name" ), 
+                _result.getString( "inc_description" ), 
+                _result.getDate("inc_date" ).toLocalDate(),
+                _output,
+                _result.getDate("inc_soldate").toLocalDate(),
+                _result.getInt( "are_id" ),   
+                _result.getInt( "pla_id" ),
+                _result.getString( "are_name" ),
+                _result.getString( "pla_name" ),
+                doc 
+      ); 
+         
+          return _incidencia;
+      }else{
          Incidencia _incidencia = new Incidencia(
                 _result.getInt( "inc_id" ),   
                 _result.getString( "inc_name" ), 
@@ -205,7 +224,8 @@ public class DAO {
                 _result.getInt( "are_id" ),   
                 _result.getInt( "pla_id" ),
                  _result.getString( "are_name" ),
-                _result.getString( "pla_name" )
+                _result.getString( "pla_name" ),
+                doc
       ); 
              return _incidencia;
       }
@@ -307,7 +327,7 @@ public class DAO {
     
     
     
-    public int deleteIncidencia (int id) {
+    public int deleteIncidencia ( int id ) {
         
        Connection _conn = SqlConn.getConnection();
       

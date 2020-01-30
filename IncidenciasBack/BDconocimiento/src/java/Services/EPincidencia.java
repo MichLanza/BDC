@@ -253,8 +253,7 @@ public class EPincidencia {
        }
     }
     
-    
-    ///////////////////WIP////////////////////
+
        
     @POST
     @Path("/AddFile/{_incNombre}")   
@@ -288,12 +287,14 @@ public class EPincidencia {
         }
     }
     
-
+    
+    
+    ///////////////////WIP////////////////////
     @GET
-    @Path("/DownloadFile")   
+    @Path("/DownloadFile/{id}")   
     @Produces(MediaType.APPLICATION_OCTET_STREAM) 
     //@Consumes(MediaType.APPLICATION_OCTET_STREAM) 
-    public Response getFile( ){
+    public Response getFile(  @PathParam("id") int _id ){
     Error error;
     Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
      
@@ -302,7 +303,7 @@ public class EPincidencia {
        //DAO _inc = new DAO();  
        //FileInputStream fis = new FileInputStream();
        docDAO _doc = new docDAO( );
-       _doc.select();
+       _doc.select( _id );
        return _rb.header( "Access-Control-Allow-Origin","*" ).build();
         }     
      catch ( Exception e ) {

@@ -4,7 +4,8 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 
 
-const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
+//const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
+const endpoint = 'http://10.60.102.103:8080/BDconocimiento/Incidencias/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Access-Control-Allow-Origin':'*',
@@ -38,7 +39,7 @@ export class ModService {
     return this.http.get(endpoint + 'GetPlataforma').pipe(
       map(this.extractData));
   }
-  
+
   getIncidencia(): Observable<any>{
 
 
@@ -53,5 +54,10 @@ export class ModService {
     
   }
 
+  download(id):Observable<any>{
+
+    return  this.http.get(endpoint +'DownloadFile/'+ id).pipe(map(this.extractData));
+  
+  }
   
 }

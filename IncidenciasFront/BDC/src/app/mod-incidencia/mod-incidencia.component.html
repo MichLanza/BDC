@@ -33,7 +33,7 @@
             <div class="form-group">  
               <label class="col-md-4">Descripción de la solución:</label>  
               <textarea class="form-control" id="formDescription2" name="descripcion2" rows="6"  [disabled] = 'toggle'
-                [(ngModel)]="newIncidencia._solDescripcion" 
+                [(ngModel)]="newIncidencia._solDescripcion"  
                 value="{{newIncidencia._solDescripcion}}"></textarea>
             </div>  
             
@@ -44,6 +44,16 @@
                     value ={{newIncidencia._fechaResolucion}} >                  
             </div>  
         
+            <div class="form-group">
+              <label class="col-md-4" for="exampleFormControlFile1">Archivo de solución:</label>
+              <input  type="file" name=”file” class="form-control-file" id="exampleFormControlFile1"  
+              (change)="addarchivo($event)" [disabled] = 'toggle'  accept=".txt,.pdf,.doc,.docx,.png,.xlsx">
+            </div>
+          
+            <ng-container *ngIf=" newIncidencia._idFile != 0 ;then boton"></ng-container>
+           <ng-template #boton> 
+             <button type="button" class="btn btn-primary" (click) = "downloadFile()" > Descargar archivo <i class="fa fa-download"></i></button>
+            </ng-template>
             <div class="form-group">
               <label  for="formMessage" class="col-md-4">Área: </label>
               <!--<select class="form-control"  [(ngModel)]="newIncidencia._idArea" name="id2" disabled required>
