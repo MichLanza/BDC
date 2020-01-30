@@ -29,7 +29,9 @@ public class DAO {
     String READ_PLAT = "{ CALL getPlat() }";
     String UPDATE_INCIDENCIA = "{ CALL updateInc (?,?,?,?,?,?,?,?) }";
     String DELETE_INCIDENCIA = " {CALL deleteInc (?)}";
-   
+    String INSERTDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +
+                       "WHERE inc_name = ?";
+
             
     public void createIncidencia( Incidencia _in ) {
         
@@ -280,18 +282,13 @@ public class DAO {
     
     public Incidencia readIncidencia ( int id ){
         Connection _conn = SqlConn.getConnection();
-      
-   
-        try{
-     
+        try{ 
             PreparedStatement _ps = _conn.prepareCall( READ_INCIDENCIA );
-             _ps.setInt( 1, id );
+            _ps.setInt( 1, id );
             ResultSet _rs = _ps.executeQuery(); 
             while ( _rs.next() ){
-
-            Incidencia _inc =   getIncidencia( _rs );
-              
-               return _inc;
+            Incidencia _inc =   getIncidencia( _rs );          
+            return _inc;
             }
         
         }catch(Exception e ){
@@ -337,7 +334,25 @@ public class DAO {
     }
     
     
-    
+  public void  InsertDocInc( int _docId, String _name ){
+       Connection _conn = SqlConn.getConnection();
+       try{
+           PreparedStatement _ps = _conn.prepareCall( INSERTDOC );
+           _ps.setInt( 1,_docId );
+           _ps.setString( 2, _name );
+           _ps.execute();
+           
+       }catch(Exception e){
+           e.printStackTrace();
+       }finally {
+           try{
+            _conn.close();
+           }catch(SQLException ex){
+            ex.printStackTrace();
+           }
+       }
+       
+  }
 
     
     

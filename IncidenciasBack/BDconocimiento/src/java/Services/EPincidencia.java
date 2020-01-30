@@ -100,7 +100,7 @@ public class EPincidencia {
            Incidencia _inc = new Incidencia(  _dto._incNombre,
                                               _dto._incDesc, _dto._incFecha,
                                               _dto._solDesc, _dto._solFecha,
-                                              _dto._idArea, _dto._idPlat );
+                                              _dto._idArea,  _dto._idPlat );
     
         DAO _incidencia = new DAO();
         _incidencia.createIncidencia( _inc );
@@ -254,35 +254,41 @@ public class EPincidencia {
     }
     
     
-    
+    ///////////////////WIP////////////////////
+       
     @POST
-    @Path("/AddFile")   
+    @Path("/AddFile/{_incNombre}")   
     @Produces("application/json") 
     @Consumes("multipart/form-data") 
-    public Response file( @FormDataParam("file") InputStream fis,
-                        @FormDataParam("file") FormDataContentDisposition fd ){
+    public Response addFile( @FormDataParam("file") InputStream fis,
+                        @FormDataParam("file") FormDataContentDisposition fd, 
+                        @PathParam("_incNombre") String _incName ){
     Error error;
     Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
      
-     try{    
-        System.out.println(fd.getFileName());
+     try{
+         
+        System.out.println(_incName);
         String _fileName = fd.getFileName();
-         System.out.println( _fileName );
-         //DAO _inc = new DAO();  
-         //FileInputStream fis = new FileInputStream();
-           docDAO _doc = new docDAO( );
-           _doc.insert( fis, _fileName );
+        System.out.println( _fileName ); 
+        docDAO _doc = new docDAO( );
+        DAO _inc = new DAO();
+        _doc.insert( fis, _fileName );
+        int _id =  _doc.selectId( _fileName );
+        System.out.println( _id );
+        _inc.InsertDocInc( _id , _incName );
     
-       return _rb.header( "Access-Control-Allow-Origin","*" ).build();
-        }     
+        return _rb.header( "Access-Control-Allow-Origin","*" ).build();
+        } 
+     
      catch ( Exception e ) {
-           error = new Error( MESSAGE_ERROR_INTERN );
-           return Response.status(500).entity(error).build();
+        error = new Error( MESSAGE_ERROR_INTERN );
+        
+        return Response.status(500).entity(error).build();
         }
     }
     
-    
-    
+
     @GET
     @Path("/DownloadFile")   
     @Produces(MediaType.APPLICATION_OCTET_STREAM) 
@@ -292,18 +298,16 @@ public class EPincidencia {
     Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
      
      try{    
-       // System.out.println(fis);
-       
-         //DAO _inc = new DAO();  
-         //FileInputStream fis = new FileInputStream();
-        docDAO _doc = new docDAO( );
+       //system.out.println(fis);
+       //DAO _inc = new DAO();  
+       //FileInputStream fis = new FileInputStream();
+       docDAO _doc = new docDAO( );
        _doc.select();
-    
        return _rb.header( "Access-Control-Allow-Origin","*" ).build();
         }     
      catch ( Exception e ) {
-           error = new Error( MESSAGE_ERROR_INTERN );
-           return Response.status(500).entity(error).build();
+       error = new Error( MESSAGE_ERROR_INTERN );
+       return Response.status(500).entity(error).build();
         }
     }
  

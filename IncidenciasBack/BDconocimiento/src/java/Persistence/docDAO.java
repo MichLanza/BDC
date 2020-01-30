@@ -22,18 +22,14 @@ import java.sql.SQLException;
 public class docDAO {
     
     String INSERT ="INSERT INTO Archivo(arch_name,arch_file) VALUES (?,?)";
-    String SELECT ="SELECT arch_file, arch_name from Archivo where arch_id= 2";
-    
+    String SELECT ="SELECT arch_file, arch_name from Archivo where arch_id= 6";
+    String SELECT_ID ="SELECT arch_id from Archivo where arch_name like ?";
    
     public void insert( InputStream file , String _filename) {
    
       Connection _conn = SqlConn.getConnection();
         try {
-          //File file = new File("C:\\Users\\Michele Lanza\\Documents\\UCAB\\test 2.txt");
-         // FileInputStream fis = new FileInputStream(file);
-         
-           // System.out.println(fis);
-          //len = (int)fis.length();
+           
            PreparedStatement  _ps = _conn.prepareStatement( INSERT );    
            _ps.setString(1,_filename);
            _ps.setBinaryStream(2, file); 
@@ -82,4 +78,32 @@ public class docDAO {
        }
    
    }
+   
+    public int selectId (String _filename ){
+       Connection _conn = SqlConn.getConnection();
+       int _id = 0;          
+       try{
+        PreparedStatement _ps = _conn.prepareStatement( SELECT_ID );
+        _ps.setString(1, _filename);
+        ResultSet _rs  = _ps.executeQuery();
+          while (_rs.next()) {
+            _id = _rs.getInt( "arch_id" );
+            }
+          return _id;   
+       }catch(Exception e){
+           e.printStackTrace();
+       }finally {
+           try{
+            _conn.close();
+           }catch(SQLException ex){
+            ex.printStackTrace();
+           }
+       }
+   return _id; 
+   }
+       
+
+   
+   
+   
 }

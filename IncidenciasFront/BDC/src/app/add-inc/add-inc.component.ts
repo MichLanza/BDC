@@ -62,10 +62,14 @@ export class AddIncComponent implements OnInit {
      }
   
   addIncidencia(){
+   /* console.log(this.formData.get('file'))
+    this.addService.addFile( this.formData, this.newIncidencia._incNombre ).subscribe(  res => {
+    console.log (res) });*/
+    
     if( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
         (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
-         (this.newIncidencia._idPlat != null) && (this.newIncidencia._solDesc != null) &&
-          (this.newIncidencia._solFecha != null)) {
+        (this.newIncidencia._idPlat != null) && (this.newIncidencia._solDesc != null) &&
+        (this.newIncidencia._solFecha != null) && (this.formData == null) ) {
 
           var IDate =  new Date(this.newIncidencia._incFecha);
           var SDate =  new Date(this.newIncidencia._solFecha);
@@ -80,41 +84,52 @@ export class AddIncComponent implements OnInit {
        this.toastr.success("Se ha añadido la incidencia con éxito");
 
 
+  } else if ( (this.newIncidencia._incNombre != null ) && (this.newIncidencia._incDesc != null  ) &&
+              (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
+              (this.newIncidencia._idPlat != null )  && (this.newIncidencia._solDesc == null) &&
+              (this.newIncidencia._solFecha == null) && (this.formData == null) ){
+
+            var IDate =  new Date(this.newIncidencia._incFecha);
+            this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
+            this.addService.addIncidenciaWOS(this.newIncidencia).toPromise().then(res =>{
+         
+              console.log(this.newIncidencia);
+            this.newIncidencia = new Incidencia();
+        });
+        this.toastr.success("Se ha añadido la incidencia con éxito");
+
   } else if ( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
               (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
-              (this.newIncidencia._idPlat != null ) && (this.newIncidencia._solDesc == null) &&
-              (this.newIncidencia._solFecha == null)){
+              (this.newIncidencia._idPlat != null )  && (this.newIncidencia._solDesc == null) &&
+              (this.newIncidencia._solFecha == null) && (this.fileToUpload != null) ){
 
-      console.log("hola");
-      var IDate =  new Date(this.newIncidencia._incFecha);
-      this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
-      this.addService.addIncidenciaWOS(this.newIncidencia).toPromise().then(res =>{
-      console.log(this.newIncidencia);
-      this.newIncidencia = new Incidencia();
-      });
-      this.toastr.success("Se ha añadido la incidencia con éxito");
-
-  } else 
-      this.toastr.error("Hubo un error, algún campo está vacío");
+              var IDate =  new Date(this.newIncidencia._incFecha);
+              this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
+              this.addService.addIncidenciaWOS(this.newIncidencia).toPromise().then(res =>{
+              console.log(this.newIncidencia);
+              this.newIncidencia = new Incidencia();
+          });
+          console.log(this.formData.get('file'));
+          this.addService.addFile( this.formData, this.newIncidencia._incNombre  ).subscribe();
+          this.toastr.success("Se ha añadido la incidencia con éxito");
+    
+    } else 
+          this.toastr.error("Hubo un error, algún campo está vacío");
 
     
   }
 
   fileToUpload: File;
+  formData = new FormData();
   
   addarchivo( event ){
+
    this.fileToUpload = event.target.files[0]
    console.log(this.fileToUpload );
-   const formData = new FormData();
-   formData.append('file', this.fileToUpload ,this.fileToUpload.name);
-   console.log(formData.get('file'));
-   this.addService.addFile( formData ).subscribe(  res => {
-    console.log (res)
-    });
   
+   this.formData.append('file', this.fileToUpload ,this.fileToUpload.name);
+
   }
     
-
-
 
   }
