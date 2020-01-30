@@ -31,6 +31,8 @@ public class DAO {
     String DELETE_INCIDENCIA = " {CALL deleteInc (?)}";
     String INSERTDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +
                        "WHERE inc_name = ?";
+    String UPDATEDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +
+                       "WHERE inc_id = ?";
 
             
     public void createIncidencia( Incidencia _in ) {
@@ -172,8 +174,6 @@ public class DAO {
         String _output =  _result.getString( "inc_soldesc" );
         Timestamp _output2 = _result.getTimestamp("inc_soldate");
         int doc = _result.getInt("fk_archivo_id");
-        System.out.println(doc);
-
         
       if ( _output == null && 
            _output2  == null && doc == 0 ){
@@ -374,6 +374,24 @@ public class DAO {
        
   }
 
-    
+    public void  InsertDocInc( int _docId, int _name ){
+       Connection _conn = SqlConn.getConnection();
+       try{
+           PreparedStatement _ps = _conn.prepareCall( UPDATEDOC );
+           _ps.setInt( 1,_docId );
+           _ps.setInt( 2, _name );
+           _ps.execute();
+           
+       }catch(Exception e){
+           e.printStackTrace();
+       }finally {
+           try{
+            _conn.close();
+           }catch(SQLException ex){
+            ex.printStackTrace();
+           }
+       }
+       
+  }
     
 }

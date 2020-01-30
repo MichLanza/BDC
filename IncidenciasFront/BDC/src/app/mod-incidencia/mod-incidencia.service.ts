@@ -53,11 +53,19 @@ export class ModService {
     .pipe(map(this.extractData));
     
   }
+  
+  addFile (file): Observable<any> {
+    console.log(localStorage.getItem('incID'))
+    return this.http.post<any>(endpoint + 'updateFile/'+localStorage.getItem('incID') ,file).pipe(
+      tap((file) => console.log('archivo subido')),
+    );
+  }
+
 
   download(id):Observable<any>{
-
-    return  this.http.get(endpoint +'DownloadFile/'+ id).pipe(map(this.extractData));
-  
+    return  this.http.get(endpoint +'DownloadFile/'+ id).pipe(map(this.extractData))
   }
   
+  
+
 }

@@ -287,6 +287,37 @@ public class EPincidencia {
         }
     }
     
+        
+    @POST
+    @Path("/updateFile/{id}")   
+    @Produces("application/json") 
+    @Consumes("multipart/form-data") 
+    public Response updateFile( @FormDataParam("file") InputStream fis,
+                        @FormDataParam("file") FormDataContentDisposition fd, 
+                        @PathParam("id") int idInc ){
+    Error error;
+    Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
+     
+     try{
+         
+        String _fileName = fd.getFileName();
+        System.out.println( _fileName ); 
+        docDAO _doc = new docDAO( );
+        DAO _inc = new DAO();
+        _doc.insert( fis, _fileName );
+        int _id =  _doc.selectId( _fileName );
+        System.out.println( _id );
+        _inc.InsertDocInc( _id , idInc );
+    
+        return _rb.header( "Access-Control-Allow-Origin","*" ).build();
+        } 
+     
+     catch ( Exception e ) {
+        error = new Error( MESSAGE_ERROR_INTERN );
+        
+        return Response.status(500).entity(error).build();
+        }
+    }
     
     
     ///////////////////WIP////////////////////
