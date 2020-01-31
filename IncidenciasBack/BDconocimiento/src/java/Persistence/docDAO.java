@@ -5,6 +5,7 @@
  */
 package Persistence;
 
+import Model.Archivo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -46,24 +47,30 @@ public class docDAO {
                 } 
             }
    
-   public void select (int _id){
+   public Archivo select (int _id){
        Connection _conn = SqlConn.getConnection();
        InputStream input = null;
-       FileOutputStream output = null; 
+       FileOutputStream output = null;
+       Archivo _arch = new Archivo();
        try{
        PreparedStatement _ps = _conn.prepareStatement( SELECT );
        _ps.setInt(1, _id);
-        ResultSet rs  = _ps.executeQuery();
+       ResultSet rs  = _ps.executeQuery();
+       
           while (rs.next()) {
           String _filename = rs.getString("arch_name");
           input = rs.getBinaryStream("arch_file");
-          output =  new FileOutputStream( new File 
-          ("C:\\Users\\Michele Lanza\\Documents\\"+_filename));
-          int r = 0;
-          while ((r = input.read()) != -1) {
-          output.write(r);
-            }
-          output.close();
+          _arch.file = input;
+          _arch.nombre = _filename;
+          return _arch;
+//          output =  new FileOutputStream( new File 
+//          ("C:\\"+_filename));
+//          int r = 0;
+//          while ((r = input.read()) != -1) {
+//          output.write(r);
+//            }
+//          output.close();
+        
             }
        _ps.execute();
        
@@ -76,7 +83,7 @@ public class docDAO {
             ex.printStackTrace();
            }
        }
-   
+       return _arch;
    }
    
     public int selectId (String _filename ){
@@ -103,6 +110,10 @@ public class docDAO {
    }
        
 
+  
+       
+ 
+   
    
    
    

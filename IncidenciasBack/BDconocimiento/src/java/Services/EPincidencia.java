@@ -8,6 +8,7 @@ package Services;
 import Logic.DTOIncidenciaWOS;
 import Logic.DTOUpdate;
 import Logic.DTOfullincidencia;
+import Model.Archivo;
 import Model.Area;
 import Model.Incidencia;
 import Model.Plataforma;
@@ -324,18 +325,23 @@ public class EPincidencia {
     @GET
     @Path("/DownloadFile/{id}")   
     @Produces(MediaType.APPLICATION_OCTET_STREAM) 
-    //@Consumes(MediaType.APPLICATION_OCTET_STREAM) 
     public Response getFile(  @PathParam("id") int _id ){
     Error error;
     Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
-     
+    Archivo _arch = new Archivo(); 
+    
      try{    
-       //system.out.println(fis);
-       //DAO _inc = new DAO();  
-       //FileInputStream fis = new FileInputStream();
+         
        docDAO _doc = new docDAO( );
-       _doc.select( _id );
-       return _rb.header( "Access-Control-Allow-Origin","*" ).build();
+       _arch = _doc.select( _id );
+         
+         System.out.println(_arch.nombre);
+   
+          _rb = Response.ok((Object) _arch.file);
+
+       return _rb.header( "Access-Control-Allow-Origin","*")
+               .header( "Content-Disposition",
+                        "attachment; filename="+_arch.nombre+"" ).build();
         }     
      catch ( Exception e ) {
        error = new Error( MESSAGE_ERROR_INTERN );

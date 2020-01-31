@@ -98,7 +98,7 @@ AS
 BEGIN
 SET NOCOUNT ON
 
-SELECT I.inc_id, I.inc_name,I.inc_description,I.inc_date, I.inc_soldate, I.inc_soldesc ,A.are_id, A.are_name,pla_id, P.pla_name
+SELECT I.inc_id, I.inc_name,I.inc_description,I.inc_date, I.inc_soldate, I.inc_soldesc ,A.are_id, A.are_name,pla_id, P.pla_name, I.fk_archivo_id
 FROM Incidencia I, Area A, Plataforma P
 WHERE A.are_id = I.fk_area_id AND P.pla_id = I.fk_plataforma_id
 ORDER BY  I.inc_id DESC
