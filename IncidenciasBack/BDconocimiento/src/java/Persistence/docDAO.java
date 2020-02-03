@@ -6,8 +6,7 @@
 package Persistence;
 
 import Model.Archivo;
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -72,7 +71,7 @@ public class docDAO {
 //          output.close();
         
             }
-       _ps.execute();
+      
        
        }catch(Exception e){
            e.printStackTrace();

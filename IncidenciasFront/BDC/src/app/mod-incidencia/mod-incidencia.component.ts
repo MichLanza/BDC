@@ -5,7 +5,7 @@ import {Plataforma} from '../../model/plataforma-model';
 import {Area} from '../../model/area-model';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, ModalDismissReasons  } from '@ng-bootstrap/ng-bootstrap';
-
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -257,7 +257,19 @@ addarchivo( event ){
 downloadFile(){
   let id =   this.newIncidencia._idFile;
   console.log ( id )
-  this.modService.download( id ).toPromise().then(res =>  console.log('Descargando...') );
+  this.modService.download( id ).subscribe((res) => {
+    //console.log(res);
+    //console.log(contentDisposition);
+    const data = res.body
+    //console.log (res.headers.keys());
+    const contentDisposition = res.headers.get('content-disposition');
+    //console.log(contentDisposition);
+    //console.log(data);
+    const fileName = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim();
+   //console.log(fileName);
+    const blob = new Blob( [data], { type: 'application/octet-stream' } ); 
+    saveAs(blob,fileName);
+  })
 
 }
 

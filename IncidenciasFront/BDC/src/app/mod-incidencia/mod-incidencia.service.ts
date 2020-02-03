@@ -6,10 +6,21 @@ import { map, catchError, tap } from 'rxjs/operators';
 
 //const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
 const endpoint = 'http://10.60.102.103:8080/BDconocimiento/Incidencias/';
+
+
+const httpOptions2 = {
+  headers: new HttpHeaders({
+    'Access-Control-Allow-Origin':'*',
+    'Content-Type':  'application/octet-stream',
+    'Access-Control-Expose-Headers': 'content-disposition',
+    observe: 'response',
+    responseType: 'blob' 
+  })};
 const httpOptions = {
   headers: new HttpHeaders({
     'Access-Control-Allow-Origin':'*',
-    'Content-Type':  'application/json'
+    'Content-Type':  'application/json',
+   
   })};
 
 @Injectable({
@@ -63,7 +74,12 @@ export class ModService {
 
 
   download(id):Observable<any>{
-    return  this.http.get(endpoint +'DownloadFile/'+ id).pipe(map(this.extractData))
+    return  this.http.get(endpoint +'DownloadFile/'+ id, {
+       observe: 'response',
+       responseType: 'blob' });
+        
+      
+    
   }
   
   

@@ -337,10 +337,11 @@ public class EPincidencia {
          
          System.out.println(_arch.nombre);
    
-          _rb = Response.ok((Object) _arch.file);
-
+        //  _rb = Response.ok((Object) _arch.file  );
+          _rb.entity(_arch.file);
+          _rb.header("Access-Control-Expose-Headers", "Content-Disposition");
        return _rb.header( "Access-Control-Allow-Origin","*")
-               .header( "Content-Disposition",
+                .header( "Content-Disposition",
                         "attachment; filename="+_arch.nombre+"" ).build();
         }     
      catch ( Exception e ) {
