@@ -15,7 +15,6 @@ import Model.Plataforma;
 import Persistence.DAO;
 import Persistence.docDAO;
 import java.util.ArrayList;
-
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,13 +22,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.Response;
-
 import com.google.gson.Gson;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;//
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -105,7 +100,8 @@ public class EPincidencia {
     
         DAO _incidencia = new DAO();
         _incidencia.createIncidencia( _inc );
-    
+
+        
        return _rb.header( "Access-Control-Allow-Origin","*" ).build();
         }     
      catch ( Exception e ) {
@@ -228,16 +224,23 @@ public class EPincidencia {
     
    
     @DELETE     
-    @Path("/DeleteInc/{incId}")
+    @Path("/DeleteInc/{incId}/{fileId}")
     @Produces("application/json")
-    public Response deleteIncidencia ( @PathParam("incId") int id ){
+    public Response deleteIncidencia ( @PathParam("incId") int id,
+                                       @PathParam("fileId") int idF ){
     Error error;
     Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
     try {
-           
-        DAO _incidencia = new DAO();           
-     int _success =  _incidencia.deleteIncidencia(id); 
-       if ( _success == 1){
+            
+        DAO _incidencia = new DAO();         
+        int _success =  _incidencia.deleteIncidencia(id); 
+        docDAO _doc = new docDAO();   
+        
+       if (idF != 0){
+        int _success2 =  _doc.deleteFile(idF);
+       }
+        
+       if ( _success == 1) {
            
          return _rb.header("Access-Control-Allow-Origin", "*").build();
       
@@ -268,14 +271,11 @@ public class EPincidencia {
      
      try{
          
-        System.out.println(_incName);
         String _fileName = fd.getFileName();
-        System.out.println( _fileName ); 
         docDAO _doc = new docDAO( );
         DAO _inc = new DAO();
         _doc.insert( fis, _fileName );
         int _id =  _doc.selectId( _fileName );
-        System.out.println( _id );
         _inc.InsertDocInc( _id , _incName );
     
         return _rb.header( "Access-Control-Allow-Origin","*" ).build();
@@ -302,12 +302,10 @@ public class EPincidencia {
      try{
          
         String _fileName = fd.getFileName();
-        System.out.println( _fileName ); 
         docDAO _doc = new docDAO( );
         DAO _inc = new DAO();
         _doc.insert( fis, _fileName );
         int _id =  _doc.selectId( _fileName );
-        System.out.println( _id );
         _inc.InsertDocInc( _id , idInc );
     
         return _rb.header( "Access-Control-Allow-Origin","*" ).build();
@@ -321,7 +319,7 @@ public class EPincidencia {
     }
     
     
-    ///////////////////WIP////////////////////
+
     @GET
     @Path("/DownloadFile/{id}")   
     @Produces(MediaType.APPLICATION_OCTET_STREAM) 
@@ -334,22 +332,21 @@ public class EPincidencia {
          
        docDAO _doc = new docDAO( );
        _arch = _doc.select( _id );
-         
-         System.out.println(_arch.nombre);
-   
-        //  _rb = Response.ok((Object) _arch.file  );
-          _rb.entity(_arch.file);
-          _rb.header("Access-Control-Expose-Headers", "Content-Disposition");
-       return _rb.header( "Access-Control-Allow-Origin","*")
+      _rb.entity(_arch.file);
+      _rb.header("Access-Control-Expose-Headers", "Content-Disposition");
+      
+     return _rb.header( "Access-Control-Allow-Origin","*")
                 .header( "Content-Disposition",
-                        "attachment; filename="+_arch.nombre+"" ).build();
+                         "attachment; filename="+_arch.nombre+"" ).build();
         }     
      catch ( Exception e ) {
        error = new Error( MESSAGE_ERROR_INTERN );
-       return Response.status(500).entity(error).build();
+     return Response.status(500).entity(error).build();
         }
     }
  
+    
+    
     
     }
 

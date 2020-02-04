@@ -8,14 +8,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 const endpoint = 'http://10.60.102.103:8080/BDconocimiento/Incidencias/';
 
 
-const httpOptions2 = {
-  headers: new HttpHeaders({
-    'Access-Control-Allow-Origin':'*',
-    'Content-Type':  'application/octet-stream',
-    'Access-Control-Expose-Headers': 'content-disposition',
-    observe: 'response',
-    responseType: 'blob' 
-  })};
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Access-Control-Allow-Origin':'*',
@@ -58,9 +51,9 @@ export class ModService {
     .pipe(map(this.extractData));
   }
 
-  deleteIncidencia(): Observable<any>{
+  deleteIncidencia(id): Observable<any>{
 
-    return this.http.delete(endpoint + 'DeleteInc/'+localStorage.getItem('incID'))
+    return this.http.delete(endpoint + 'DeleteInc/'+localStorage.getItem('incID')+'/'+id)
     .pipe(map(this.extractData));
     
   }

@@ -187,63 +187,6 @@ END
 
 
 
-/*
-•	Cantidad de incidencias por área. X
-•	Plataformas que han tenido más incidencias. X
-•	Cantidad de incidencias resueltas por área. X 
-•	Cantidad de incidencias no resueltas por área. X
-•	Cantidad de incidencias por mes. 
-
-*/
-
-
---INCIDENCIAS POR PLATAFORMA
-
-select count(I.inc_id), P.pla_name  
-from Incidencia as I, Plataforma as P 
-where I.fk_plataforma_id = P.pla_id
-Group By  P.pla_name
-Order BY  count(I.inc_id) DESC
-
---INCIDENCIAS POR AREA
-select count(I.inc_id), A.are_name  
-from Incidencia as I, Area as A 
-where I.fk_area_id = A.are_id
-Group By  A.are_name
-Order BY  count(I.inc_id) DESC  
-
---INCIDENCIAS NO RESUELTAS POR AREA
-select count(I.inc_id), A.are_name  
-from Incidencia as I, Area as A 
-where I.fk_area_id = A.are_id AND inc_soldesc is null
-Group By  A.are_name
-Order BY  count(I.inc_id) DESC  
-
---INCIDENCIAS RESUELTAS POR AREA
-select count(I.inc_id) as cuenta, A.are_name  
-from Incidencia as I, Area as A 
-where I.fk_area_id = A.are_id AND inc_soldesc is not null
-Group By  A.are_name  
-Order BY  count(I.inc_id) DESC
-
-
-
------INCIDENCIAS POR MES ESPECIFICANDO AÑO
-select  DATENAME(MONTH,I.inc_date) as Mes, count(I.inc_id) as Cuenta
-from Incidencia as I
-where  YEAR(I.inc_date ) = 2020  --variable
-Group By  MONTH(I.inc_date), DATENAME(MONTH,I.inc_date)
-
-
-
---INCIDENCIAS MENSUALES 
-select count(I.inc_id),P.pla_name
-from Incidencia as I, Plataforma as P
-where  DATEPART(month,inc_date ) = 01/*variable*/ and  DATEPART(year,inc_date ) = 2020/*variable*/ 
-       and  I.fk_plataforma_id = P.pla_id
-Group By  P.pla_name
-------------------------------------------------
-
 ---SP ESTADISTICAS
 
 
@@ -338,25 +281,103 @@ WHERE I.fk_area_id = A.are_id AND inc_soldesc is not null and  DATEPART(year,inc
 
 END
 
-/*
+---------Archivos-------------------------------------------
 
 CREATE TABLE Archivo
 (
-    
 	arch_id int identity PRIMARY KEY,
     arch_file varbinary(max) NOT NULL,
-    arch_name  nvarchar (250) NOT NULL,
-
-    
+    arch_name  nvarchar (250) NOT NULL,   
 );
-delete from Archivo  where arch_id = 3
-DBCC CHECKIDENT ('Archivo', RESEED, 2)  
 
-alter table Archivo add arch_name  nvarchar (250) NOT NULL;
-alter table Archivo add fk_incidencia_id  int NOT NULL;
+alter table Incidencia add fk_archivo_id  int NOT NULL;
+alter table Incidencia add Foreign key(fk_archivo_id)
+                        REFERENCES Archivo(arch_id);
+ 
+--------------------SP ARCHIVO--------------------------
+ 
+
+-- {CALL  InsertFile(?,?)} 
+ CREATE PROCEDURE InsertFile( @name nVARCHAR(255),  @file varbinary(max) )
+AS
+BEGIN
+SET NOCOUNT ON
+
+INSERT INTO Archivo(arch_name,arch_file) VALUES  ( @name, @file);
+ 
+END
+ 
+-- {CALL  selectFile(?)} 
+ CREATE PROCEDURE selectFile( @id int )
+AS
+BEGIN
+SET NOCOUNT ON
+  
+  SELECT arch_file, arch_name 
+  FROM Archivo
+  WHERE arch_id= @id ;
+ 
+END
+   
+ -- {CALL  selectFileName(?)} 
+ CREATE PROCEDURE selectFileName(  @name nVARCHAR(255) )
+AS
+BEGIN
+SET NOCOUNT ON
+  
+  SELECT arch_id 
+  FROM Archivo 
+  WHERE arch_name like @name ; 
+   
+END
+   
+   
+-- {CALL insertIncFile(?,?)}
+ 
+ CREATE PROCEDURE insertIncFile( @id int ,@name nVARCHAR (255) )
+AS
+BEGIN
+SET NOCOUNT ON
+
+UPDATE Incidencia 
+SET fk_archivo_id = @id
+WHERE inc_name = @name;
+ 
+END
+ 
+ -- {CALL updateIncFile(?,?)}
+ 
+ CREATE PROCEDURE updateIncFile( @id int, @idInc int)
+AS
+BEGIN
+SET NOCOUNT ON
+
+UPDATE Incidencia 
+SET fk_archivo_id = @id
+WHERE inc_id = @idInc;
+ 
+END
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+/*delete from Archivo  where arch_id = 3
+DBCC CHECKIDENT ('Archivo', RESEED, 2)  */
+
+--alter table Archivo add arch_name  nvarchar (250) NOT NULL;
 
 
-insert into Archivo (arch_file) 
+/*insert into Archivo (arch_file) 
 values (0x433A5C55736572735C4D696368656C65204C616E7A615C446F63756D656E)
 
 
@@ -369,11 +390,6 @@ OPENROWSET (BULK N'C:\Users\Michele Lanza\Documents\UCAB\testing.txt', SINGLE_BL
 select * from Archivo where arch_id = 1
 
 SELECT CONVERT(varchar(max), arch_file) AS TextCol
-FROM Archivo
+FROM Archivo*/
 
-
-
-
-*/
-    
 

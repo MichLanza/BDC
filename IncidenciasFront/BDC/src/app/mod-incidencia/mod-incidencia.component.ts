@@ -106,11 +106,11 @@ export class ModIncidenciaComponent implements OnInit {
      console.log(this.newIncidencia);
    
   
-   if( (this.newIncidencia._nombre != null ) && ( this.newIncidencia._descripcion != null  ) &&
+   if(  (this.newIncidencia._nombre != null ) && ( this.newIncidencia._descripcion != null  ) &&
         (this.newIncidencia._fechaOcurrencia != null ) && (this.newIncidencia._are != null)&&
-         (this.newIncidencia._plat != null) && (this.newIncidencia._solDescripcion != null) && 
-          (this.newIncidencia._fechaResolucion != null)  && !(this.newIncidencia._fechaResolucion == "" ) && 
-          (this.fileToUpload == null)  ) {
+        (this.newIncidencia._plat != null) && (this.newIncidencia._solDescripcion != "") && 
+        (this.newIncidencia._fechaResolucion != null)  && !(this.newIncidencia._fechaResolucion == "" ) && 
+        (this.fileToUpload == null)  ) {
 
           this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
           console.log(this.newIncidencia);
@@ -123,7 +123,7 @@ export class ModIncidenciaComponent implements OnInit {
               (this.newIncidencia._fechaOcurrencia != null ) && (this.newIncidencia._are != null)&&
               (this.newIncidencia._plat != null ) && (this.newIncidencia._solDescripcion == "Por solucionar") &&
               (this.newIncidencia._fechaResolucion == null) && !(this.newIncidencia._fechaResolucion == "" ) && 
-             (this.fileToUpload == null)){
+              (this.fileToUpload == null)){
 
       console.log("hola");
       
@@ -134,17 +134,17 @@ export class ModIncidenciaComponent implements OnInit {
      this.toast.success("Se han modificado los datos con éxito");
 
   } else if ( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
-  (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
-  (this.newIncidencia._idPlat != null )  && (this.newIncidencia._fechaResolucion != null )  &&
-  (this.fileToUpload != null) && (this.newIncidencia._solDescripcion == "Por solucionar") ||  
-  (this.newIncidencia._solDescripcion != null )){
+              (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
+              (this.newIncidencia._idPlat != null )  && (this.newIncidencia._fechaResolucion != null )  &&
+              (this.fileToUpload != null) && (this.newIncidencia._solDescripcion == "Por solucionar") ||  
+              (this.newIncidencia._solDescripcion != "" )){
 
     console.log("hola 2");
 
    // var IDate =  new Date(this.newIncidencia._incFecha);
-    //var SDate =  new Date(this.newIncidencia._solFecha);
-    this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
-  //  this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
+   // var SDate =  new Date(this.newIncidencia._solFecha);
+   this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
+   // this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
    // this.newIncidencia._solFecha = SDate.toISOString().slice(0,10);
     this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
     console.log(this.newIncidencia);
@@ -156,12 +156,13 @@ export class ModIncidenciaComponent implements OnInit {
     this.toast.success("Se ha modificado la incidencia con éxito");
 
 } else {
+
       this.toast.error("Hubo un error, algún campo está vacío");
       this.toggle = !this.toggle;
     }
     
-
     }
+
  dateIncTransform(data:any){
 
   if ( (data._fechaOcurrencia.day.toString().length == 1 ) ){
@@ -231,9 +232,9 @@ if ( (data._fechaResolucion.day.toString().length == 1 ) ){
 closeResult: string;
 
 delete(){
-
+let id = this.newIncidencia._idFile;
 console.log(localStorage.incID);
-this.modService.deleteIncidencia().toPromise().then(res =>  console.log('eliminando') );
+this.modService.deleteIncidencia(id).toPromise().then(res =>  console.log('eliminando') );
 this.toast.success("Se ha eliminado la incidencia con éxito");
 
 }
@@ -255,18 +256,12 @@ addarchivo( event ){
 
 
 downloadFile(){
-  let id =   this.newIncidencia._idFile;
-  console.log ( id )
-  this.modService.download( id ).subscribe((res) => {
-    //console.log(res);
-    //console.log(contentDisposition);
+
+    let id =   this.newIncidencia._idFile;
+    this.modService.download( id ).subscribe((res) => {
     const data = res.body
-    //console.log (res.headers.keys());
     const contentDisposition = res.headers.get('content-disposition');
-    //console.log(contentDisposition);
-    //console.log(data);
-    const fileName = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim();
-   //console.log(fileName);
+    const fileName = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim();  
     const blob = new Blob( [data], { type: 'application/octet-stream' } ); 
     saveAs(blob,fileName);
   })

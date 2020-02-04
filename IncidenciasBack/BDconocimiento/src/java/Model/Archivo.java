@@ -13,16 +13,16 @@ import java.io.InputStream;
  */
 public class Archivo {
     public String nombre;
-       public InputStream file;
+    public InputStream file;
 
-        public Archivo(String nombre, InputStream file) {
-            this.nombre = nombre;
-            this.file = file;
-        }
+    public Archivo(String nombre, InputStream file) {
+        this.nombre = nombre;
+        this.file = file;
+    }
 
-        public Archivo() {
-            
-        }
+    public Archivo() {
+
+    }
 
     public String getNombre() {
         return nombre;

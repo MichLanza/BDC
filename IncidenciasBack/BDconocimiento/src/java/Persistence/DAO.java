@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import Persistence.SqlConn;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -29,16 +28,19 @@ public class DAO {
     String READ_PLAT = "{ CALL getPlat() }";
     String UPDATE_INCIDENCIA = "{ CALL updateInc (?,?,?,?,?,?,?,?) }";
     String DELETE_INCIDENCIA = " {CALL deleteInc (?)}";
+//    String INSERTDOC  = "{Call insertIncFile(?,?)}";
+//    String UPDATEDOC = "{Call updateIncFile(?,?)}";
+
+    
     String INSERTDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +
                        "WHERE inc_name = ?";
-    String UPDATEDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +
+    String UPDATEDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +   
                        "WHERE inc_id = ?";
-
             
     public void createIncidencia( Incidencia _in ) {
         
         Connection _conn = SqlConn.getConnection();
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         LocalDate incLDate = _in.getFechaOcurrencia();
             
         try {
@@ -57,16 +59,14 @@ public class DAO {
             preparedStatement.setString( 5, _in.getSolDescripcion());    
             preparedStatement.setDate( 4, dateS ); 
            
-            }else{
+            }else {
             preparedStatement.setNull( 5, java.sql.Types.CHAR );
             preparedStatement.setNull( 4, java.sql.Types.DATE );
           
             }
            preparedStatement.execute();
-        }catch (NullPointerException en) {
+        }catch (NullPointerException | SQLException en) {
             en.printStackTrace();
-        }catch (Exception ex) {
-            ex.printStackTrace();
         }finally{
           try {
             _conn.close();
@@ -122,10 +122,8 @@ public class DAO {
             preparedStatement.execute();
         }
 
-        }catch (NullPointerException en) {
+        }catch (NullPointerException | SQLException en) {
             en.printStackTrace();
-        }catch (Exception ex) {
-            ex.printStackTrace();
         }finally{
           try {
             _conn.close();
@@ -236,7 +234,7 @@ public class DAO {
        
         
     public ArrayList<Area> areaList (){
-    ArrayList<Area> _areList = new ArrayList<Area>();
+    ArrayList<Area> _areList = new ArrayList<>();
     Connection _conn = SqlConn.getConnection();
 
        try {
@@ -268,7 +266,7 @@ public class DAO {
     public ArrayList<Plataforma> platList (){
            
    
-    ArrayList<Plataforma> _platList = new ArrayList<Plataforma>();
+    ArrayList<Plataforma> _platList = new ArrayList<>();
     Connection _conn = SqlConn.getConnection();
 
        try {
@@ -311,7 +309,7 @@ public class DAO {
             return _inc;
             }
         
-        }catch(Exception e ){
+        }catch(SQLException e ){
               e.printStackTrace();
           }finally{
             try {
@@ -327,21 +325,14 @@ public class DAO {
     
     
     
-    public int deleteIncidencia ( int id ) {
-        
+    public int deleteIncidencia ( int id ) {  
        Connection _conn = SqlConn.getConnection();
-      
-        
-        try{
-            
+        try{      
          PreparedStatement _ps = _conn.prepareCall( DELETE_INCIDENCIA ); 
          _ps.setInt( 1, id);
-         _ps.execute(); 
-           
+         _ps.execute();          
          return 1;
-
-        }catch(Exception e){
-                
+        }catch(SQLException e){          
             e.printStackTrace();
             return 0;
             }finally{
@@ -362,7 +353,7 @@ public class DAO {
            _ps.setString( 2, _name );
            _ps.execute();
            
-       }catch(Exception e){
+       }catch(SQLException e){
            e.printStackTrace();
        }finally {
            try{
@@ -382,7 +373,7 @@ public class DAO {
            _ps.setInt( 2, _name );
            _ps.execute();
            
-       }catch(Exception e){
+       }catch(SQLException e){
            e.printStackTrace();
        }finally {
            try{

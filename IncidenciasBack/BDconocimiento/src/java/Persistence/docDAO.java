@@ -9,7 +9,6 @@ import Model.Archivo;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,10 +20,16 @@ import java.sql.SQLException;
  */
 public class docDAO {
     
+//    String INSERT = "{Call InsertFile{(?,?)}";
+//    String SELECT = "{Call selectFile{(?)}";
+//    String SELECT_ID = "{Call InsertFile{(?)}";
+   
+    
     String INSERT ="INSERT INTO Archivo(arch_name,arch_file) VALUES (?,?)";
     String SELECT ="SELECT arch_file, arch_name from Archivo where arch_id= ?";
     String SELECT_ID ="SELECT arch_id from Archivo where arch_name like ?";
-   
+    String DELETE = "DELETE from Archivo where arch_id = ?";
+
     public void insert( InputStream file , String _filename) {
    
       Connection _conn = SqlConn.getConnection();
@@ -35,7 +40,7 @@ public class docDAO {
            _ps.setBinaryStream(2, file); 
            _ps.execute();
 
-          } catch (Exception e) {
+          } catch (SQLException e) {
               e.printStackTrace();
           }finally{
               try {
@@ -73,7 +78,7 @@ public class docDAO {
             }
       
        
-       }catch(Exception e){
+       }catch(SQLException e){
            e.printStackTrace();
        }finally {
            try{
@@ -96,7 +101,7 @@ public class docDAO {
             _id = _rs.getInt( "arch_id" );
             }
           return _id;   
-       }catch(Exception e){
+       }catch(SQLException e){
            e.printStackTrace();
        }finally {
            try{
@@ -109,7 +114,26 @@ public class docDAO {
    }
        
 
-  
+      
+    public int deleteFile ( int id ) {  
+       Connection _conn = SqlConn.getConnection();
+        try{      
+         PreparedStatement _ps = _conn.prepareCall( DELETE ); 
+         _ps.setInt( 1, id);
+         _ps.execute();          
+         return 1;
+        }catch(SQLException e){          
+            e.printStackTrace();
+            return 0;
+            }finally{
+            try {
+                _conn.close();
+            } catch ( SQLException e1 ) {
+                e1.printStackTrace();
+            }
+              } 
+    }
+    
        
  
    

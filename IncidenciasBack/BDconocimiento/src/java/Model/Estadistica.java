@@ -73,8 +73,7 @@ public class Estadistica {
         this.yS = yS;
     }
 
-   
-    //PROBAR
+  
     public ArrayList<Estadistica> transform( ArrayList<Estadistica> _list,
                                             ArrayList<Estadistica> _list2 ) {
         
