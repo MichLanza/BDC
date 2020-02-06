@@ -19,12 +19,12 @@ import java.sql.SQLException;
  * @author Michele Lanza
  */
 public class docDAO {
-    
-//    String INSERT = "{Call InsertFile{(?,?)}";
-//    String SELECT = "{Call selectFile{(?)}";
-//    String SELECT_ID = "{Call InsertFile{(?)}";
-   
-    
+//    
+//     String INSERT = "{Call InsertFile(?,?)}";
+//     String SELECT = "{Call selectFile(?)";
+//     String SELECT_ID = "{Call selectFileName(?)";
+//     String DELETE = "{CALL deleteFile(?)";
+//    
     String INSERT ="INSERT INTO Archivo(arch_name,arch_file) VALUES (?,?)";
     String SELECT ="SELECT arch_file, arch_name from Archivo where arch_id= ?";
     String SELECT_ID ="SELECT arch_id from Archivo where arch_name like ?";

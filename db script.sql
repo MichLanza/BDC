@@ -69,7 +69,7 @@ alter table Archivo add Foreign key(fk_incidencia_id)
  
  insert into Plataforma (pla_name) values ('IBS');
  insert into Plataforma (pla_name) values ('AS400');
- insert into Plataforma (pla_name) values ('CDP');
+
  
  
 ----SP
@@ -298,12 +298,12 @@ alter table Incidencia add Foreign key(fk_archivo_id)
  
 
 -- {CALL  InsertFile(?,?)} 
- CREATE PROCEDURE InsertFile( @name nVARCHAR(255),  @file varbinary(max) )
+ CREATE PROCEDURE InsertFile( @name nVARCHAR(255),  @arch varbinary(max) )
 AS
 BEGIN
 SET NOCOUNT ON
 
-INSERT INTO Archivo(arch_name,arch_file) VALUES  ( @name, @file);
+INSERT INTO Archivo(arch_name,arch_file) VALUES  ( @name, @arch);
  
 END
  
@@ -361,7 +361,20 @@ END
  
  
  
+ -- {CALL deleteFile(?)	}
+
+
+CREATE PROCEDURE deleteFile(  @id int )
+AS
+BEGIN
+SET NOCOUNT ON
+
+DELETE
+FROM Archivo 
+WHERE arch_id = @id
  
+END
+
  
  
  

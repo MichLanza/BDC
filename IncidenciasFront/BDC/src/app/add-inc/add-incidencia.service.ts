@@ -7,11 +7,12 @@ import { map, catchError, tap } from 'rxjs/operators';
 
 //const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
 const endpoint = 'http://10.60.102.103:8080/BDconocimiento/Incidencias/';
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Access-Control-Allow-Origin':'*',
-    'Content-Type':  'application/json'
-  })};
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin':'*'});
+const options = { headers: headers };
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,14 +31,14 @@ export class AddIncidenciaService {
   
   addIncidencia (incidencia): Observable<any> {
     console.log(incidencia)
-    return this.http.post<any>(endpoint + 'AddFull',incidencia).pipe(
+    return this.http.post<any>(endpoint + 'AddFull',incidencia ).pipe(
       tap((incidencia) => console.log(`Incidencia added w/`)),
     );
   }
 
   addIncidenciaWOS (incidencia): Observable<any> {
     console.log(incidencia)
-    return this.http.post<any>(endpoint + 'AddWOS',incidencia).pipe(
+    return this.http.post<any>(endpoint + 'AddWOS',incidencia ).pipe(
       tap((incidencia) => console.log(`Incidencia added w/`)),
     );
   }

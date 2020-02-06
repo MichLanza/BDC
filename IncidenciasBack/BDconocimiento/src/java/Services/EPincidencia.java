@@ -90,7 +90,11 @@ public class EPincidencia {
      public Response addIncidenciaFULL( DTOfullincidencia _dto ){   
          Error error;
          Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
-        
+         NewCrossOriginResourceSharingFilter hd =
+                 new NewCrossOriginResourceSharingFilter();
+      
+        _rb.header("Access-Control-Allow-Methods","POST"); 
+        _rb.header( "Access-Control-Allow-Origin","*" );
      try{                   
            
            Incidencia _inc = new Incidencia(  _dto._incNombre,
@@ -101,7 +105,7 @@ public class EPincidencia {
         DAO _incidencia = new DAO();
         _incidencia.createIncidencia( _inc );
 
-        
+     
        return _rb.header( "Access-Control-Allow-Origin","*" ).build();
         }     
      catch ( Exception e ) {
@@ -117,10 +121,12 @@ public class EPincidencia {
     @Consumes("application/json")
     public Response addIncidenciaWOS( DTOIncidenciaWOS _dto ){   
          Error error;
+         Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
+        _rb.header("Access-Control-Allow-Methods","POST"); 
+        _rb.header( "Access-Control-Allow-Origin","*" );
      try{   
-        Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
       
-                     
+             
         Incidencia _inc = new Incidencia(  _dto._incNombre,
                                            _dto._incDesc, _dto._incFecha, 
                                            _dto._idArea,
@@ -129,7 +135,10 @@ public class EPincidencia {
 
         DAO _incidencia = new DAO();    
         _incidencia.createIncidencia( _inc );    
-       return _rb.header("Access-Control-Allow-Origin", "*").build();
+       
+
+
+       return _rb.build();
         }     
      catch ( Exception e ) {
            error = new Error( MESSAGE_ERROR_INTERN );
@@ -218,7 +227,6 @@ public class EPincidencia {
     
        return _rb.header("Access-Control-Allow-Origin", "*").build();
     
-    
     }
 
     
@@ -277,7 +285,7 @@ public class EPincidencia {
         _doc.insert( fis, _fileName );
         int _id =  _doc.selectId( _fileName );
         _inc.InsertDocInc( _id , _incName );
-    
+     
         return _rb.header( "Access-Control-Allow-Origin","*" ).build();
         } 
      
@@ -326,18 +334,18 @@ public class EPincidencia {
     public Response getFile(  @PathParam("id") int _id ){
     Error error;
     Response.ResponseBuilder _rb = Response.status( Response.Status.OK );
-    Archivo _arch = new Archivo(); 
+    Archivo _arch = new Archivo();   
     
      try{    
          
        docDAO _doc = new docDAO( );
        _arch = _doc.select( _id );
-      _rb.entity(_arch.file);
-      _rb.header("Access-Control-Expose-Headers", "Content-Disposition");
+       _rb.entity( _arch.file );
+       _rb.header("Access-Control-Expose-Headers", "Content-Disposition");
       
      return _rb.header( "Access-Control-Allow-Origin","*")
-                .header( "Content-Disposition",
-                         "attachment; filename="+_arch.nombre+"" ).build();
+               .header( "Content-Disposition",
+                        "attachment; filename="+_arch.nombre+"" ).build();
         }     
      catch ( Exception e ) {
        error = new Error( MESSAGE_ERROR_INTERN );

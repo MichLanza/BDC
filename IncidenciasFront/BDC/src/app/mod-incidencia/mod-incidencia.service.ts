@@ -30,7 +30,7 @@ export class ModService {
 
   updateIncidencia (incidencia): Observable<any> {
     console.log(incidencia)
-    return this.http.put<any>(endpoint + 'Edit/AddSol',incidencia, httpOptions).pipe(
+    return this.http.put<any>(endpoint + 'Edit/AddSol',incidencia).pipe(
       tap((incidencia) => console.log(`Incidencia added w/`)),
     );
   }

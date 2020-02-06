@@ -104,64 +104,69 @@ export class ModIncidenciaComponent implements OnInit {
     modIncidencia(){
       
      console.log(this.newIncidencia);
-   
+      console.log(this.newIncidencia._nombre);
   
-   if(  (this.newIncidencia._nombre != null ) && ( this.newIncidencia._descripcion != null  ) &&
-        (this.newIncidencia._fechaOcurrencia != null ) && (this.newIncidencia._are != null)&&
-        (this.newIncidencia._plat != null) && (this.newIncidencia._solDescripcion != "") && 
-        (this.newIncidencia._fechaResolucion != null)  && !(this.newIncidencia._fechaResolucion == "" ) && 
-        (this.fileToUpload == null)  ) {
+        if(  (this.newIncidencia._nombre != "" ) && (this.newIncidencia._nombre != null ) &&
+              ( this.newIncidencia._descripcion != null  ) &&
+              (this.newIncidencia._fechaOcurrencia != null ) && (this.newIncidencia._are != null)&&
+              (this.newIncidencia._plat != null) && (this.newIncidencia._solDescripcion != "") && 
+              (this.newIncidencia._fechaResolucion != null)  && !(this.newIncidencia._fechaResolucion == "" ) && 
+              (this.fileToUpload == null)  ) {
 
+          if ((this.newIncidencia._fechaOcurrencia) <= (this.newIncidencia._fechaResolucion)){   
           this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
           console.log(this.newIncidencia);
-
-       });
+          });
          this.toast.success("Se han modificado los datos con éxito");
 
-
+           }else 
+             this.toast.error("La fecha de solución no puede ser menor a la de ocurrencia");
+  
   } else if ( (this.newIncidencia._nombre != null ) && ( this.newIncidencia._descripcion != null  ) &&
               (this.newIncidencia._fechaOcurrencia != null ) && (this.newIncidencia._are != null)&&
               (this.newIncidencia._plat != null ) && (this.newIncidencia._solDescripcion == "Por solucionar") &&
               (this.newIncidencia._fechaResolucion == null) && !(this.newIncidencia._fechaResolucion == "" ) && 
-              (this.fileToUpload == null)){
+              (this.fileToUpload == null) ){
 
       console.log("hola");
-      
-     this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
+      this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
       console.log(this.newIncidencia);
     
       });
      this.toast.success("Se han modificado los datos con éxito");
 
   } else if ( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
-              (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
-              (this.newIncidencia._idPlat != null )  && (this.newIncidencia._fechaResolucion != null )  &&
-              (this.fileToUpload != null) && (this.newIncidencia._solDescripcion == "Por solucionar") ||  
-              (this.newIncidencia._solDescripcion != "" )){
+              (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null) &&
+              (this.newIncidencia._idPlat != null )   && (this.newIncidencia._fechaResolucion != null )  &&
+              (this.fileToUpload != null) && (this.newIncidencia._fechaResolucion != "" ) &&
+              (this.newIncidencia._solDescripcion != "" )  ){
+                
+      console.log("hola 2");
+      this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
+      this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
+      console.log(this.newIncidencia);
 
-    console.log("hola 2");
-
-   // var IDate =  new Date(this.newIncidencia._incFecha);
-   // var SDate =  new Date(this.newIncidencia._solFecha);
-   this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
-   // this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
-   // this.newIncidencia._solFecha = SDate.toISOString().slice(0,10);
-    this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
-    console.log(this.newIncidencia);
-
-    this.newIncidencia = new Incidencia();
- });
-    console.log(this.formData.get('file'));
-    this.modService.addFile( this.formData  ).subscribe();
-    this.toast.success("Se ha modificado la incidencia con éxito");
-
-} else {
+      this.newIncidencia = new Incidencia();
+  });
+      console.log(this.formData.get('file'));
+      this.modService.addFile( this.formData  ).toPromise().then(res =>{
+        console.log(this.newIncidencia);
+  
+        this.newIncidencia = new Incidencia();
+    });
+      this.toast.success("Se ha modificado la incidencia con éxito");
+    
+  
+  } else {
 
       this.toast.error("Hubo un error, algún campo está vacío");
       this.toggle = !this.toggle;
     }
     
     }
+
+  
+    
 
  dateIncTransform(data:any){
 
@@ -248,7 +253,6 @@ addarchivo( event ){
 
   this.fileToUpload = event.target.files[0]
   console.log(this.fileToUpload );
- 
   this.formData.append('file', this.fileToUpload ,this.fileToUpload.name);
 
  }
@@ -263,7 +267,7 @@ downloadFile(){
     const contentDisposition = res.headers.get('content-disposition');
     const fileName = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim();  
     const blob = new Blob( [data], { type: 'application/octet-stream' } ); 
-    saveAs(blob,fileName);
+    saveAs( blob,fileName);
   })
 
 }

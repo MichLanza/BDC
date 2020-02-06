@@ -171,10 +171,10 @@ public class DAO {
         _area.setNombre(_result.getString("are_name"));
         String _output =  _result.getString( "inc_soldesc" );
         Timestamp _output2 = _result.getTimestamp("inc_soldate");
-        int doc = _result.getInt("fk_archivo_id");
+        int _doc = _result.getInt("fk_archivo_id");
         
       if ( _output == null && 
-           _output2  == null && doc == 0 ){
+           _output2  == null && _doc == 0 ){
                 
                _output = "Por solucionar";
           
@@ -192,7 +192,7 @@ public class DAO {
          
           return _incidencia;
           
-      }else if ( _output == null  && doc != 0 ){
+      }else if ( _output == null  && _doc != 0 ){
                 
                _output = "Ver archivo adjunto";
           
@@ -207,7 +207,7 @@ public class DAO {
                 _result.getInt( "pla_id" ),
                 _result.getString( "are_name" ),
                 _result.getString( "pla_name" ),
-                doc 
+                _doc 
       ); 
          
           return _incidencia;
@@ -223,7 +223,7 @@ public class DAO {
                 _result.getInt( "pla_id" ),
                  _result.getString( "are_name" ),
                 _result.getString( "pla_name" ),
-                doc
+                _doc
       ); 
              return _incidencia;
       }
@@ -315,7 +315,7 @@ public class DAO {
             try {
                 _conn.close();
             } catch ( SQLException e1 ) {
-                e1.printStackTrace();
+               e1.printStackTrace();
             }
               } 
         
@@ -339,7 +339,7 @@ public class DAO {
             try {
                 _conn.close();
             } catch ( SQLException e1 ) {
-                e1.printStackTrace();
+              e1.printStackTrace();
             }
               } 
     }

@@ -93,8 +93,7 @@ export class AddIncComponent implements OnInit {
   } else if ( (this.newIncidencia._incNombre != null ) && (this.newIncidencia._incDesc != null  ) &&
               (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
               (this.newIncidencia._idPlat != null )  && (this.newIncidencia._solDesc == null) &&
-              (this.newIncidencia._solFecha == null) && (this.fileToUpload == null)  && 
-              (this.newIncidencia._solDesc == "")){
+              (this.newIncidencia._solFecha == null) && (this.fileToUpload == null) ){
 
             var IDate =  new Date(this.newIncidencia._incFecha);
             this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
@@ -109,7 +108,7 @@ export class AddIncComponent implements OnInit {
               (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
               (this.newIncidencia._idPlat != null )  && (this.newIncidencia._solFecha != null) &&
               (this.fileToUpload != null) && (this.newIncidencia._solDesc == null) || 
-              (this.newIncidencia._solDesc == "")  ){
+              (this.newIncidencia._solDesc == "") ){
             
           if ((this.newIncidencia._incFecha) <= (this.newIncidencia._solFecha))
           {   

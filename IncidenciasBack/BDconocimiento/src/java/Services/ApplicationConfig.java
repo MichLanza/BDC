@@ -23,6 +23,7 @@ public class ApplicationConfig extends Application {
         resources.add(EPincidencia.class);
         resources.add(EPEstadistica.class);
         resources.add(MultiPartFeature.class);
+        resources.add(Services.NewCrossOriginResourceSharingFilter.class);
         return resources;
     }
 
