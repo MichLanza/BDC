@@ -9,6 +9,8 @@ export class Incidencia {
     public _solDesc: string;
     public _solFecha: string;
     public _idArea: number;
+    public _areName: string;
+    public _plName: string;
     public _idPlat: number;
     public  _id: number;
     public  _nombre: string;

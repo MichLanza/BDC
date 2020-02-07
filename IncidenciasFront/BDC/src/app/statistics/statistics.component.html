@@ -6,7 +6,7 @@
 
 <div class =  ml-4>
   <label class="mr-2">Año: </label>
-  <select class="form-control" [(ngModel)]="yeara" name="year" class = col-sm-19 (change) = data($event.target.value) >
+  <select class="form-control" name="year" class = col-sm-19 (change) = data($event.target.value) >
       <option value="" disabled selected>Seleccione Año</option>
       <option *ngFor="let year of years" value="{{year}}" >{{year}}</option>
   </select>

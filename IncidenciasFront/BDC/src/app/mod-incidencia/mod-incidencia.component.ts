@@ -104,7 +104,7 @@ export class ModIncidenciaComponent implements OnInit {
     modIncidencia(){
       
      console.log(this.newIncidencia);
-      console.log(this.newIncidencia._nombre);
+  
   
         if(  (this.newIncidencia._nombre != "" ) && (this.newIncidencia._nombre != null ) &&
               ( this.newIncidencia._descripcion != null  ) &&

@@ -21,10 +21,11 @@ export class AddIncComponent implements OnInit {
   plataforma: any = [];
   //platList: any;
   private vacio: boolean;
-  private areaList = Array<Area>();
-  private platList = Array<Plataforma>();
+  areaList = Array<Area>();
+  platList = Array<Plataforma>();
   fileToUpload: File;
   formData = new FormData();
+  
 
   ngOnInit() {
     

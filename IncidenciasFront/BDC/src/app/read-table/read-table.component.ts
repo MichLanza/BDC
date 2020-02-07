@@ -21,14 +21,19 @@ export class ReadTableComponent implements OnInit {
   area: any = [];
   plat: any = [];
   plataforma: any = [];
-  private areaList = Array<Area>();
-  private platList = Array<Plataforma>();
+  areaList = Array<Area>();
+  platList = Array<Plataforma>();
   inc: any= [];
   fecha: any;
   incList = Array <any>();
   private vacio: boolean;
   page = 1;
   pageSize = 5;
+  FechaInicio: Date;
+  FechaFin: Date;
+  ar: Area;
+  pla;
+  sol: any;
   
   ngOnInit() {
 
