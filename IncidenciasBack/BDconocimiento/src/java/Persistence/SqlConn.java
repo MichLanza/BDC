@@ -25,10 +25,7 @@ public class SqlConn {
          Class.forName( "com.microsoft.sqlserver.jdbc.SQLServerDriver" );
          _conn = DriverManager.getConnection( db_connect_string, 
                                               db_userid, db_pass );
-          if ( _conn != null ) {
-        
-      
-          }
+     
       } catch (Exception e) {
          e.printStackTrace();
          

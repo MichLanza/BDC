@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
-
+import { ToastrService } from 'ngx-toastr';
 
 
 //const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
@@ -21,7 +21,7 @@ const options = { headers: headers };
 
 export class AddIncidenciaService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   private extractData(res: Response) {
     let body = res;
@@ -32,15 +32,20 @@ export class AddIncidenciaService {
   addIncidencia (incidencia): Observable<any> {
     console.log(incidencia)
     return this.http.post<any>(endpoint + 'AddFull',incidencia ).pipe(
-      tap((incidencia) => console.log(`Incidencia added w/`)),
+        catchError((err: HttpErrorResponse) => of (
+        this.toastr.error("Ocurrió un error ")
+      ))
     );
   }
 
   addIncidenciaWOS (incidencia): Observable<any> {
-    console.log(incidencia)
+  
+   console.log(incidencia)
     return this.http.post<any>(endpoint + 'AddWOS',incidencia ).pipe(
-      tap((incidencia) => console.log(`Incidencia added w/`)),
-    );
+      catchError((err: HttpErrorResponse) => of (
+      this.toastr.error("Ocurrió un error ")
+    ))
+  )
   }
  
   getArea(): Observable<any> {
@@ -56,8 +61,10 @@ export class AddIncidenciaService {
   addFile (file, name): Observable<any> {
 
     return this.http.post<any>(endpoint + 'AddFile/' + name ,file).pipe(
-      tap((file) => console.log('archivo subido')),
-    );
+      catchError((err: HttpErrorResponse) => of (
+      this.toastr.error("Ocurrió un error ")
+    ))
+  )
   }
 
 }

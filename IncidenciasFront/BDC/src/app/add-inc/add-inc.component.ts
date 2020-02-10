@@ -65,9 +65,8 @@ export class AddIncComponent implements OnInit {
      }
   
   addIncidencia(){
-   /* console.log(this.formData.get('file'))
-    this.addService.addFile( this.formData, this.newIncidencia._incNombre ).subscribe(  res => {
-    console.log (res) });*/
+ 
+
     
     if( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
         (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
@@ -84,10 +83,10 @@ export class AddIncComponent implements OnInit {
           this.newIncidencia._solFecha = SDate.toISOString().slice(0,10);
           this.addService.addIncidencia(this.newIncidencia).toPromise().then(res =>{
           console.log(this.newIncidencia);
+          this.toastr.success("Se ha añadido la incidencia con éxito");
 
           this.newIncidencia = new Incidencia();
           });
-          this.toastr.success("Se ha añadido la incidencia con éxito");
          }
          else this.toastr.error("La fecha de solución no puede ser menor a la de ocurrencia");
 
@@ -99,11 +98,11 @@ export class AddIncComponent implements OnInit {
             var IDate =  new Date(this.newIncidencia._incFecha);
             this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
             this.addService.addIncidenciaWOS(this.newIncidencia).toPromise().then(res =>{
-         
+              this.toastr.success("Se ha añadido la incidencia con éxito");
               console.log(this.newIncidencia);
             this.newIncidencia = new Incidencia();
         });
-        this.toastr.success("Se ha añadido la incidencia con éxito");
+       //
 
   } else if ( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
               (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
@@ -120,12 +119,12 @@ export class AddIncComponent implements OnInit {
                 this.newIncidencia._solFecha = SDate.toISOString().slice(0,10);
                 this.addService.addIncidencia(this.newIncidencia).toPromise().then(res =>{
                 console.log(this.newIncidencia);
-      
+                this.toastr.success("Se ha añadido la incidencia con éxito");
                 this.newIncidencia = new Incidencia();
              });
           console.log(this.formData.get('file'));
           this.addService.addFile( this.formData, this.newIncidencia._incNombre  ).subscribe();
-          this.toastr.success("Se ha añadido la incidencia con éxito");
+         // 
         }
         else this.toastr.error("La fecha de solución no puede ser menor a la de ocurrencia");
 

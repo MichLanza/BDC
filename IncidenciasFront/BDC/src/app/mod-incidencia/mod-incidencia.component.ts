@@ -104,7 +104,7 @@ export class ModIncidenciaComponent implements OnInit {
     modIncidencia(){
       
      console.log(this.newIncidencia);
-  
+      console.log(this.fileToUpload);
   
         if(  (this.newIncidencia._nombre != "" ) && (this.newIncidencia._nombre != null ) &&
               ( this.newIncidencia._descripcion != null  ) &&
@@ -116,8 +116,9 @@ export class ModIncidenciaComponent implements OnInit {
           if ((this.newIncidencia._fechaOcurrencia) <= (this.newIncidencia._fechaResolucion)){   
           this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
           console.log(this.newIncidencia);
+          this.toast.success("Se han modificado los datos con éxito");
           });
-         this.toast.success("Se han modificado los datos con éxito");
+        
 
            }else 
              this.toast.error("La fecha de solución no puede ser menor a la de ocurrencia");
@@ -135,17 +136,17 @@ export class ModIncidenciaComponent implements OnInit {
       });
      this.toast.success("Se han modificado los datos con éxito");
 
-  } else if ( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
-              (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null) &&
-              (this.newIncidencia._idPlat != null )   && (this.newIncidencia._fechaResolucion != null )  &&
+  } else if ( (this.newIncidencia._nombre != null ) && ( this.newIncidencia._descripcion != null  ) &&
+              (this.newIncidencia._fechaOcurrencia != null ) && (this.newIncidencia._are != null) &&
+              (this.newIncidencia._plat != null )   && (this.newIncidencia._fechaResolucion != null )  &&
               (this.fileToUpload != null) && (this.newIncidencia._fechaResolucion != "" ) &&
               (this.newIncidencia._solDescripcion != "" )  ){
                 
       console.log("hola 2");
-      this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
+     // this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
       this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
       console.log(this.newIncidencia);
-
+      this.toast.success("Se ha modificado la incidencia con éxito");
       this.newIncidencia = new Incidencia();
   });
       console.log(this.formData.get('file'));
@@ -154,7 +155,7 @@ export class ModIncidenciaComponent implements OnInit {
   
         this.newIncidencia = new Incidencia();
     });
-      this.toast.success("Se ha modificado la incidencia con éxito");
+  
     
   
   } else {
