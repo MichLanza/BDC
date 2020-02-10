@@ -143,7 +143,9 @@ export class ModIncidenciaComponent implements OnInit {
               (this.newIncidencia._solDescripcion != "" )  ){
                 
       console.log("hola 2");
-     // this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
+      if (this.newIncidencia._solDescripcion == "Por solucionar" )  {
+      this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
+      }
       this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
       console.log(this.newIncidencia);
       this.toast.success("Se ha modificado la incidencia con éxito");
