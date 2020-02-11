@@ -47,7 +47,7 @@
         
             <div class="form-group">
               <label for="formMessage" class="col-md-4">Área:<span class="text-danger">*</span> </label>
-              <select class="form-control"  [(ngModel)]="newIncidencia._idArea" name="id" required>
+              <select class="form-control" [(ngModel)]="newIncidencia._idArea" name="id" required>
                  <option value="" disabled selected>Seleccione área</option>
                  <option *ngFor="let area of areaList" value="{{area._id}}">{{area._nombre}}</option>
               </select>
@@ -61,8 +61,8 @@
               </select>
             </div>
 
-            <div class="col-md-2">
-              <button type="button" class="btn btn-primary m-1 col-10" (click)="addIncidencia()">Crear</button>
+            <div >
+              <button type="button" class="btn btn-primary " (click)="addIncidencia()">Registrar</button>
             </div>
            
             <p>(<span class="text-danger">*</span>) Campo requerido</p>      

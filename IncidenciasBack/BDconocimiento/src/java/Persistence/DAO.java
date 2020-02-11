@@ -37,7 +37,7 @@ public class DAO {
     String UPDATEDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +   
                        "WHERE inc_id = ?";
             
-    public void createIncidencia( Incidencia _in ) {
+    public void createIncidencia( Incidencia _in ) throws  SQLException {
         
         Connection _conn = SqlConn.getConnection();
         PreparedStatement preparedStatement;
@@ -67,6 +67,7 @@ public class DAO {
            preparedStatement.execute();
         }catch (NullPointerException | SQLException en) {
             en.printStackTrace();
+            throw  en;
         }finally{
           try {
             _conn.close();
@@ -77,7 +78,7 @@ public class DAO {
     }
     
   
-      public void updateIncidencia( Incidencia _in ) {
+      public void updateIncidencia( Incidencia _in ) throws  SQLException {
         Connection _conn = SqlConn.getConnection();
         PreparedStatement preparedStatement = null;
          
@@ -124,6 +125,7 @@ public class DAO {
 
         }catch (NullPointerException | SQLException en) {
             en.printStackTrace();
+            throw  en;
         }finally{
           try {
             _conn.close();
@@ -150,6 +152,7 @@ public class DAO {
                return _inList; 
         }catch ( SQLException e ) {
                 e.printStackTrace();
+               
         }finally{
             try {
                 _conn.close();
@@ -345,7 +348,7 @@ public class DAO {
     }
     
     
-  public void  InsertDocInc( int _docId, String _name ){
+  public void  InsertDocInc( int _docId, String _name ) throws  SQLException{
        Connection _conn = SqlConn.getConnection();
        try{
            PreparedStatement _ps = _conn.prepareCall( INSERTDOC );
@@ -355,6 +358,7 @@ public class DAO {
            
        }catch(SQLException e){
            e.printStackTrace();
+           throw  e;
        }finally {
            try{
             _conn.close();
@@ -365,7 +369,7 @@ public class DAO {
        
   }
 
-    public void  InsertDocInc( int _docId, int _name ){
+    public void  InsertDocInc( int _docId, int _name ) throws  SQLException{
        Connection _conn = SqlConn.getConnection();
        try{
            PreparedStatement _ps = _conn.prepareCall( UPDATEDOC );
@@ -375,6 +379,7 @@ public class DAO {
            
        }catch(SQLException e){
            e.printStackTrace();
+           throw  e;
        }finally {
            try{
             _conn.close();

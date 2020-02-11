@@ -132,7 +132,7 @@ export class ModIncidenciaComponent implements OnInit {
       console.log("hola");
       this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
       console.log(this.newIncidencia);
-    
+        
       });
      this.toast.success("Se han modificado los datos con éxito");
 

@@ -39,11 +39,13 @@ export class AddIncidenciaService {
   }
 
   addIncidenciaWOS (incidencia): Observable<any> {
-  
+ 
    console.log(incidencia)
     return this.http.post<any>(endpoint + 'AddWOS',incidencia ).pipe(
-      catchError((err: HttpErrorResponse) => of (
-      this.toastr.error("Ocurrió un error ")
+      
+      catchError((err: HttpErrorResponse) => of ( 
+       this.toastr.error("Ocurrió un error ")
+
     ))
   )
   }
