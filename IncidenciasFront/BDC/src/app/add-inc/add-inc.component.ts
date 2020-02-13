@@ -4,7 +4,7 @@ import {Incidencia} from '../../model/incidencia-model';
 import {Plataforma} from '../../model/plataforma-model';
 import {Area} from '../../model/area-model';
 import { ToastrService } from 'ngx-toastr';
-import { error } from 'protractor';
+
 
 
 
@@ -18,9 +18,7 @@ export class AddIncComponent implements OnInit {
   newIncidencia: Incidencia = new Incidencia;
   area: any = [];
   plat: any = [];
-  //areaList: any;
   plataforma: any = [];
-  //platList: any;
   private vacio: boolean;
   areaList = Array<Area>();
   platList = Array<Plataforma>();
@@ -66,19 +64,20 @@ export class AddIncComponent implements OnInit {
      }
   
   addIncidencia(){
-    //this.newIncidencia._incNombre ="error"
-   // this.newIncidencia._incDesc = "error"
-   // this.newIncidencia._incFecha = "2020-02-11" 
-   // this.newIncidencia._idArea = 1
-   // this.newIncidencia._idPlat = 1
-   // this.newIncidencia._solDesc = "error"
-   // this.newIncidencia._solFecha =   "2020-02-11" 
+    
+  /*this.newIncidencia._incNombre ="error"
+    this.newIncidencia._incDesc = "error"
+    this.newIncidencia._incFecha = "2020-02-11" 
+    this.newIncidencia._idArea = 1
+    this.newIncidencia._idPlat = 3
+    this.newIncidencia._solDesc = "error"
+    this.newIncidencia._solFecha =   "2020-02-11"*/
 
-    if( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
-        (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
-        (this.newIncidencia._idPlat != null) && (this.newIncidencia._solDesc != null) &&
-        (this.newIncidencia._solFecha != null) && (this.fileToUpload == null) && 
-        (this.newIncidencia._solDesc != "")) {
+        if (  (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
+              (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
+              (this.newIncidencia._idPlat != null) && (this.newIncidencia._solDesc != null) &&
+              (this.newIncidencia._solFecha != null) && (this.fileToUpload == null) && 
+              (this.newIncidencia._solDesc != "")) {
          
           if ((this.newIncidencia._incFecha) <= (this.newIncidencia._solFecha))
         {
@@ -113,19 +112,21 @@ export class AddIncComponent implements OnInit {
             console.log(this.newIncidencia);
             this.newIncidencia = new Incidencia();
         });
-       //
+ 
 
   } else if ( (this.newIncidencia._incNombre != null ) && ( this.newIncidencia._incDesc != null  ) &&
               (this.newIncidencia._incFecha != null ) && (this.newIncidencia._idArea != null)&&
               (this.newIncidencia._idPlat != null )  && (this.newIncidencia._solFecha != null) &&
-              (this.fileToUpload != null) && (this.newIncidencia._solDesc == null) || 
-              (this.newIncidencia._solDesc == "") ){
+              (this.fileToUpload != null)  ){
             
           if ((this.newIncidencia._incFecha) <= (this.newIncidencia._solFecha))
           {   
                 var IDate =  new Date(this.newIncidencia._incFecha);
                 var SDate =  new Date(this.newIncidencia._solFecha);
+                if ((this.newIncidencia._solDesc == null) || (this.newIncidencia._solDesc == ""))
+                {
                 this.newIncidencia._solDesc  = "Ver archivo adjunto";
+                }
                 this.newIncidencia._incFecha = IDate.toISOString().slice(0,10);
                 this.newIncidencia._solFecha = SDate.toISOString().slice(0,10);
                 this.addService.addIncidencia(this.newIncidencia).toPromise().then(res =>{

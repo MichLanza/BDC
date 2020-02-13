@@ -143,7 +143,7 @@ export class ModIncidenciaComponent implements OnInit {
               (this.newIncidencia._solDescripcion != "" )  ){
                 
       console.log("hola 2");
-      if (this.newIncidencia._solDescripcion == "Por solucionar" )  {
+      if( (this.newIncidencia._solDescripcion == "Por solucionar" ) ) {
       this.newIncidencia._solDescripcion  = "Ver archivo adjunto";
       }
       this.modService.updateIncidencia(this.newIncidencia).toPromise().then(res =>{
