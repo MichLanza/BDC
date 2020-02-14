@@ -134,10 +134,11 @@ export class AddIncComponent implements OnInit {
                 if( res == null ) {  
                   this.toastr.success("Se ha añadido la incidencia con éxito");
                   }
-                this.newIncidencia = new Incidencia();
              });
           console.log(this.formData.get('file'));
-          this.addService.addFile( this.formData, this.newIncidencia._incNombre  ).subscribe();
+         
+          this.addService.addFile( this.formData, this.newIncidencia._incNombre  ).toPromise().then();
+        
          // 
         }
         else this.toastr.error("La fecha de solución no puede ser menor a la de ocurrencia");

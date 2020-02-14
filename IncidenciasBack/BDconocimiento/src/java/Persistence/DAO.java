@@ -195,9 +195,9 @@ public class DAO {
          
           return _incidencia;
           
-      }else if ( _output == null  && _doc != 0 ){
+      }else if ( _output != null  && _doc != 0 ){
                 
-               _output = "Ver archivo adjunto";
+              // _output = "Ver archivo adjunto";
           
           Incidencia _incidencia = new Incidencia(
                 _result.getInt( "inc_id" ),   
