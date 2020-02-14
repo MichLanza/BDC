@@ -21,8 +21,8 @@ export class ModIncidenciaComponent implements OnInit {
   fecha: any;
   plataforma: any = [];
   private vacio: boolean;
-  private areaList = Array<Area>();
-  private platList = Array<Plataforma>();
+  public areaList = Array<Area>();
+  public platList = Array<Plataforma>();
   public toggle :  boolean = true;
   fileToUpload: File;
   formData = new FormData();

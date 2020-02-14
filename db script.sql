@@ -68,9 +68,34 @@ alter table Archivo add Foreign key(fk_incidencia_id)
 
  
  insert into Plataforma (pla_name) values ('IBS');
- insert into Plataforma (pla_name) values ('AS400');
-
- 
+ insert into Plataforma (pla_name) values ('AS400/Credicard');
+ insert into Plataforma (pla_name) values ('Directorio Activo');
+ insert into Plataforma (pla_name) values ('Sockets');
+ insert into Plataforma (pla_name) values ('Atalla');
+ insert into Plataforma (pla_name) values ('Generador de Notificaciones');
+ insert into Plataforma (pla_name) values ('Spice IV');
+ insert into Plataforma (pla_name) values ('Generador de Reportes');
+ insert into Plataforma (pla_name) values ('Módulo BCV');
+ insert into Plataforma (pla_name) values ('Branch');
+ insert into Plataforma (pla_name) values ('Fideicomiso LA');
+ insert into Plataforma (pla_name) values ('Tesorería LA');
+ insert into Plataforma (pla_name) values ('COE');
+ insert into Plataforma (pla_name) values ('Data Warehouse');
+ insert into Plataforma (pla_name) values ('IMAGECOM');
+ insert into Plataforma (pla_name) values ('VPN-Ogangi');
+ insert into Plataforma (pla_name) values ('VPN-Unplugged');
+ insert into Plataforma (pla_name) values ('VPN-Conexión Usuarios Banco');
+ insert into Plataforma (pla_name) values ('Enlace CANTV');
+ insert into Plataforma (pla_name) values ('Enlace Movistar');
+ insert into Plataforma (pla_name) values ('Balanceadores');
+ insert into Plataforma (pla_name) values ('Switches Externos');
+ insert into Plataforma (pla_name) values ('Core Switch Cisco');
+ insert into Plataforma (pla_name) values ('Fortinet Firewall');           
+ insert into Plataforma (pla_name) values ('Credicard');
+ insert into Plataforma (pla_name) values ('Conexus');
+ insert into Plataforma (pla_name) values ('Seniat');
+ insert into Plataforma (pla_name) values ('Telcorp');
+ insert into Plataforma (pla_name) values ('Nervicom');
  
 ----SP
 

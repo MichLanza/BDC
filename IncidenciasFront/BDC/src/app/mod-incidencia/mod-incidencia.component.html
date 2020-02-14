@@ -56,22 +56,22 @@
             </ng-template>
             <div class="form-group">
               <label  for="formMessage" class="col-md-4">Área: </label>
-              <!--<select class="form-control"  [(ngModel)]="newIncidencia._idArea" name="id2" disabled required>
-                 <option value="" disabled >Seleccione área</option>
+              <select class="form-control"  [disabled] = 'toggle'  [(ngModel)]="newIncidencia._are" name="id2" disabled required>
+                 <option value=""  >Seleccione área</option>
                  <option selected  *ngFor="let area of areaList" value="{{area._id}}">{{area._nombre}}</option>
-              </select>-->
-             <input  placeholder = {{newIncidencia._areName}} name="nombre2" disabled 
-                [(ngModel)]="newIncidencia._areName"  class="col">
+              </select>
+             <!--<input  placeholder = {{newIncidencia._areName}} name="nombre2" disabled 
+                [(ngModel)]="newIncidencia._areName"  class="col">-->
             </div>
 
             <div class="form-group">
               <label for="formMessage"class="col-md-4">Plataforma: </label>
-             <!--<select class="form-control"   [(ngModel)]="newIncidencia._idPlat" name="id" disabled required >
-                  <option value="" disabled >Selecione Plataforma</option>
+            <select class="form-control"   [disabled] = 'toggle'  [(ngModel)]="newIncidencia._plat" name="id"  required >
+                  <option value=""  >Selecione Plataforma </option>
                   <option selected *ngFor="let plat of platList" value="{{plat._id}}">{{plat._nombre}}</option>
-              </select>-->
-              <input  placeholder = {{newIncidencia._plName}} name="nombreP" disabled 
-              [(ngModel)]="newIncidencia._plName"  class="col">
+              </select>
+            <!--<input  [hidden] = '!toggle' placeholder = {{newIncidencia._plName}} name="nombreP"  disabled
+              [(ngModel)]="newIncidencia._idPlat"  class="col"> -->
         
               </div>
 
