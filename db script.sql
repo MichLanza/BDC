@@ -163,6 +163,7 @@ SET NOCOUNT ON
 
 SELECT pla_id, pla_name 
 FROM Plataforma
+ORDER BY pla_name asc
  
 END
 

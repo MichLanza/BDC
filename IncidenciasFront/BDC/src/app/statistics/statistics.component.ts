@@ -28,6 +28,7 @@ export class StatisticsComponent implements OnInit {
         data.forEach(element => {
          x.push(element.x)
          y.push(element.y)
+  
         });
         this.lineChartLabels = x;
         this.lineChartData =  [ { data: y , label: 'incidencias mensuales' },];
@@ -53,10 +54,11 @@ export class StatisticsComponent implements OnInit {
         data.forEach(element => {
          equis.push(element.x)
          ye.push(element.y)
-         
+         ye.push(0)
+         equis.push('')
          });
          
-         this.barChartData2 = [{ data:  ye , label: 'Incidencias por Area' }];
+         this.barChartData2 = [{ data: ye , label: 'Incidencias por Area' }];
          this.barChartLabels2 = equis;
       });
 
@@ -174,6 +176,8 @@ export class StatisticsComponent implements OnInit {
       data.forEach(element => {
        x.push(element.x)
        y.push(element.y)
+       y.push(0)
+       x.push('')
        });
        
        this.barChartData2 = [{ data: y , label: 'Incidencias por Area' }];
