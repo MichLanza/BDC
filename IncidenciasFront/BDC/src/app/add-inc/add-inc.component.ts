@@ -158,6 +158,7 @@ export class AddIncComponent implements OnInit {
    this.formData.append('file', this.fileToUpload ,this.fileToUpload.name);
 
   }
+
     
 
   }

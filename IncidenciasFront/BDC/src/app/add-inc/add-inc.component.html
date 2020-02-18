@@ -55,7 +55,7 @@
 
             <div class="form-group">
               <label for="formMessage"class="col-md-4">Plataforma:<span class="text-danger">*</span> </label>
-              <select class="form-control" [(ngModel)]="newIncidencia._idPlat" name="id" required >
+              <select  class="form-control" [(ngModel)]="newIncidencia._idPlat" name="id" required >
                   <option value="" disabled selected>Seleccione plataforma</option>
                   <option *ngFor="let plat of platList" value="{{plat._id}}">{{plat._nombre}}</option>
               </select>

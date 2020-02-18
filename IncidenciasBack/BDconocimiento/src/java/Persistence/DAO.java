@@ -253,7 +253,7 @@ public class DAO {
               return _areList;
              }
            catch( SQLException e ){
-                     e.printStackTrace();
+                e.printStackTrace();
                     
             }finally{
             try {
@@ -285,13 +285,13 @@ public class DAO {
               return _platList;
              }
            catch( SQLException e ){
-                     e.printStackTrace();
+               e.printStackTrace();
                     
             }finally{
             try {
-                _conn.close();
+               _conn.close();
             } catch ( SQLException e1 ) {
-                e1.printStackTrace();
+               e1.printStackTrace();
             }
               } 
               return _platList;
@@ -313,16 +313,14 @@ public class DAO {
             }
         
         }catch(SQLException e ){
-              e.printStackTrace();
+            e.printStackTrace();
           }finally{
-            try {
+        try {
                 _conn.close();
-            } catch ( SQLException e1 ) {
-               e1.printStackTrace();
+        }catch ( SQLException e1 ) {
+            e1.printStackTrace();
             }
-              } 
-        
-            
+              }    
         return null;
     }
     
@@ -331,19 +329,19 @@ public class DAO {
     public int deleteIncidencia ( int id ) {  
        Connection _conn = SqlConn.getConnection();
         try{      
-         PreparedStatement _ps = _conn.prepareCall( DELETE_INCIDENCIA ); 
-         _ps.setInt( 1, id);
-         _ps.execute();          
-         return 1;
-        }catch(SQLException e){          
-            e.printStackTrace();
-            return 0;
-            }finally{
-            try {
-                _conn.close();
-            } catch ( SQLException e1 ) {
-              e1.printStackTrace();
-            }
+          PreparedStatement _ps = _conn.prepareCall( DELETE_INCIDENCIA ); 
+          _ps.setInt( 1, id);
+          _ps.execute();          
+          return 1;
+       }catch(SQLException e){          
+          e.printStackTrace();
+         return 0;
+       }finally{
+         try {
+          _conn.close();
+       }catch ( SQLException e1 ) {
+          e1.printStackTrace();
+         }
               } 
     }
     

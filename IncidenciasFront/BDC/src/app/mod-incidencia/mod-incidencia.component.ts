@@ -4,7 +4,7 @@ import {Incidencia} from '../../model/incidencia-model';
 import {Plataforma} from '../../model/plataforma-model';
 import {Area} from '../../model/area-model';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal, ModalDismissReasons  } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 
 
@@ -104,7 +104,7 @@ export class ModIncidenciaComponent implements OnInit {
     modIncidencia(){
       
      console.log(this.newIncidencia);
-      console.log(this.fileToUpload);
+     console.log(this.fileToUpload);
   
         if(  (this.newIncidencia._nombre != "" ) && (this.newIncidencia._nombre != null ) &&
               ( this.newIncidencia._descripcion != null  ) &&
@@ -153,7 +153,7 @@ export class ModIncidenciaComponent implements OnInit {
   });
       console.log(this.formData.get('file'));
       this.modService.addFile( this.formData  ).toPromise().then(res =>{
-        console.log(this.newIncidencia);
+      console.log(this.newIncidencia);
   
         this.newIncidencia = new Incidencia();
     });
@@ -175,7 +175,7 @@ export class ModIncidenciaComponent implements OnInit {
 
   if ( (data._fechaOcurrencia.day.toString().length == 1 ) ){
     data._fechaOcurrencia.day = "0"+ data._fechaOcurrencia.day; 
-   this.newIncidencia = data;
+    this.newIncidencia = data;
 
   }  if ( (data._fechaOcurrencia.month.toString().length == 1 )){
     data._fechaOcurrencia.month = "0"+ data._fechaOcurrencia.month;  
@@ -197,7 +197,7 @@ export class ModIncidenciaComponent implements OnInit {
 
 if ( (data._fechaResolucion.day.toString().length == 1 ) ){
     data._fechaResolucion.day = "0"+ data._fechaResolucion.day;
-   this.newIncidencia = data;
+    this.newIncidencia = data;
 
   }  if ( (data._fechaResolucion.month.toString().length == 1 )){
     data._fechaResolucion.month = "0"+ data._fechaResolucion.month;  
@@ -205,7 +205,7 @@ if ( (data._fechaResolucion.day.toString().length == 1 ) ){
   
 
   }  if ( (data._fechaResolucion.month.toString().length == 1 ) &&
-              (data._fechaResolucion.day.toString().length == 1 ) ){
+          (data._fechaResolucion.day.toString().length == 1 ) ){
     data._fechaResolucion.day = "0"+ data._fechaResolucion.day;
     data._fechaResolucion.month = "0"+ data._fechaResolucion.month;  
     this.newIncidencia = data;
