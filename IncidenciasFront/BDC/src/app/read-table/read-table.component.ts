@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {Incidencia} from '../../model/incidencia-model';
 import {Plataforma} from '../../model/plataforma-model';
 import {Area} from '../../model/area-model';
 import {ReadTableService} from './read-table.service';
-
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-read-table',
@@ -15,7 +15,6 @@ import {ReadTableService} from './read-table.service';
 
 export class ReadTableComponent implements OnInit {
   
-
   newIncidencia: Incidencia = new Incidencia;
   nome:string;
   area: any = [];
@@ -116,14 +115,14 @@ export class ReadTableComponent implements OnInit {
   } 
 
   fechaTransform(data:any){
-    this.fecha = data._fechaOcurrencia.year +"-"+data._fechaOcurrencia.month+"-"+data._fechaOcurrencia.day;
+    this.fecha = data._fechaOcurrencia.day +"-"+data._fechaOcurrencia.month+"-"+data._fechaOcurrencia.year;
     data._fechaOcurrencia = this.fecha;
 
   
    }
   
    fechaSolTransform(data:any){
-    this.fecha = data._fechaResolucion.year +"-"+data._fechaResolucion.month+"-"+data._fechaResolucion.day;
+    this.fecha = data._fechaResolucion.day +"-"+data._fechaResolucion.month+"-"+data._fechaResolucion.year;
     data._fechaResolucion = this.fecha;
 
    }
@@ -134,7 +133,7 @@ export class ReadTableComponent implements OnInit {
 
   incDateTrans(data: any){
  
-  if ( (data._fechaOcurrencia.day.toString().length == 1 ) ){
+     if ( (data._fechaOcurrencia.day.toString().length == 1 ) ){
     data._fechaOcurrencia.day = "0"+ data._fechaOcurrencia.day;
     this.newIncidencia = data;
 
@@ -174,9 +173,43 @@ datesolTransform(data: any){
       this.newIncidencia = data;
   
     }
-  
-  
    }
 
+   fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+   fileExtension = '.xlsx';
+   newJson = Array <any>();
 
+  public exportExcel(): void {
+    this.newJsonBuild();
+    let fileName = 'Datos exportados'
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet( this.newJson);
+    const wb: XLSX.WorkBook = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    this.saveExcelFile(excelBuffer, fileName);
+  }
+
+  private saveExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {type: this.fileType});
+    FileSaver.saveAs(data, fileName + this.fileExtension);
+    this.newJson = [];
+  }
+
+  private  newJsonBuild(){
+   
+      this.incList.forEach( element=>{
+      this.newJson.push({'ID':element._id,
+                         'Nombre': element._nombre,
+                         'Descripción': element._descripcion,
+                         'Fecha Ocurrencia' : element._fechaOcurrencia,
+                         'Descripcion de la solución': element._solDescripcion,
+                         'Fecha Resolución' : element._fechaResolucion,
+                         'Area': element._areName,
+                         'Plataforma': element._plName,
+                         'Estatus':element.status})
+       });
+     /* this.newJson = this.newJson.filter(singleItem =>
+        singleItem["campo"].toLowerCase().includes(filtro.toLowerCase())
+      ); 
+       console.log( this.newJson);*/
+  }
 }

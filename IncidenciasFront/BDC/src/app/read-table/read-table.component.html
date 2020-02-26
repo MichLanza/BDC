@@ -8,12 +8,13 @@
   #form = "ngForm">
 
 
+
   <!--Filtros-->
 <div class = "row">
 
 <div class="form-group">
   <strong for="formMessage" class="col-md-4">Área: </strong>
-  <select class="form-control"  name="_areName" [(ngModel)] = "ar" >
+  <select class="form-control "  name="_areName" [(ngModel)] = "ar" >
  
     <option selected value="" >Todo</option>
    
@@ -59,9 +60,9 @@
 
     <div class="form-group">
     
-      <label class="col-sm-4" >Desde:</label>
+      <label class="col-md-4" >Desde:</label>
       <input class="form-control" [(ngModel)]="FechaInicio"
-                 name="_fechaOcurrencia"  type="date"class="col-sm-8" >
+                 name="_fechaOcurrencia"  type="date"class="col-md-8" >
      </div>
 
    
@@ -79,10 +80,15 @@
 
 
 
+
 <!--  Tabla  -->
 <div class="container" >
-
-    <table class="table  table-bordered table-responsive table-hover ">
+  
+  <!--<button type="button"  class="btn btn-success " style = "background-color: #1c812a ;
+  border-color:#1c812a" (click)="exportExcel()">Exportar a Excel
+  </button>-->
+    
+    <table  class="table  table-bordered table-responsive table-hover " #table>
         <thead style="background-color: #040024"
                 class="table-dark" >
           <tr style="color: rgba(218, 218, 218, 0.952)" >
@@ -132,9 +138,10 @@
     [collectionSize]="incList.length"
     [boundaryLinks]="true">
    </ngb-pagination>
+
+
   </div>
   </form>
-
-
+  
   </div>
 </div>
