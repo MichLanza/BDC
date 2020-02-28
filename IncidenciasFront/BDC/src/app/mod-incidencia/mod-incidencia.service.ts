@@ -2,13 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 
-const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
+//const endpoint = 'http://localhost:8080/BDconocimiento/Incidencias/';
+const endpoint = 'http://10.60.102.103:8080/BDconocimiento/Incidencias/';
+
+
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Access-Control-Allow-Origin':'*',
-    'Content-Type':  'application/json'
+    'Content-Type':  'application/json',
+   
   })};
 
 @Injectable({
@@ -16,7 +22,7 @@ const httpOptions = {
 })
 export class ModService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   private extractData(res: Response) {
     let body = res;
@@ -25,9 +31,11 @@ export class ModService {
 
   updateIncidencia (incidencia): Observable<any> {
     console.log(incidencia)
-    return this.http.put<any>(endpoint + 'Edit/AddSol',incidencia, httpOptions).pipe(
-      tap((incidencia) => console.log(`Incidencia added w/`)),
-    );
+    return this.http.put<any>(endpoint + 'Edit/AddSol',incidencia).pipe(
+      catchError((err: HttpErrorResponse) => of (
+      this.toastr.error("Ocurrió un error ")
+    ))
+  )
   }
   getArea(): Observable<any> {
     return this.http.get(endpoint + 'GetArea').pipe(
@@ -38,7 +46,7 @@ export class ModService {
     return this.http.get(endpoint + 'GetPlataforma').pipe(
       map(this.extractData));
   }
-  
+
   getIncidencia(): Observable<any>{
 
 
@@ -46,12 +54,36 @@ export class ModService {
     .pipe(map(this.extractData));
   }
 
-  deleteIncidencia(): Observable<any>{
+  deleteIncidencia(id): Observable<any>{
 
-    return this.http.delete(endpoint + 'DeleteInc/'+localStorage.getItem('incID'))
+    return this.http.delete(endpoint + 'DeleteInc/'+localStorage.getItem('incID')+'/'+id)
     .pipe(map(this.extractData));
     
   }
-
   
+  addFile (file): Observable<any> {
+    console.log(localStorage.getItem('incID'))
+    return this.http.post<any>(endpoint + 'updateFile/'+localStorage.getItem('incID') ,file).pipe(
+      catchError((err: HttpErrorResponse) => of (
+      this.toastr.error("Ocurrió un error ")
+    ))
+  );
+  }
+
+
+  download(id):Observable<any>{
+    return  this.http.get(endpoint +'DownloadFile/'+ id, {
+       observe: 'response',
+       responseType: 'blob' }).pipe(
+        catchError((err: HttpErrorResponse) => of (
+        this.toastr.error("Ocurrió un error ")
+      ))
+    );
+        
+      
+    
+  }
+  
+  
+
 }

@@ -6,11 +6,7 @@
 package Persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /**
  *
  * @author Michele Lanza
@@ -29,10 +25,7 @@ public class SqlConn {
          Class.forName( "com.microsoft.sqlserver.jdbc.SQLServerDriver" );
          _conn = DriverManager.getConnection( db_connect_string, 
                                               db_userid, db_pass );
-          if ( _conn != null ) {
-        
-      
-          }
+     
       } catch (Exception e) {
          e.printStackTrace();
          

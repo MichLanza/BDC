@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import Persistence.SqlConn;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -29,12 +28,19 @@ public class DAO {
     String READ_PLAT = "{ CALL getPlat() }";
     String UPDATE_INCIDENCIA = "{ CALL updateInc (?,?,?,?,?,?,?,?) }";
     String DELETE_INCIDENCIA = " {CALL deleteInc (?)}";
-   
+//    String INSERTDOC  = "{Call insertIncFile(?,?)}";
+//    String UPDATEDOC = "{Call updateIncFile(?,?)}";
+
+    
+    String INSERTDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +
+                       "WHERE inc_name = ?";
+    String UPDATEDOC = "UPDATE Incidencia SET fk_archivo_id = ?\n" +   
+                       "WHERE inc_id = ?";
             
-    public void createIncidencia( Incidencia _in ) {
+    public void createIncidencia( Incidencia _in ) throws  SQLException {
         
         Connection _conn = SqlConn.getConnection();
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         LocalDate incLDate = _in.getFechaOcurrencia();
             
         try {
@@ -53,16 +59,15 @@ public class DAO {
             preparedStatement.setString( 5, _in.getSolDescripcion());    
             preparedStatement.setDate( 4, dateS ); 
            
-            }else{
+            }else {
             preparedStatement.setNull( 5, java.sql.Types.CHAR );
             preparedStatement.setNull( 4, java.sql.Types.DATE );
           
             }
            preparedStatement.execute();
-        }catch (NullPointerException en) {
+        }catch (NullPointerException | SQLException en) {
             en.printStackTrace();
-        }catch (Exception ex) {
-            ex.printStackTrace();
+            throw  en;
         }finally{
           try {
             _conn.close();
@@ -73,7 +78,7 @@ public class DAO {
     }
     
   
-      public void updateIncidencia( Incidencia _in ) {
+      public void updateIncidencia( Incidencia _in ) throws  SQLException {
         Connection _conn = SqlConn.getConnection();
         PreparedStatement preparedStatement = null;
          
@@ -118,10 +123,9 @@ public class DAO {
             preparedStatement.execute();
         }
 
-        }catch (NullPointerException en) {
+        }catch (NullPointerException | SQLException en) {
             en.printStackTrace();
-        }catch (Exception ex) {
-            ex.printStackTrace();
+            throw  en;
         }finally{
           try {
             _conn.close();
@@ -140,14 +144,15 @@ public class DAO {
          
       
        try {
-            PreparedStatement _ps = _conn.prepareCall( SELECT_ALL_INCIDENCIAS );
-            ResultSet _result = _ps.executeQuery();
+           PreparedStatement _ps = _conn.prepareCall( SELECT_ALL_INCIDENCIAS );
+           ResultSet _result = _ps.executeQuery();
               while ( _result.next() ){
                _inList.add( getIncidencia( _result ) );                
               }
                return _inList; 
         }catch ( SQLException e ) {
                 e.printStackTrace();
+               
         }finally{
             try {
                 _conn.close();
@@ -169,12 +174,10 @@ public class DAO {
         _area.setNombre(_result.getString("are_name"));
         String _output =  _result.getString( "inc_soldesc" );
         Timestamp _output2 = _result.getTimestamp("inc_soldate");
-      
-       
-  
-  
+        int _doc = _result.getInt("fk_archivo_id");
+        
       if ( _output == null && 
-          _output2  == null ){
+           _output2  == null && _doc == 0 ){
                 
                _output = "Por solucionar";
           
@@ -190,9 +193,28 @@ public class DAO {
                 _result.getString( "pla_name" )
       ); 
          
+          return _incidencia;
           
-           return _incidencia;
-      }else {
+      }else if ( _output != null  && _doc != 0 ){
+                
+              // _output = "Ver archivo adjunto";
+          
+          Incidencia _incidencia = new Incidencia(
+                _result.getInt( "inc_id" ),   
+                _result.getString( "inc_name" ), 
+                _result.getString( "inc_description" ), 
+                _result.getDate("inc_date" ).toLocalDate(),
+                _output,
+                _result.getDate("inc_soldate").toLocalDate(),
+                _result.getInt( "are_id" ),   
+                _result.getInt( "pla_id" ),
+                _result.getString( "are_name" ),
+                _result.getString( "pla_name" ),
+                _doc 
+      ); 
+         
+          return _incidencia;
+      }else{
          Incidencia _incidencia = new Incidencia(
                 _result.getInt( "inc_id" ),   
                 _result.getString( "inc_name" ), 
@@ -203,7 +225,8 @@ public class DAO {
                 _result.getInt( "are_id" ),   
                 _result.getInt( "pla_id" ),
                  _result.getString( "are_name" ),
-                _result.getString( "pla_name" )
+                _result.getString( "pla_name" ),
+                _doc
       ); 
              return _incidencia;
       }
@@ -214,7 +237,7 @@ public class DAO {
        
         
     public ArrayList<Area> areaList (){
-    ArrayList<Area> _areList = new ArrayList<Area>();
+    ArrayList<Area> _areList = new ArrayList<>();
     Connection _conn = SqlConn.getConnection();
 
        try {
@@ -230,7 +253,7 @@ public class DAO {
               return _areList;
              }
            catch( SQLException e ){
-                     e.printStackTrace();
+                e.printStackTrace();
                     
             }finally{
             try {
@@ -246,7 +269,7 @@ public class DAO {
     public ArrayList<Plataforma> platList (){
            
    
-    ArrayList<Plataforma> _platList = new ArrayList<Plataforma>();
+    ArrayList<Plataforma> _platList = new ArrayList<>();
     Connection _conn = SqlConn.getConnection();
 
        try {
@@ -262,13 +285,13 @@ public class DAO {
               return _platList;
              }
            catch( SQLException e ){
-                     e.printStackTrace();
+               e.printStackTrace();
                     
             }finally{
             try {
-                _conn.close();
+               _conn.close();
             } catch ( SQLException e1 ) {
-                e1.printStackTrace();
+               e1.printStackTrace();
             }
               } 
               return _platList;
@@ -280,53 +303,89 @@ public class DAO {
     
     public Incidencia readIncidencia ( int id ){
         Connection _conn = SqlConn.getConnection();
-      
-   
-        try{
-     
+        try{ 
             PreparedStatement _ps = _conn.prepareCall( READ_INCIDENCIA );
-             _ps.setInt( 1, id );
+            _ps.setInt( 1, id );
             ResultSet _rs = _ps.executeQuery(); 
             while ( _rs.next() ){
-
-             Incidencia _inc =   getIncidencia( _rs );
-              
-               return _inc;
+            Incidencia _inc =   getIncidencia( _rs );          
+            return _inc;
             }
         
-        }catch(Exception e ){
-              e.printStackTrace();
-          }
-        
-            
+        }catch(SQLException e ){
+            e.printStackTrace();
+          }finally{
+        try {
+                _conn.close();
+        }catch ( SQLException e1 ) {
+            e1.printStackTrace();
+            }
+              }    
         return null;
     }
     
     
     
-    public int deleteIncidencia (int id) {
-        
+    public int deleteIncidencia ( int id ) {  
        Connection _conn = SqlConn.getConnection();
-      
-        
-        try{
-            
-         PreparedStatement _ps = _conn.prepareCall( DELETE_INCIDENCIA ); 
-         _ps.setInt( 1, id);
-         _ps.execute(); 
-           
-         return 1;
-
-        }catch(Exception e){
-                
-            e.printStackTrace();
-            return 0;
-            }
-    
-
-    
+        try{      
+          PreparedStatement _ps = _conn.prepareCall( DELETE_INCIDENCIA ); 
+          _ps.setInt( 1, id);
+          _ps.execute();          
+          return 1;
+       }catch(SQLException e){          
+          e.printStackTrace();
+         return 0;
+       }finally{
+         try {
+          _conn.close();
+       }catch ( SQLException e1 ) {
+          e1.printStackTrace();
+         }
+              } 
     }
+    
+    
+  public void  InsertDocInc( int _docId, String _name ) throws  SQLException{
+       Connection _conn = SqlConn.getConnection();
+       try{
+           PreparedStatement _ps = _conn.prepareCall( INSERTDOC );
+           _ps.setInt( 1,_docId );
+           _ps.setString( 2, _name );
+           _ps.execute();
+           
+       }catch(SQLException e){
+           e.printStackTrace();
+           throw  e;
+       }finally {
+           try{
+            _conn.close();
+           }catch(SQLException ex){
+            ex.printStackTrace();
+           }
+       }
+       
+  }
 
- 
+    public void  InsertDocInc( int _docId, int _name ) throws  SQLException{
+       Connection _conn = SqlConn.getConnection();
+       try{
+           PreparedStatement _ps = _conn.prepareCall( UPDATEDOC );
+           _ps.setInt( 1,_docId );
+           _ps.setInt( 2, _name );
+           _ps.execute();
+           
+       }catch(SQLException e){
+           e.printStackTrace();
+           throw  e;
+       }finally {
+           try{
+            _conn.close();
+           }catch(SQLException ex){
+            ex.printStackTrace();
+           }
+       }
+       
+  }
     
 }

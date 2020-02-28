@@ -18,10 +18,18 @@ import javax.ws.rs.ext.Provider;
 public class NewCrossOriginResourceSharingFilter implements ContainerResponseFilter {
 
     @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext response) {
+    public void filter(ContainerRequestContext requestContext, 
+                       ContainerResponseContext response) {
+        
         response.getHeaders().putSingle("Access-Control-Allow-Origin", "*");
-        response.getHeaders().putSingle("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE");
-        response.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type");
+        response.getHeaders().putSingle("Access-Control-Allow-Methods",
+                                        "OPTIONS, GET, POST, PUT, DELETE");
+        response.getHeaders().putSingle("Access-Control-Allow-Headers", 
+                                        "Content-Type");  
+        response.getHeaders().putSingle("Access-Control-Expose-Headers", 
+                                        "Content-Disposition");
     }
+    
+    
     
 }

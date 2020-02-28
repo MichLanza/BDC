@@ -13,7 +13,7 @@ const routes: Routes = [
 { path:'add', component: AddIncComponent },
 { path: 'readT',component: ReadTableComponent},
 { path: 'mod',component: ModIncidenciaComponent},
-{path: 'stats', component: StatisticsComponent },
+{ path: 'stats', component: StatisticsComponent },
 
 ];
 

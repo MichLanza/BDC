@@ -19,7 +19,7 @@
               <label class="col-md-4">Descripción de la incidencia:</label>  
               <textarea class="form-control" id="formDescription" name="descripcion" rows="6" 
               [(ngModel)]="newIncidencia._descripcion" [disabled] = 'toggle'
-              value="{{newIncidencia._descripcion}}"></textarea>      
+              value="{{newIncidencia._descripcion}}" required></textarea>      
             </div>  
             
             <div class="form-group">  
@@ -33,7 +33,7 @@
             <div class="form-group">  
               <label class="col-md-4">Descripción de la solución:</label>  
               <textarea class="form-control" id="formDescription2" name="descripcion2" rows="6"  [disabled] = 'toggle'
-                [(ngModel)]="newIncidencia._solDescripcion" 
+                [(ngModel)]="newIncidencia._solDescripcion"  
                 value="{{newIncidencia._solDescripcion}}"></textarea>
             </div>  
             
@@ -45,23 +45,33 @@
             </div>  
         
             <div class="form-group">
+              <label class="col-md-4"  [hidden] = 'toggle' for="exampleFormControlFile1">Adjuntar archivo:</label>
+              <input  type="file" name=”file” class="form-control-file" id="exampleFormControlFile1"  
+              (change)="addarchivo($event)" [hidden] = 'toggle'  accept=".txt,.pdf,.doc,.docx,.png,.xlsx">
+            </div>
+          
+            <ng-container *ngIf=" newIncidencia._idFile != 0 ;then boton"></ng-container>
+           <ng-template #boton> 
+             <button type="button" class="btn btn-primary" (click) = "downloadFile()" > Descargar archivo <i class="fa fa-download"></i></button>
+            </ng-template>
+            <div class="form-group">
               <label  for="formMessage" class="col-md-4">Área: </label>
-              <!--<select class="form-control"  [(ngModel)]="newIncidencia._idArea" name="id2" disabled required>
-                 <option value="" disabled >Seleccione área</option>
+              <select class="form-control"  [disabled] = 'toggle'  [(ngModel)]="newIncidencia._are" name="id2" disabled required>
+                 <option value=""  >Seleccione área</option>
                  <option selected  *ngFor="let area of areaList" value="{{area._id}}">{{area._nombre}}</option>
-              </select>-->
-             <input  placeholder = {{newIncidencia._areName}} name="nombre2" disabled 
-                [(ngModel)]="newIncidencia._areName"  class="col">
+              </select>
+             <!--<input  placeholder = {{newIncidencia._areName}} name="nombre2" disabled 
+                [(ngModel)]="newIncidencia._areName"  class="col">-->
             </div>
 
             <div class="form-group">
               <label for="formMessage"class="col-md-4">Plataforma: </label>
-             <!--<select class="form-control"   [(ngModel)]="newIncidencia._idPlat" name="id" disabled required >
-                  <option value="" disabled >Selecione Plataforma</option>
+            <select class="form-control"   [disabled] = 'toggle'  [(ngModel)]="newIncidencia._plat" name="id"  required >
+                  <option value=""  >Selecione Plataforma </option>
                   <option selected *ngFor="let plat of platList" value="{{plat._id}}">{{plat._nombre}}</option>
-              </select>-->
-              <input  placeholder = {{newIncidencia._plName}} name="nombreP" disabled 
-              [(ngModel)]="newIncidencia._plName"  class="col">
+              </select>
+            <!--<input  [hidden] = '!toggle' placeholder = {{newIncidencia._plName}} name="nombreP"  disabled
+              [(ngModel)]="newIncidencia._idPlat"  class="col"> -->
         
               </div>
 
@@ -89,7 +99,6 @@
             <button type="button" class="btn btn-danger m-1 col-10"  (click)="open(content)"    >Eliminar <i class="fa fa-trash-o"></i></button>
             
           </div>
-
 
           </div>
           </form>  

@@ -12,14 +12,83 @@ import { StatisticsService } from  './statistics.service'
 export class StatisticsComponent implements OnInit {
 
 
-Linechart = [];
+ Linechart = [];
  datos = Array<any>();
  stat: any;
-x= [];
-y=[];
+
 
   ngOnInit() {
+
+     const  actualYear = new Date().getFullYear();
+    
+      this.statservice.getStats(actualYear).subscribe( (data) => {
+        this.stat = data;
+        let  x= [];
+        let y= [];
+        data.forEach(element => {
+         x.push(element.x)
+         y.push(element.y)
+  
+        });
+        this.lineChartLabels = x;
+        this.lineChartData =  [ { data: y , label: 'incidencias mensuales' },];
+      });
+    
+  
+      this.statservice.getStatsByPlat(actualYear).subscribe((data) =>{
+        let ye = [];
+        let equis = [];
+        data.forEach(element => {
+         equis.push(element.x)
+         ye.push(element.y)
+         });
       
+         this.doughnutChartData =  [ye];
+         this.doughnutChartLabels = equis;
+      });
+
+      this.statservice.getStatsByArea(actualYear).subscribe((data) =>{
+        let ye = [];
+        let equis = [];
+
+        data.forEach(element => {
+         equis.push(element.x)
+         ye.push(element.y)
+         ye.push(0)
+         equis.push('')
+         });
+         
+         this.barChartData2 = [{ data: ye , label: 'Incidencias por Area' }];
+         this.barChartLabels2 = equis;
+      });
+
+      this.statservice.getStatsByC(actualYear).subscribe((data) =>{
+        let ye = [];
+        let equis = [];
+        let yeeS = [];
+
+        data.forEach(element => {
+         equis.push(element.x)
+         ye.push(element.y)
+         yeeS.push(element.yS)
+         
+         });
+         
+         this.barChartData = [ { data: ye, label: 'Resuelto' },{ data: yeeS, label: ' Por solucionar' } ];
+         this.barChartLabels = equis;
+      });
+
+      this.statservice.getStatsBySol(actualYear).subscribe((data) =>{
+        let ye = [];
+        let equis = [];
+        data.forEach(element => {
+         equis.push(element.x)
+         ye.push(element.porc)
+         });
+         
+         this.pieChartData =   ye ;
+         this.pieChartLabels = equis;
+      });
   }
 
   constructor( public statservice: StatisticsService ) { 
@@ -45,44 +114,104 @@ y=[];
 
 
   public pieChartOptions: ChartOptions = {responsive: true,};
-  public pieChartLabels: Label[] = ['SciFi', 'Drama', 'Comedy', 'Action','Animation'];
-  public pieChartData: SingleDataSet = [15, 15, 40, 20,10];
+  public pieChartLabels: Label[] = ['', '', '', '',''];
+  public pieChartData: SingleDataSet = [0, 0, 0, 0,0];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
 
 
   barChartOptions: ChartOptions = {responsive: true,};
-  barChartLabels: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
+  barChartLabels: Label[] = ['a', 'b', 'c', 'd', 'e', 'f'];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [];
-  barChartData: ChartDataSets[] = [ { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' }];
+  barChartData: ChartDataSets[] = [ { data: [0, 0, 0,0, 0, 0], label: 'Resuelto' },{ data: [0,0, 0, 0,0], label: ' Por solucionar' } ];
+ 
+  barChartOptions2: ChartOptions = {responsive: true,};
+  barChartLabels2: Label[] = ['', '', '', '', '', ''];
+  barChartType2: ChartType = 'bar';
+  barChartLegend2 = true;
+  barChartPlugins2 = [];
+  barChartData2: ChartDataSets[] = [ { data: [0, 0, 0, 0, 0, 0], label: ' ' } ];
+  //barChartColor: Color = { backgroundColor: 'rgba(13,10,178,0.44)'}
  
  
- 
-  doughnutChartLabels: Label[] = ['BMW', 'Ford', 'Tesla'];
-  doughnutChartData: MultiDataSet = [ [55, 25, 20] ];
+  doughnutChartLabels: Label[] = ['', '', ''];
+  doughnutChartData: MultiDataSet = [ [0, 0, 0] ];
   doughnutChartType: ChartType = 'doughnut';
 
 
 
-  data(year:number){
-
-    console.log(year)
+  data(year:number ){
+    
+ 
     this.statservice.getStats(year).subscribe( (data) => {
       this.stat = data;
-      console.log (this.stat);
+      let  x= [];
+      let y= [];
+      data.forEach(element => {
+       x.push(element.x)
+       y.push(element.y)
+      });
+      this.lineChartLabels = x;
+      this.lineChartData =  [ { data: y , label: 'incidencias mensuales' },];
+    });
+  
+
+    this.statservice.getStatsByPlat(year).subscribe((data) =>{
+      let y = [];
+      let x = [];
+      data.forEach(element => {
+       x.push(element.x)
+       y.push(element.y)
+       });
+       this.doughnutChartData =  [y];
+         this.doughnutChartLabels = x;
+    });
+
+    this.statservice.getStatsByArea(year).subscribe((data) =>{
+      let y = [];
+      let x = [];
+      data.forEach(element => {
+       x.push(element.x)
+       y.push(element.y)
+       y.push(0)
+       x.push('')
+       });
+       
+       this.barChartData2 = [{ data: y , label: 'Incidencias por Area' }];
+       this.barChartLabels2 = x;
+    });
+
+    this.statservice.getStatsBySol(year).subscribe((data) =>{
+      let ye = [];
+      let equis = [];
+      data.forEach(element => {
+       equis.push(element.x)
+       ye.push(element.porc)
+       });
+       
+       this.pieChartData =   ye ;
+       this.pieChartLabels = equis;
+    });
+
+    this.statservice.getStatsByC(year).subscribe((data) =>{
+      let ye = [];
+      let equis = [];
+      let yeeS = [];
 
       data.forEach(element => {
-  
-        this.x.push(element.x)
-        this.y.push(element.y)
-      });
+       equis.push(element.x)
+       ye.push(element.y)
+       yeeS.push(element.yS)
+       
+       });
+       
+       this.barChartData = [ { data: ye, label: 'Resuelto' },{ data: yeeS, label: ' Por solucionar' } ];
+       this.barChartLabels = equis;
+    });
 
-      this.lineChartLabels =this.x;
-      this.lineChartData =  [ { data: this.y , label: 'incidencias mensuales' },];
-      });
   }
 
 }

@@ -1,4 +1,5 @@
 <router-outlet></router-outlet>
+   
 
 <div class= "margin-top">
 <div class = "container">
@@ -7,13 +8,13 @@
   #form = "ngForm">
 
 
+
   <!--Filtros-->
 <div class = "row">
 
-
 <div class="form-group">
   <strong for="formMessage" class="col-md-4">Área: </strong>
-  <select class="form-control"  name="_areName" [(ngModel)] = "ar" >
+  <select class="form-control "  name="_areName" [(ngModel)] = "ar" >
  
     <option selected value="" >Todo</option>
    
@@ -30,6 +31,17 @@
   </select>
 </div>
  </div>
+
+ <div class="form-group" class = "margin-left" >
+  <strong for="formMessage" class="col-md-4">Estatus: </strong>
+  <select class="form-control" [(ngModel)]="sol" name="status" required>
+     <option value="" disabled selected>Seleccione una opción</option>
+     <option  value>Todo</option>
+     <option  [value]>Por solucionar</option>
+     <option [value] >Solucionado</option>
+
+  </select>
+</div>
 
  <form novalidate #byname = "ngForm" >
  <div class = "margin-left" >
@@ -48,16 +60,16 @@
 
     <div class="form-group">
     
-      <label class="col-sm-4" >Desde:</label>
+      <label class="col-md-4" >Desde:</label>
       <input class="form-control" [(ngModel)]="FechaInicio"
-                 name="_fechaOcurrencia"  type="date"class="col-sm-8" >
+                 name="_fechaOcurrencia"  type="date"class="col-md-8" >
      </div>
 
    
     <div class="form-group">
       <label class = "col-md-4">Hasta:</label>
       <input class="form-control" [(ngModel)]="FechaFin"
-                 name="_fechaOcurrencia"  type="date"class="col-sm-8" >
+             name="_fechaOcurrencia"  type="date"class="col-sm-8" >
   </div>  
    
 </div>  
@@ -68,53 +80,68 @@
 
 
 
-<!--  Tabla  -->
-<div class >
 
-    <table class="table table-bordered table-responsive table-hover">
-      <thead class="table-dark" >
+<!--  Tabla  -->
+<div class="container" >
+  
+  <!--<button type="button"  class="btn btn-success " style = "background-color: #1c812a ;
+  border-color:#1c812a" (click)="exportExcel()">Exportar a Excel
+  </button>-->
+    
+    <table  class="table  table-bordered table-responsive table-hover " #table>
+        <thead style="background-color: #040024"
+                class="table-dark" >
+          <tr style="color: rgba(218, 218, 218, 0.952)" >
         <tr>
           <th>Id</th>
           <th>Nombre</th>
         <!-- <th>Descripción</th>-->
           <th>Fecha Ocurrencia</th>
-          <th>Fecha Resolución</th>
+          <th >Fecha Resolución</th>
         <!--  <th>Descripción de solución</th>-->
-          <th>Área</th>
+          <th style = "text-align: center;">Área</th>
           <th>Plataforma</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-
-            <tr *ngFor="let inc of incList |  tableFilter: form.value | rangoFechas: FechaInicio: FechaFin| filterNombre: '_nombre' : nome"> <!--| filterNombre: '_nombre' : nome -->
-
-              <td>{{inc._id}}</td> 
-              <td>{{inc._nombre}}</td> 
+            <tr *ngFor="let inc of incList
+             | tableFilter: form.value 
+             | rangoFechas: FechaInicio: FechaFin
+             | filterNombre: '_nombre' : nome
+             | slice: (page -1) * pageSize : ( (page-1)* pageSize) + pageSize"> <!--| filterNombre: '_nombre' : nome -->
+                          
+              <td style= "text-align: center">{{inc._id}}</td> 
+              <td style= "text-align: center">{{inc._nombre}}</td> 
            <!--  <td>{{inc._descripcion}}</td> -->
-              <td>{{inc._fechaOcurrencia}}</td> 
-              
-              <ng-container *ngIf="inc._fechaResolucion != null;then date else vacio"></ng-container>
+              <td style= "text-align: center">{{inc._fechaOcurrencia}}</td>
+             <ng-container *ngIf="inc._fechaResolucion != null;then date else vacio"></ng-container>
               <ng-template #date>
-              <td>{{inc._fechaResolucion}}</td>
+              <td style= "text-align: center">{{inc._fechaResolucion}}</td>
              </ng-template>
-             
              <ng-template #vacio>
-              <td style="background-color: #dd0606dc;" class = "text-light"> Por solucionar</td>
+              <td  style="background-color: #dd0606dc;
+                          text-align: center;  " class = "text-light"> Por solucionar</td>
              </ng-template>
-
             <!--  <td>{{inc._solDescripcion}}</td> -->
-              <td>{{inc._areName}}</td>
-              <td>{{inc._plName}}</td> 
+              <td style= "text-align: center">{{inc._areName}}</td>
+              <td style= "text-align: center" >{{inc._plName}}</td> 
               <td> <button (click)="idIncidencia(inc._id)"  routerLink="/mod" class="btn btn-primary">
               Detalle
-            </button></td>
-             
+            </button></td>  
             </tr>
       </tbody>
     </table>
+    <ngb-pagination
+    [(page)]="page"
+    [pageSize]="pageSize"
+    [collectionSize]="incList.length"
+    [boundaryLinks]="true">
+   </ngb-pagination>
+
+
   </div>
   </form>
-
-
+  
   </div>
 </div>
